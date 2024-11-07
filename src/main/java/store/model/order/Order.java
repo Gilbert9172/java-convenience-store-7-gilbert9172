@@ -46,4 +46,12 @@ public class Order {
     public boolean isGetMoreType() {
         return warning.isGetMoreType();
     }
+
+    public String purchasedProductName() {
+        return product.getName();
+    }
+
+    public int waringQuantity() {
+        return warning.getQuantity();
+    }
 }

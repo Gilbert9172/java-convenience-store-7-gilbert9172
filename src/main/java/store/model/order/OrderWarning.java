@@ -39,4 +39,8 @@ public class OrderWarning {
     public int getAddedQuantityWith(final int value) {
         return quantity + value;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

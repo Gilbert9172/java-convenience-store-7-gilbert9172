@@ -4,6 +4,7 @@ import store.controller.ConvenienceController;
 import store.controller.InitiateController;
 import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
+import store.io.terminal.InputTerminal;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
 import store.model.order.factory.modify.OrderModifierFactory;
@@ -36,10 +37,14 @@ public class AppConfig {
 
     public ConvenienceController convenienceController() {
         return new ConvenienceController(
-                convenienceService()
+                convenienceService(),
+                inputTerminal()
         );
     }
 
+    private InputTerminal inputTerminal() {
+        return InputTerminal.getInstance();
+    }
 
     private CustomFileReader customFileReader() {
         return new MarkDownReader();
