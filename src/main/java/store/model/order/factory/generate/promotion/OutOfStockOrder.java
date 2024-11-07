@@ -14,9 +14,9 @@ public class OutOfStockOrder implements OrderGenerator {
         // 부족한 재고량
         int outOfStockQuantity = product.outOfStockQuantity(quantity);
         // 프로모션에서 차감되는 재고량
-        int promotionQuantity = product.promotionQuantityOf(quantity);
+        int promotionQuantity = product.promotionQuantity();
         // 상품 수
-        int prizeCount = product.prizeCountOf(promotionQuantity);
+        int prizeCount = product.prizeQuantityOf(promotionQuantity);
         return Order.of(
                 product,
                 Quantity.of(quantity, promotionQuantity, 0, prizeCount),

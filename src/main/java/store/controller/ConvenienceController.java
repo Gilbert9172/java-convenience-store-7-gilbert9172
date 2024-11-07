@@ -22,8 +22,8 @@ public class ConvenienceController {
 
     private List<Order> generateOrders() {
         return retryTemplate(() -> {
-            PreOrderDTO preOrderDTO1 = PreOrderDTO.of("콜라", 10, LocalDateTime.now());
-            PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 1, LocalDateTime.now());
+            PreOrderDTO preOrderDTO1 = PreOrderDTO.of("콜라", 3, LocalDateTime.now());
+            PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 3, LocalDateTime.now());
             List<PreOrderDTO> orderDTOS = List.of(preOrderDTO1, preOrderDTO2);
             return orderService.generateOrders(orderDTOS);
         });

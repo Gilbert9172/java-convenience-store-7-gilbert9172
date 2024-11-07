@@ -57,28 +57,38 @@ public class Product {
     }
 
     public int outOfStockQuantity(final int orderQuantity) {
-        int availableStock = promotionQuantityOf(orderQuantity);
+        int availableStock = promotionQuantity();
         return orderQuantity - availableStock;
     }
 
-    public int promotionQuantityOf(final int orderQuantity) {
+    public int promotionQuantity() {
         int buyGetCount = promotion.buyGetQuantity();
         return (this.quantity / buyGetCount) * buyGetCount;
     }
 
-    public int prizeCountOf(final int orderQuantity) {
+    public int normalQuantity(final int quantity) {
+        int i = promotionQuantityForGetMore(quantity);
+        return quantity - i;
+    }
+
+    public int promotionQuantityForGetMore(final int quantity) {
+        int buyGetCount = promotion.buyGetQuantity();
+        return (quantity / buyGetCount) * buyGetCount;
+    }
+
+    public int prizeQuantityOf(final int orderQuantity) {
         int buyGetCount = promotion.buyGetQuantity();
         return orderQuantity / buyGetCount;
     }
 
     public int grapMoreQuantity(final int orderQuantity) {
         int buyGetCount = promotion.buyGetQuantity();
-        return buyGetCount - orderQuantity;
+        return buyGetCount - (orderQuantity % buyGetCount);
     }
 
     public boolean hasChanceToGetPrize(final int orderQuantity) {
-        int getQuantity = promotion.getGetQuantity();
-        return orderQuantity >= 1 && orderQuantity <= getQuantity;
+        int buyGetCount = promotion.buyGetQuantity();
+        return orderQuantity >= 1 && orderQuantity % buyGetCount != 0;
     }
 
     public int getQuantity() {

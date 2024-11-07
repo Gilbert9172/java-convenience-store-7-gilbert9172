@@ -13,7 +13,7 @@ public class NormalOrder implements OrderGenerator {
     public Order generate(final Product product, final LocalDateTime orderDate, final int quantity) {
         return Order.of(
                 product,
-                Quantity.of(quantity, quantity, 0, product.prizeCountOf(quantity)),
+                Quantity.of(quantity, quantity, 0, product.prizeQuantityOf(quantity)),
                 orderDate,
                 OrderWarning.empty());
     }
