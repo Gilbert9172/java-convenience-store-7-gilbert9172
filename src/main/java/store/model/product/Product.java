@@ -76,7 +76,7 @@ public class Product {
         return buyGetCount - orderQuantity;
     }
 
-    public boolean hasChanceToGetPrize(int orderQuantity) {
+    public boolean hasChanceToGetPrize(final int orderQuantity) {
         int getQuantity = promotion.getGetQuantity();
         return orderQuantity >= 1 && orderQuantity <= getQuantity;
     }

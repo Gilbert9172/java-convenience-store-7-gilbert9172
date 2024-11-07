@@ -4,6 +4,8 @@ import store.controller.ConvenienceController;
 import store.controller.InitiateController;
 import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
+import store.model.order.factory.NormalOrderFactory;
+import store.model.order.factory.PromotionOrderFactory;
 import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
 import store.repository.SingleTonProductRepo;
@@ -50,10 +52,19 @@ public class AppConfig {
         return SingleTonPromotionRepo.getInstance();
     }
 
+    private PromotionOrderFactory promotionOrderFactory() {
+        return new PromotionOrderFactory();
+    }
+
+    private NormalOrderFactory normalOrderFactory() {
+        return new NormalOrderFactory();
+    }
+
     private ConvenienceService convenienceService() {
         return new ConvenienceService(
                 productRepository(),
-                promotionRepository()
+                promotionOrderFactory(),
+                normalOrderFactory()
         );
     }
 }

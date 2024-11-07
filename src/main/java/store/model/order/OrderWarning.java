@@ -2,11 +2,10 @@ package store.model.order;
 
 public class OrderWarning {
 
-    enum Type {
-        MORE,
-        LESS,
+    public enum Type {
+        OUT_OF_STOCK,
+        GET_MORE,
         NONE
-
     }
 
     private final int quantity;
@@ -22,10 +21,10 @@ public class OrderWarning {
     }
 
     public static OrderWarning grapMore(final int quantity) {
-        return new OrderWarning(quantity, Type.LESS);
+        return new OrderWarning(quantity, Type.GET_MORE);
     }
 
     public static OrderWarning outOfStock(final int quantity) {
-        return new OrderWarning(quantity, Type.MORE);
+        return new OrderWarning(quantity, Type.OUT_OF_STOCK);
     }
 }

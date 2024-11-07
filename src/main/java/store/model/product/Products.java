@@ -23,4 +23,8 @@ public class Products {
                 .mapToInt(Product::getQuantity)
                 .sum();
     }
+
+    public boolean isEmpty() {
+        return products.isEmpty();
+    }
 }
