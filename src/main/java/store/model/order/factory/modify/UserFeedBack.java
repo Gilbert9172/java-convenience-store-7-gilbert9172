@@ -1,21 +1,21 @@
 package store.model.order.factory.modify;
 
-public enum OrderModifyFlag {
+public enum UserFeedBack {
 
     Y(1),
     N(0);
 
     private final int value;
 
-    OrderModifyFlag(final int value) {
+    UserFeedBack(final int value) {
         this.value = value;
     }
 
-    public boolean yes() {
+    public boolean responseYes() {
         return this == Y;
     }
 
-    public boolean no() {
+    public boolean responseNo() {
         return this == N;
     }
 }

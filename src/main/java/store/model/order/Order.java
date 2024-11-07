@@ -7,51 +7,51 @@ public class Order {
 
     private final Product product;
     private final Quantity quantity;
-    private final LocalDateTime dateTime;
-    private final OrderWarning warning;
+    private final LocalDateTime date;
+    private final OrderFeedBack feedBack;
 
     public Order(final Product product,
                  final Quantity quantity,
-                 final LocalDateTime dateTime,
-                 final OrderWarning warning
+                 final LocalDateTime date,
+                 final OrderFeedBack feedBack
     ) {
         this.product = product;
         this.quantity = quantity;
-        this.dateTime = dateTime;
-        this.warning = warning;
+        this.date = date;
+        this.feedBack = feedBack;
     }
 
     public static Order of(final Product product,
                            final Quantity quantity,
-                           final LocalDateTime dateTime,
-                           final OrderWarning warning
+                           final LocalDateTime date,
+                           final OrderFeedBack feedBack
     ) {
-        return new Order(product, quantity, dateTime, warning);
+        return new Order(product, quantity, date, feedBack);
     }
 
-    public void updateQuantityYesCondition() {
-        quantity.updateQuantitiesForYesResponse(warning);
-
-    }
-
-    public void updateQuantityNoCondition() {
-        quantity.updateQuantitiesForNoResponse(warning);
+    public void applyPositiveFeedBack() {
+        quantity.updateQuantityByPositiveFeedBack(feedBack);
 
     }
 
-    public boolean isOutOfStockType() {
-        return warning.isOutOfStockType();
+    public void applyNegativeFeedBack() {
+        quantity.updateQuantityByNegativeFeedBack(feedBack);
+
     }
 
-    public boolean isGetMoreType() {
-        return warning.isGetMoreType();
+    public boolean hasOutOfStockFeedBack() {
+        return feedBack.isOutOfStockType();
+    }
+
+    public boolean hasGrapMoreFeedBack() {
+        return feedBack.isGrapMoreType();
     }
 
     public String purchasedProductName() {
         return product.getName();
     }
 
-    public int waringQuantity() {
-        return warning.getQuantity();
+    public int feedBackQuantity() {
+        return feedBack.getQuantity();
     }
 }

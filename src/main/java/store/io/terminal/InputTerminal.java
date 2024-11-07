@@ -2,7 +2,7 @@ package store.io.terminal;
 
 import java.util.function.Supplier;
 import store.exception.BusinessException;
-import store.model.order.factory.modify.OrderModifyFlag;
+import store.model.order.factory.modify.UserFeedBack;
 
 public class InputTerminal {
 
@@ -29,21 +29,21 @@ public class InputTerminal {
         return TerminalHolder.INSTANCE;
     }
 
-    public OrderModifyFlag readYesOrNoForGrapMore(final String name, final int quantity) {
+    public UserFeedBack readYesOrNoForGrapMore(final String name, final int quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_GRAP_MORE, name, quantity);
             writer.simplePrint(message);
             String input = reader.readInput();
-            return OrderModifyFlag.valueOf(input);
+            return UserFeedBack.valueOf(input);
         });
     }
 
-    public OrderModifyFlag readYesOrNoForOutOfStock(final String name, final int quantity) {
+    public UserFeedBack readYesOrNoForOutOfStock(final String name, final int quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_OUT_OF_STOCK, name, quantity);
             writer.simplePrint(message);
             String input = reader.readInput();
-            return OrderModifyFlag.valueOf(input);
+            return UserFeedBack.valueOf(input);
         });
     }
 

@@ -1,12 +1,12 @@
 package store.model.order.factory.generate;
 
-import static store.model.order.OrderWarning.Type.NONE;
+import static store.model.order.OrderFeedBack.Type.NONE;
 
 import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
-import store.model.order.OrderWarning.Type;
+import store.model.order.OrderFeedBack.Type;
 import store.model.order.factory.generate.normal.NormalOrder;
 import store.model.product.Product;
 

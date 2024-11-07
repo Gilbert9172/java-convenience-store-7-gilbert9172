@@ -1,17 +1,17 @@
 package store.helper;
 
-import store.model.order.OrderWarning;
+import store.model.order.OrderFeedBack;
 
 public class OrderWarningHelper {
 
     private OrderWarningHelper() {
     }
 
-    public static OrderWarning grapMore(int quantity) {
-        return OrderWarning.grapMore(quantity);
+    public static OrderFeedBack grapMore(int quantity) {
+        return OrderFeedBack.grapMore(quantity);
     }
 
-    public static OrderWarning outOfStock(int quantity) {
-        return OrderWarning.outOfStock(quantity);
+    public static OrderFeedBack outOfStock(int quantity) {
+        return OrderFeedBack.outOfStock(quantity);
     }
 }

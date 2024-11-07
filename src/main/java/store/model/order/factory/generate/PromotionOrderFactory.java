@@ -1,14 +1,14 @@
 package store.model.order.factory.generate;
 
-import static store.model.order.OrderWarning.Type.GET_MORE;
-import static store.model.order.OrderWarning.Type.NONE;
-import static store.model.order.OrderWarning.Type.OUT_OF_STOCK;
+import static store.model.order.OrderFeedBack.Type.GRAP_MORE;
+import static store.model.order.OrderFeedBack.Type.NONE;
+import static store.model.order.OrderFeedBack.Type.OUT_OF_STOCK;
 
 import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
-import store.model.order.OrderWarning.Type;
+import store.model.order.OrderFeedBack.Type;
 import store.model.order.factory.generate.promotion.GetMoreOrder;
 import store.model.order.factory.generate.promotion.NormalOrder;
 import store.model.order.factory.generate.promotion.OutOfStockOrder;
@@ -20,7 +20,7 @@ public class PromotionOrderFactory {
 
     static {
         generatorMap.put(OUT_OF_STOCK, new OutOfStockOrder());
-        generatorMap.put(GET_MORE, new GetMoreOrder());
+        generatorMap.put(GRAP_MORE, new GetMoreOrder());
         generatorMap.put(NONE, new NormalOrder());
     }
 
@@ -34,7 +34,7 @@ public class PromotionOrderFactory {
         }
 
         if (product.hasChanceToGetPrize(quantity)) {
-            OrderGenerator getMoreOrder = generatorMap.get(GET_MORE);
+            OrderGenerator getMoreOrder = generatorMap.get(GRAP_MORE);
             return getMoreOrder.generate(product, orderDate, quantity);
         }
 

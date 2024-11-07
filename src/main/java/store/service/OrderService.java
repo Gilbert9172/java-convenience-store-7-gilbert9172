@@ -12,8 +12,8 @@ import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
-import store.model.order.factory.modify.OrderModifierFactory;
-import store.model.order.factory.modify.OrderModifyFlag;
+import store.model.order.factory.modify.OrderFeedBackHandlerFactory;
+import store.model.order.factory.modify.UserFeedBack;
 import store.model.product.Product;
 import store.model.product.Products;
 import store.repository.ProductRepository;
@@ -23,16 +23,16 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final PromotionOrderFactory promotionOrderFactory;
     private final NormalOrderFactory normalOrderFactory;
-    private final OrderModifierFactory orderModifierFactory;
+    private final OrderFeedBackHandlerFactory orderFeedBackHandlerFactory;
 
     public OrderService(final ProductRepository productRepository,
                         final PromotionOrderFactory promotionOrderFactory,
                         final NormalOrderFactory normalOrderFactory,
-                        final OrderModifierFactory orderModifierFactory) {
+                        final OrderFeedBackHandlerFactory orderFeedBackHandlerFactory) {
         this.productRepository = productRepository;
         this.promotionOrderFactory = promotionOrderFactory;
         this.normalOrderFactory = normalOrderFactory;
-        this.orderModifierFactory = orderModifierFactory;
+        this.orderFeedBackHandlerFactory = orderFeedBackHandlerFactory;
     }
 
     public List<Order> generateOrders(final List<PreOrderDTO> preOrderDTOS) {
@@ -78,7 +78,7 @@ public class OrderService {
         }
     }
 
-    public void updateOrder(Order order, OrderModifyFlag flag) {
-        orderModifierFactory.updateOrderByCondition(order, flag);
+    public void updateOrder(Order order, UserFeedBack flag) {
+        orderFeedBackHandlerFactory.updateOrderByCondition(order, flag);
     }
 }

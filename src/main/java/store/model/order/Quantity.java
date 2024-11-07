@@ -26,8 +26,8 @@ public class Quantity {
         return new Quantity(orderQuantity, promotionQuantity, normalQuantity, prizeQuantity);
     }
 
-    public void updateQuantitiesForYesResponse(final OrderWarning warning) {
-        if (warning.isGetMoreType()) {
+    public void updateQuantityByPositiveFeedBack(final OrderFeedBack warning) {
+        if (warning.isGrapMoreType()) {
             this.orderQuantity = warning.getAddedQuantityWith(orderQuantity);
             this.promotionQuantity = this.orderQuantity;
             this.normalQuantity = 0;
@@ -35,13 +35,12 @@ public class Quantity {
         }
     }
 
-    public void updateQuantitiesForNoResponse(final OrderWarning warning) {
+    public void updateQuantityByNegativeFeedBack(final OrderFeedBack warning) {
         if (warning.isOutOfStockType()) {
             this.orderQuantity -= this.normalQuantity;
             this.normalQuantity = 0;
         }
     }
-
 
     @Override
     public int hashCode() {
