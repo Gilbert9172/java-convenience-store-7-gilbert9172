@@ -16,15 +16,15 @@ import store.model.product.Product;
 import store.model.product.Products;
 import store.repository.ProductRepository;
 
-public class ConvenienceService {
+public class OrderService {
 
     private final ProductRepository productRepository;
     private final PromotionOrderFactory promotionOrderFactory;
     private final NormalOrderFactory normalOrderFactory;
 
-    public ConvenienceService(final ProductRepository productRepository,
-                              final PromotionOrderFactory promotionOrderFactory,
-                              final NormalOrderFactory normalOrderFactory) {
+    public OrderService(final ProductRepository productRepository,
+                        final PromotionOrderFactory promotionOrderFactory,
+                        final NormalOrderFactory normalOrderFactory) {
         this.productRepository = productRepository;
         this.promotionOrderFactory = promotionOrderFactory;
         this.normalOrderFactory = normalOrderFactory;

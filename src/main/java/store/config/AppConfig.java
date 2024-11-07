@@ -10,7 +10,7 @@ import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
 import store.repository.SingleTonProductRepo;
 import store.repository.SingleTonPromotionRepo;
-import store.service.ConvenienceService;
+import store.service.OrderService;
 
 public class AppConfig {
 
@@ -60,8 +60,8 @@ public class AppConfig {
         return new NormalOrderFactory();
     }
 
-    private ConvenienceService convenienceService() {
-        return new ConvenienceService(
+    private OrderService convenienceService() {
+        return new OrderService(
                 productRepository(),
                 promotionOrderFactory(),
                 normalOrderFactory()

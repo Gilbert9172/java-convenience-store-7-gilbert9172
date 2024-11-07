@@ -6,14 +6,14 @@ import java.util.function.Supplier;
 import store.exception.BusinessException;
 import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
-import store.service.ConvenienceService;
+import store.service.OrderService;
 
 public class ConvenienceController {
 
-    private final ConvenienceService convenienceService;
+    private final OrderService orderService;
 
-    public ConvenienceController(final ConvenienceService convenienceService) {
-        this.convenienceService = convenienceService;
+    public ConvenienceController(final OrderService orderService) {
+        this.orderService = orderService;
     }
 
     public void run() {
@@ -25,7 +25,7 @@ public class ConvenienceController {
             PreOrderDTO preOrderDTO1 = PreOrderDTO.of("콜라", 10, LocalDateTime.now());
             PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 1, LocalDateTime.now());
             List<PreOrderDTO> orderDTOS = List.of(preOrderDTO1, preOrderDTO2);
-            return convenienceService.generateOrders(orderDTOS);
+            return orderService.generateOrders(orderDTOS);
         });
     }
 
