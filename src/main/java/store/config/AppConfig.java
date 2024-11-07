@@ -1,10 +1,14 @@
 package store.config;
 
+import store.controller.ConvenienceController;
 import store.controller.InitiateController;
 import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
 import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
+import store.repository.SingleTonProductRepo;
+import store.repository.SingleTonPromotionRepo;
+import store.service.ConvenienceService;
 
 public class AppConfig {
 
@@ -27,17 +31,29 @@ public class AppConfig {
         );
     }
 
+    public ConvenienceController convenienceController() {
+        return new ConvenienceController(
+                convenienceService()
+        );
+    }
+
+
     private CustomFileReader customFileReader() {
         return new MarkDownReader();
     }
 
     private ProductRepository productRepository() {
-        return new ProductRepository();
+        return SingleTonProductRepo.getInstance();
     }
 
     private PromotionRepository promotionRepository() {
-        return new PromotionRepository();
+        return SingleTonPromotionRepo.getInstance();
     }
 
-
+    private ConvenienceService convenienceService() {
+        return new ConvenienceService(
+                productRepository(),
+                promotionRepository()
+        );
+    }
 }

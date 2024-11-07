@@ -41,4 +41,18 @@ public class Promotion {
     public boolean hasSameId(PromotionId that) {
         return this.id.equals(that);
     }
+
+    public boolean isActive(LocalDateTime now) {
+        boolean after = now.isAfter(startDate);
+        boolean before = now.isBefore(endDate);
+        return after && before;
+    }
+
+    public int buyGetQuantity() {
+        return buy + get;
+    }
+
+    public int getGetQuantity() {
+        return get;
+    }
 }
