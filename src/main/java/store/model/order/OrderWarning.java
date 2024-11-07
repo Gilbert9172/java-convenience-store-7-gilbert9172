@@ -27,4 +27,16 @@ public class OrderWarning {
     public static OrderWarning outOfStock(final int quantity) {
         return new OrderWarning(quantity, Type.OUT_OF_STOCK);
     }
+
+    public boolean isGetMoreType() {
+        return this.type == Type.GET_MORE;
+    }
+
+    public boolean isOutOfStockType() {
+        return this.type == Type.OUT_OF_STOCK;
+    }
+
+    public int getAddedQuantityWith(final int value) {
+        return quantity + value;
+    }
 }

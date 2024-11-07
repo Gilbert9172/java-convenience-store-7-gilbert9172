@@ -12,6 +12,8 @@ import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
+import store.model.order.factory.modify.OrderModifierFactory;
+import store.model.order.factory.modify.OrderModifyFlag;
 import store.model.product.Product;
 import store.model.product.Products;
 import store.repository.ProductRepository;
@@ -21,13 +23,16 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final PromotionOrderFactory promotionOrderFactory;
     private final NormalOrderFactory normalOrderFactory;
+    private final OrderModifierFactory orderModifierFactory;
 
     public OrderService(final ProductRepository productRepository,
                         final PromotionOrderFactory promotionOrderFactory,
-                        final NormalOrderFactory normalOrderFactory) {
+                        final NormalOrderFactory normalOrderFactory,
+                        final OrderModifierFactory orderModifierFactory) {
         this.productRepository = productRepository;
         this.promotionOrderFactory = promotionOrderFactory;
         this.normalOrderFactory = normalOrderFactory;
+        this.orderModifierFactory = orderModifierFactory;
     }
 
     public List<Order> generateOrders(final List<PreOrderDTO> preOrderDTOS) {
@@ -71,5 +76,9 @@ public class OrderService {
         if (products.outOfStock(quantity)) {
             throw outOfStock();
         }
+    }
+
+    public void updateOrder(Order order, OrderModifyFlag flag) {
+        orderModifierFactory.updateOrderByCondition(order, flag);
     }
 }

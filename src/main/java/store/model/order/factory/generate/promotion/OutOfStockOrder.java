@@ -19,7 +19,7 @@ public class OutOfStockOrder implements OrderGenerator {
         int prizeCount = product.prizeQuantityOf(promotionQuantity);
         return Order.of(
                 product,
-                Quantity.of(quantity, promotionQuantity, 0, prizeCount),
+                Quantity.of(quantity, promotionQuantity, quantity - promotionQuantity, prizeCount),
                 orderDate,
                 OrderWarning.outOfStock(outOfStockQuantity)
         );

@@ -13,12 +13,11 @@ public class GetMoreOrder implements OrderGenerator {
     public Order generate(final Product product, final LocalDateTime orderDate, final int quantity) {
         int moreQuantity = product.grapMoreQuantity(quantity);
         int promotionQuantity = product.promotionQuantityForGetMore(quantity);
-        int normalQuantity = product.normalQuantity(quantity);
         int prizeQuantity = product.prizeQuantityOf(quantity);
 
         return Order.of(
                 product,
-                Quantity.of(quantity, promotionQuantity, normalQuantity, prizeQuantity),
+                Quantity.of(quantity, promotionQuantity, quantity - promotionQuantity, prizeQuantity),
                 orderDate,
                 OrderWarning.grapMore(moreQuantity));
     }

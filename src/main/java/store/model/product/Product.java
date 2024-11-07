@@ -66,11 +66,6 @@ public class Product {
         return (this.quantity / buyGetCount) * buyGetCount;
     }
 
-    public int normalQuantity(final int quantity) {
-        int i = promotionQuantityForGetMore(quantity);
-        return quantity - i;
-    }
-
     public int promotionQuantityForGetMore(final int quantity) {
         int buyGetCount = promotion.buyGetQuantity();
         return (quantity / buyGetCount) * buyGetCount;
