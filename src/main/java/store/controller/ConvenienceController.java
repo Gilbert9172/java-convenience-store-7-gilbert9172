@@ -22,6 +22,7 @@ public class ConvenienceController {
     public void run() {
         List<Order> orders = generateOrders();
         updateOrders(orders);
+        UserFeedBack memberShipFeedBack = this.memberShipDiscountFeedBack();
     }
 
     private List<Order> generateOrders() {
@@ -36,13 +37,17 @@ public class ConvenienceController {
             String productName = order.purchasedProductName();
             int quantity = order.feedBackQuantity();
             if (order.hasGrapMoreFeedBack()) {
-                UserFeedBack flag = inputTerminal.readYesOrNoForGrapMore(productName, quantity);
+                UserFeedBack flag = inputTerminal.readUserFeedBackForGrapMore(productName, quantity);
                 orderService.updateOrder(order, flag);
             }
             if (order.hasOutOfStockFeedBack()) {
-                UserFeedBack flag = inputTerminal.readYesOrNoForOutOfStock(productName, quantity);
+                UserFeedBack flag = inputTerminal.readUserFeedBackForOutOfStock(productName, quantity);
                 orderService.updateOrder(order, flag);
             }
         }
+    }
+
+    private UserFeedBack memberShipDiscountFeedBack() {
+        return inputTerminal.readUserFeedBackForMemberShipDC();
     }
 }
