@@ -1,4 +1,4 @@
-package store.model.order.factory;
+package store.model.order.factory.generate;
 
 import java.time.LocalDateTime;
 import store.model.order.Order;

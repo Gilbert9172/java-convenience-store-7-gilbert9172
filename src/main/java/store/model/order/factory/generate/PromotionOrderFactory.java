@@ -1,4 +1,4 @@
-package store.model.order.factory;
+package store.model.order.factory.generate;
 
 import static store.model.order.OrderWarning.Type.GET_MORE;
 import static store.model.order.OrderWarning.Type.NONE;
@@ -9,9 +9,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
 import store.model.order.OrderWarning.Type;
-import store.model.order.factory.promotion.GetMoreOrder;
-import store.model.order.factory.promotion.NormalOrder;
-import store.model.order.factory.promotion.OutOfStockOrder;
+import store.model.order.factory.generate.promotion.GetMoreOrder;
+import store.model.order.factory.generate.promotion.NormalOrder;
+import store.model.order.factory.generate.promotion.OutOfStockOrder;
 import store.model.product.Product;
 
 public class PromotionOrderFactory {

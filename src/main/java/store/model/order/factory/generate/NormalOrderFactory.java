@@ -1,4 +1,4 @@
-package store.model.order.factory;
+package store.model.order.factory.generate;
 
 import static store.model.order.OrderWarning.Type.NONE;
 
@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
 import store.model.order.OrderWarning.Type;
-import store.model.order.factory.normal.NormalOrder;
+import store.model.order.factory.generate.normal.NormalOrder;
 import store.model.product.Product;
 
 public class NormalOrderFactory {

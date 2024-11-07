@@ -1,10 +1,10 @@
-package store.model.order.factory.normal;
+package store.model.order.factory.generate.promotion;
 
 import java.time.LocalDateTime;
 import store.model.order.Order;
 import store.model.order.OrderWarning;
 import store.model.order.Quantity;
-import store.model.order.factory.OrderGenerator;
+import store.model.order.factory.generate.OrderGenerator;
 import store.model.product.Product;
 
 public class NormalOrder implements OrderGenerator {
@@ -13,7 +13,7 @@ public class NormalOrder implements OrderGenerator {
     public Order generate(final Product product, final LocalDateTime orderDate, final int quantity) {
         return Order.of(
                 product,
-                Quantity.of(quantity, 0, quantity, 0),
+                Quantity.of(quantity, quantity, 0, product.prizeCountOf(quantity)),
                 orderDate,
                 OrderWarning.empty());
     }
