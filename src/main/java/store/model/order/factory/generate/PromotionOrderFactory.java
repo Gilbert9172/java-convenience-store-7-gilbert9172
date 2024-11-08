@@ -29,7 +29,7 @@ public class PromotionOrderFactory {
             final Product product,
             final LocalDateTime orderDate,
             final Quantity orderQuantity) {
-        if (product.promotionStockIsLowerThan(orderQuantity)) {
+        if (product.promotionStockCannotHandle(orderQuantity)) {
             OrderGenerateHandler outOfStockOrder = generatorMap.get(OUT_OF_STOCK);
             return outOfStockOrder.generate(product, orderDate, orderQuantity);
         }

@@ -13,7 +13,7 @@ public class OutOfStockOrder implements OrderGenerateHandler {
     @Override
     public Order generate(final Product product, final LocalDateTime orderDate, final Quantity quantity) {
         // 부족한 재고량
-        Quantity outOfStockQuantity = product.outOfStockPromotionQuantity(quantity);
+        Quantity outOfStockQuantity = product.outOfPromotionStockQuantityOf(quantity);
         // 프로모션에서 차감되는 재고량
         Quantity promotionQuantity = product.availablePromotionStock();
         // 상품 수

@@ -45,6 +45,10 @@ public class OrderQuantities {
         }
     }
 
+    public Quantity getTotal() {
+        return total;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(

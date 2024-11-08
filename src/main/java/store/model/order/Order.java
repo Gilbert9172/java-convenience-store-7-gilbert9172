@@ -54,4 +54,12 @@ public class Order {
     public int feedBackQuantity() {
         return feedBack.getQuantity();
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Quantity getOrdrerQuantity() {
+        return orderQuantities.getTotal();
+    }
 }

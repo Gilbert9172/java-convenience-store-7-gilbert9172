@@ -3,9 +3,9 @@ package store.helper;
 import store.model.order.OrderQuantities;
 import store.model.order.Quantity;
 
-public class QuantityHelper {
+public class OrderQuantitiesHelper {
 
-    private QuantityHelper() {
+    private OrderQuantitiesHelper() {
     }
 
     public static OrderQuantities mock(final int orderQuantity,

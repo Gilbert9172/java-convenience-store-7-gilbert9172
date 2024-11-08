@@ -30,10 +30,14 @@ public class Quantity {
         return this.value >= that.value;
     }
 
+    public static Quantity abs(Quantity that) {
+        int absedValue = Math.abs(that.value);
+        return Quantity.of(absedValue);
+    }
 
     public static Quantity addAll(List<Quantity> quantities) {
         int allQuantity = quantities.stream()
-                .mapToInt(q -> q.value)
+                .mapToInt(quantity -> quantity.value)
                 .sum();
         return Quantity.of(allQuantity);
     }

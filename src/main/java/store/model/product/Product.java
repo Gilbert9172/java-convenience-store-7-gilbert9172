@@ -1,5 +1,6 @@
 package store.model.product;
 
+import static store.exception.OutOfStockException.outOfStock;
 import static store.model.order.Quantity.ONE;
 import static store.model.order.Quantity.ZERO;
 
@@ -12,27 +13,23 @@ public class Product {
 
     private final String name;
     private final Money amount;
-    private final Quantity stock;
+    private Quantity stock;
     private final Promotion promotion;
 
-    private Product(
-            final String name,
-            final Money amount,
-            final Quantity stock,
-            final Promotion promotion
-    ) {
+    private Product(final String name,
+                    final Money amount,
+                    final Quantity stock,
+                    final Promotion promotion) {
         this.name = name;
         this.amount = amount;
         this.stock = stock;
         this.promotion = promotion;
     }
 
-    public static Product of(
-            final String name,
-            final Money amount,
-            final Quantity stock,
-            final Promotion promotion
-    ) {
+    public static Product of(final String name,
+                             final Money amount,
+                             final Quantity stock,
+                             final Promotion promotion) {
         return new Product(name, amount, stock, promotion);
     }
 
@@ -55,14 +52,14 @@ public class Product {
         return !promotionApplied();
     }
 
-    public boolean promotionStockIsLowerThan(final Quantity orderQuantity) {
-        Quantity outOfStockPromotionQuantity = outOfStockPromotionQuantity(orderQuantity);
-        return outOfStockPromotionQuantity.biggerThan(ZERO);
+    public boolean promotionStockCannotHandle(final Quantity orderQuantity) {
+        Quantity outOfPromotionStockQuantity = outOfPromotionStockQuantityOf(orderQuantity);
+        return outOfPromotionStockQuantity.biggerThan(ZERO);
     }
 
-    public Quantity outOfStockPromotionQuantity(final Quantity orderQuantity) {
-        Quantity availableStock = availablePromotionStock();
-        return orderQuantity.minus(availableStock);
+    public Quantity outOfPromotionStockQuantityOf(final Quantity orderQuantity) {
+        Quantity availablePromotionStock = availablePromotionStock();
+        return orderQuantity.minus(availablePromotionStock);
     }
 
     // 제공 가능한 프로모션 재고
@@ -94,6 +91,15 @@ public class Product {
         boolean boeThanOne = orderQuantity.boeThan(ONE);
         Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
         return boeThanOne && remainder.notEquals(ZERO);
+    }
+
+    public void decreasedStock(final Quantity quantity) {
+        Quantity decreaseQuantity = Quantity.abs(quantity);
+        Quantity remainingStock = stock.minus(decreaseQuantity);
+        if (remainingStock.isLowerThan(ZERO)) {
+            throw outOfStock();
+        }
+        this.stock = remainingStock;
     }
 
     public Quantity currentStock() {

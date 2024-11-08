@@ -10,12 +10,32 @@ public class PromotionHelper {
     private PromotionHelper() {
     }
 
-    public static Promotion mock(final long id,
-                                 final String name,
-                                 final int buy,
-                                 final int get,
-                                 final String startDate,
-                                 final String endDate) {
+    public static Promotion twoPlusOnePromotion(final String start, final String end) {
+        return PromotionHelper.mock(
+                1,
+                "2+1",
+                2,
+                1,
+                start,
+                end);
+    }
+
+    public static Promotion onePlusOnePromotion(final String start, final String end) {
+        return PromotionHelper.mock(
+                2,
+                "1+1",
+                1,
+                1,
+                start,
+                end);
+    }
+
+    private static Promotion mock(final long id,
+                                  final String name,
+                                  final int buy,
+                                  final int get,
+                                  final String startDate,
+                                  final String endDate) {
         return Promotion.of(
                 PromotionId.from(id),
                 name,
