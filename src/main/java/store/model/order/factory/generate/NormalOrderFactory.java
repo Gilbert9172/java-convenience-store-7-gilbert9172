@@ -12,7 +12,7 @@ import store.model.product.Product;
 
 public class NormalOrderFactory {
 
-    private static final Map<Type, OrderGenerator> generatorMap = new EnumMap<>(Type.class);
+    private static final Map<Type, OrderGenerateHandler> generatorMap = new EnumMap<>(Type.class);
 
     static {
         generatorMap.put(NONE, new NormalOrder());
@@ -22,7 +22,7 @@ public class NormalOrderFactory {
             final Product product,
             final LocalDateTime orderDate,
             final int quantity) {
-        OrderGenerator normalOrder = generatorMap.get(NONE);
+        OrderGenerateHandler normalOrder = generatorMap.get(NONE);
         return normalOrder.generate(product, orderDate, quantity);
     }
 }

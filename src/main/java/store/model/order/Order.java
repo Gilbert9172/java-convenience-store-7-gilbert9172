@@ -43,8 +43,8 @@ public class Order {
         return feedBack.isOutOfStockType();
     }
 
-    public boolean hasGrapMoreFeedBack() {
-        return feedBack.isGrapMoreType();
+    public boolean hasGrabMoreFeedBack() {
+        return feedBack.isGrabMoreType();
     }
 
     public String purchasedProductName() {

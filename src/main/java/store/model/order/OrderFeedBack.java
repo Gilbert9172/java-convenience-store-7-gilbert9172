@@ -4,7 +4,7 @@ public class OrderFeedBack {
 
     public enum Type {
         OUT_OF_STOCK,
-        GRAP_MORE,
+        GRAB_MORE,
         NONE
     }
 
@@ -20,16 +20,16 @@ public class OrderFeedBack {
         return new OrderFeedBack(0, Type.NONE);
     }
 
-    public static OrderFeedBack grapMore(final int quantity) {
-        return new OrderFeedBack(quantity, Type.GRAP_MORE);
+    public static OrderFeedBack grabMore(final int quantity) {
+        return new OrderFeedBack(quantity, Type.GRAB_MORE);
     }
 
     public static OrderFeedBack outOfStock(final int quantity) {
         return new OrderFeedBack(quantity, Type.OUT_OF_STOCK);
     }
 
-    public boolean isGrapMoreType() {
-        return this.type == Type.GRAP_MORE;
+    public boolean isGrabMoreType() {
+        return this.type == Type.GRAB_MORE;
     }
 
     public boolean isOutOfStockType() {

@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 import store.model.order.Order;
 import store.model.product.Product;
 
-public interface OrderGenerator {
+public interface OrderGenerateHandler {
     Order generate(final Product product, final LocalDateTime orderDate, final int quantity);
 }

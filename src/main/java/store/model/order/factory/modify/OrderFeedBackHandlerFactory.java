@@ -1,6 +1,6 @@
 package store.model.order.factory.modify;
 
-import static store.model.order.OrderFeedBack.Type.GRAP_MORE;
+import static store.model.order.OrderFeedBack.Type.GRAB_MORE;
 import static store.model.order.OrderFeedBack.Type.OUT_OF_STOCK;
 
 import java.util.EnumMap;
@@ -14,7 +14,7 @@ public class OrderFeedBackHandlerFactory {
 
     static {
         modifierMap.put(OUT_OF_STOCK, new OutOfStockFeedbackHandler());
-        modifierMap.put(GRAP_MORE, new GetMoreFeedbackHandler());
+        modifierMap.put(GRAB_MORE, new GetMoreFeedbackHandler());
     }
 
     public void updateOrderByCondition(Order order, UserFeedBack flag) {
@@ -23,8 +23,8 @@ public class OrderFeedBackHandlerFactory {
             outOfStockModifier.modify(order, flag);
         }
 
-        if (order.hasGrapMoreFeedBack()) {
-            OrderFeedbackHandler getMoreModifier = modifierMap.get(GRAP_MORE);
+        if (order.hasGrabMoreFeedBack()) {
+            OrderFeedbackHandler getMoreModifier = modifierMap.get(GRAB_MORE);
             getMoreModifier.modify(order, flag);
         }
     }

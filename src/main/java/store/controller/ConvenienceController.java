@@ -36,7 +36,7 @@ public class ConvenienceController {
         for (Order order : orders) {
             String productName = order.purchasedProductName();
             int quantity = order.feedBackQuantity();
-            if (order.hasGrapMoreFeedBack()) {
+            if (order.hasGrabMoreFeedBack()) {
                 UserFeedBack flag = inputTerminal.readUserFeedBackForGrapMore(productName, quantity);
                 orderService.updateOrder(order, flag);
             }

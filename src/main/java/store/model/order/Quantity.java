@@ -27,7 +27,7 @@ public class Quantity {
     }
 
     public void updateQuantityByPositiveFeedBack(final OrderFeedBack warning) {
-        if (warning.isGrapMoreType()) {
+        if (warning.isGrabMoreType()) {
             this.orderQuantity = warning.getAddedQuantityWith(orderQuantity);
             this.promotionQuantity = this.orderQuantity;
             this.normalQuantity = 0;

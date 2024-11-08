@@ -8,7 +8,7 @@ public class OrderWarningHelper {
     }
 
     public static OrderFeedBack grapMore(int quantity) {
-        return OrderFeedBack.grapMore(quantity);
+        return OrderFeedBack.grabMore(quantity);
     }
 
     public static OrderFeedBack outOfStock(int quantity) {
