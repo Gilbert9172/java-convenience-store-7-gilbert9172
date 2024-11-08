@@ -37,6 +37,10 @@ public class Product {
         return name.equals(this.name);
     }
 
+    public boolean inStock() {
+        return stock.biggerThan(ZERO);
+    }
+
     public boolean isAvailable(final LocalDateTime now) {
         if (promotion == null) {
             return true;
