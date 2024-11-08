@@ -7,6 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
 import store.model.order.OrderFeedBack.Type;
+import store.model.order.Quantity;
 import store.model.order.factory.generate.normal.NormalOrder;
 import store.model.product.Product;
 
@@ -21,7 +22,7 @@ public class NormalOrderFactory {
     public Order generateOrderByCondition(
             final Product product,
             final LocalDateTime orderDate,
-            final int quantity) {
+            final Quantity quantity) {
         OrderGenerateHandler normalOrder = generatorMap.get(NONE);
         return normalOrder.generate(product, orderDate, quantity);
     }

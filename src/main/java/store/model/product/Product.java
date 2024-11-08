@@ -1,35 +1,39 @@
 package store.model.product;
 
+import static store.model.order.Quantity.ONE;
+import static store.model.order.Quantity.ZERO;
+
 import java.time.LocalDateTime;
 import store.model.money.Money;
+import store.model.order.Quantity;
 import store.model.promotion.Promotion;
 
 public class Product {
 
     private final String name;
     private final Money amount;
-    private final int quantity;
+    private final Quantity stock;
     private final Promotion promotion;
 
     private Product(
             final String name,
             final Money amount,
-            final int quantity,
+            final Quantity stock,
             final Promotion promotion
     ) {
         this.name = name;
         this.amount = amount;
-        this.quantity = quantity;
+        this.stock = stock;
         this.promotion = promotion;
     }
 
     public static Product of(
             final String name,
             final Money amount,
-            final int quantity,
+            final Quantity stock,
             final Promotion promotion
     ) {
-        return new Product(name, amount, quantity, promotion);
+        return new Product(name, amount, stock, promotion);
     }
 
     public boolean hasSameName(final String name) {
@@ -51,43 +55,49 @@ public class Product {
         return !promotionApplied();
     }
 
-    public boolean outOfStock(final int orderQuantity) {
-        int outOfStockQuantity = outOfStockQuantity(orderQuantity);
-        return outOfStockQuantity > 0;
+    public boolean stockIsLowerThan(final Quantity orderQuantity) {
+        Quantity outOfStockQuantity = outOfStockQuantity(orderQuantity);
+        return outOfStockQuantity.biggerThan(ZERO);
     }
 
-    public int outOfStockQuantity(final int orderQuantity) {
-        int availableStock = promotionQuantity();
-        return orderQuantity - availableStock;
+    public Quantity outOfStockQuantity(final Quantity orderQuantity) {
+        Quantity availableStock = availablePromotionStock();
+        return orderQuantity.minus(availableStock);
     }
 
-    public int promotionQuantity() {
-        int buyGetCount = promotion.buyGetQuantity();
-        return (this.quantity / buyGetCount) * buyGetCount;
+    // 제공 가능한 프로모션 재고
+    public Quantity availablePromotionStock() {
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        Quantity availableSet = stock.divide(buyGetCount);
+        return availableSet.multiply(buyGetCount);
     }
 
-    public int promotionQuantityForGetMore(final int quantity) {
-        int buyGetCount = promotion.buyGetQuantity();
-        return (quantity / buyGetCount) * buyGetCount;
+    public Quantity promotionQuantityForGetMore(final Quantity quantity) {
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        Quantity divided = quantity.divide(buyGetCount);
+        return divided.multiply(buyGetCount);
     }
 
-    public int prizeQuantityOf(final int orderQuantity) {
-        int buyGetCount = promotion.buyGetQuantity();
-        return orderQuantity / buyGetCount;
+    public Quantity prizeQuantityOf(final Quantity orderQuantity) {
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        return orderQuantity.divide(buyGetCount);
     }
 
-    public int grapMoreQuantity(final int orderQuantity) {
-        int buyGetCount = promotion.buyGetQuantity();
-        return buyGetCount - (orderQuantity % buyGetCount);
+    public Quantity grabMoreQuantity(final Quantity orderQuantity) {
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
+        return buyGetCount.minus(remainder);
     }
 
-    public boolean hasChanceToGetPrize(final int orderQuantity) {
-        int buyGetCount = promotion.buyGetQuantity();
-        return orderQuantity >= 1 && orderQuantity % buyGetCount != 0;
+    public boolean hasChanceToGetPrize(final Quantity orderQuantity) {
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        boolean moreThanOne = orderQuantity.biggerThan(ONE);
+        Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
+        return moreThanOne && remainder.notEquals(ZERO);
     }
 
-    public int getQuantity() {
-        return quantity;
+    public Quantity currentStock() {
+        return stock;
     }
 
     public String getName() {

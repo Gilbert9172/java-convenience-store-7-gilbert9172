@@ -6,36 +6,36 @@ import store.model.product.Product;
 public class Order {
 
     private final Product product;
-    private final Quantity quantity;
+    private final OrderQuantities orderQuantities;
     private final LocalDateTime date;
     private final OrderFeedBack feedBack;
 
     public Order(final Product product,
-                 final Quantity quantity,
+                 final OrderQuantities orderQuantities,
                  final LocalDateTime date,
                  final OrderFeedBack feedBack
     ) {
         this.product = product;
-        this.quantity = quantity;
+        this.orderQuantities = orderQuantities;
         this.date = date;
         this.feedBack = feedBack;
     }
 
     public static Order of(final Product product,
-                           final Quantity quantity,
+                           final OrderQuantities orderQuantities,
                            final LocalDateTime date,
                            final OrderFeedBack feedBack
     ) {
-        return new Order(product, quantity, date, feedBack);
+        return new Order(product, orderQuantities, date, feedBack);
     }
 
     public void applyPositiveFeedBack() {
-        quantity.updateQuantityByPositiveFeedBack(feedBack);
+        orderQuantities.updateQuantityByPositiveFeedBack(feedBack);
 
     }
 
     public void applyNegativeFeedBack() {
-        quantity.updateQuantityByNegativeFeedBack(feedBack);
+        orderQuantities.updateQuantityByNegativeFeedBack(feedBack);
 
     }
 

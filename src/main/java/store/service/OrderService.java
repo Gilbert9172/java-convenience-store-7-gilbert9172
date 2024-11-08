@@ -10,6 +10,7 @@ import java.util.Optional;
 import store.exception.SourceNotFoundException;
 import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
+import store.model.order.Quantity;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
 import store.model.order.factory.modify.OrderFeedBackHandlerFactory;
@@ -41,7 +42,7 @@ public class OrderService {
 
             String productName = orderDTO.getProductName();
             LocalDateTime orderDate = orderDTO.getOrderDate();
-            int quantity = orderDTO.getQuantity();
+            Quantity quantity = Quantity.of(orderDTO.getQuantity());
 
             Order order = generateOrder(productName, orderDate, quantity);
             orders.add(order);
@@ -51,7 +52,7 @@ public class OrderService {
 
     private Order generateOrder(final String productName,
                                 final LocalDateTime orderDate,
-                                final int quantity) {
+                                final Quantity quantity) {
         validateProductStocks(productName, orderDate, quantity);
 
         Optional<Product> promotionProduct = productRepository.findActivePromotionProductBy(productName, orderDate);
@@ -67,7 +68,7 @@ public class OrderService {
 
     private void validateProductStocks(final String productName,
                                        final LocalDateTime orderDate,
-                                       final int quantity) {
+                                       final Quantity quantity) {
         Products products = productRepository.findAllByName(productName, orderDate);
         if (products.isEmpty()) {
             throw productNotFoundException();

@@ -1,6 +1,7 @@
 package store.helper;
 
 import store.converter.TimeConverter;
+import store.model.order.Quantity;
 import store.model.promotion.Promotion;
 import store.model.promotion.PromotionId;
 
@@ -18,8 +19,8 @@ public class PromotionHelper {
         return Promotion.of(
                 PromotionId.from(id),
                 name,
-                buy,
-                get,
+                Quantity.of(buy),
+                Quantity.of(get),
                 TimeConverter.toStartDate(startDate),
                 TimeConverter.toEndDate(endDate)
         );

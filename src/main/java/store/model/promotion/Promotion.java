@@ -1,21 +1,22 @@
 package store.model.promotion;
 
 import java.time.LocalDateTime;
+import store.model.order.Quantity;
 
 public class Promotion {
 
     private final PromotionId id;
     private final String name;
-    private final int buy;
-    private final int get;
+    private final Quantity buy;
+    private final Quantity get;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
 
     private Promotion(
             final PromotionId id,
             final String name,
-            final int buy,
-            final int get,
+            final Quantity buy,
+            final Quantity get,
             final LocalDateTime startDate,
             final LocalDateTime endDate
     ) {
@@ -30,8 +31,8 @@ public class Promotion {
     public static Promotion of(
             final PromotionId id,
             final String name,
-            final int buy,
-            final int get,
+            final Quantity buy,
+            final Quantity get,
             final LocalDateTime startDate,
             final LocalDateTime endDate
     ) {
@@ -48,11 +49,7 @@ public class Promotion {
         return after && before;
     }
 
-    public int buyGetQuantity() {
-        return buy + get;
-    }
-
-    public int getGetQuantity() {
-        return get;
+    public Quantity buyGetQuantity() {
+        return buy.add(get);
     }
 }

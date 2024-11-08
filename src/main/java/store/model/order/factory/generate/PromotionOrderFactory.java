@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import store.model.order.Order;
 import store.model.order.OrderFeedBack.Type;
+import store.model.order.Quantity;
 import store.model.order.factory.generate.promotion.GrabMoreOrder;
 import store.model.order.factory.generate.promotion.NormalOrder;
 import store.model.order.factory.generate.promotion.OutOfStockOrder;
@@ -27,18 +28,18 @@ public class PromotionOrderFactory {
     public Order generateOrderByCondition(
             final Product product,
             final LocalDateTime orderDate,
-            final int quantity) {
-        if (product.outOfStock(quantity)) {
+            final Quantity orderQuantity) {
+        if (product.stockIsLowerThan(orderQuantity)) {
             OrderGenerateHandler outOfStockOrder = generatorMap.get(OUT_OF_STOCK);
-            return outOfStockOrder.generate(product, orderDate, quantity);
+            return outOfStockOrder.generate(product, orderDate, orderQuantity);
         }
 
-        if (product.hasChanceToGetPrize(quantity)) {
+        if (product.hasChanceToGetPrize(orderQuantity)) {
             OrderGenerateHandler getMoreOrder = generatorMap.get(GRAB_MORE);
-            return getMoreOrder.generate(product, orderDate, quantity);
+            return getMoreOrder.generate(product, orderDate, orderQuantity);
         }
 
         OrderGenerateHandler normalOrder = generatorMap.get(NONE);
-        return normalOrder.generate(product, orderDate, quantity);
+        return normalOrder.generate(product, orderDate, orderQuantity);
     }
 }

@@ -6,6 +6,7 @@ import store.converter.SimpleConverter;
 import store.converter.TimeConverter;
 import store.io.file.CustomFileReader;
 import store.model.money.Money;
+import store.model.order.Quantity;
 import store.model.product.Product;
 import store.model.promotion.Promotion;
 import store.model.promotion.PromotionId;
@@ -39,8 +40,8 @@ public class InitiateController {
 
             String title = tokens.get(0);
             PromotionId promotionId = PromotionId.findByType(title);
-            int buy = Integer.parseInt(tokens.get(1));
-            int get = Integer.parseInt(tokens.get(2));
+            Quantity buy = SimpleConverter.stringToQuantity(tokens.get(1));
+            Quantity get = SimpleConverter.stringToQuantity(tokens.get(2));
             LocalDateTime startDate = TimeConverter.toStartDate(tokens.get(3));
             LocalDateTime endDate = TimeConverter.toEndDate(tokens.get(4));
 
@@ -56,7 +57,7 @@ public class InitiateController {
 
             String name = tokens.get(0);
             Money money = Money.from(Long.parseLong(tokens.get(1)));
-            int quantity = Integer.parseInt(tokens.get(2));
+            Quantity quantity = SimpleConverter.stringToQuantity(tokens.get(2));
 
             PromotionId promotionId = PromotionId.findByType(tokens.get(3));
             Promotion promotion = promotionRepository.findById(promotionId).orElse(null);

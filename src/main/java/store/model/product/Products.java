@@ -1,6 +1,7 @@
 package store.model.product;
 
 import java.util.List;
+import store.model.order.Quantity;
 
 public class Products {
 
@@ -14,14 +15,16 @@ public class Products {
         return new Products(products);
     }
 
-    public boolean outOfStock(int orderQuantity) {
-        return allStocks() < orderQuantity;
+    public boolean outOfStock(Quantity orderQuantity) {
+        Quantity allStocks = allStocks();
+        return allStocks.isLowerThan(orderQuantity);
     }
 
-    private int allStocks() {
-        return products.stream()
-                .mapToInt(Product::getQuantity)
-                .sum();
+    private Quantity allStocks() {
+        List<Quantity> stocks = products.stream()
+                .map(Product::currentStock)
+                .toList();
+        return Quantity.addAll(stocks);
     }
 
     public boolean isEmpty() {
