@@ -55,12 +55,12 @@ public class Product {
         return !promotionApplied();
     }
 
-    public boolean stockIsLowerThan(final Quantity orderQuantity) {
-        Quantity outOfStockQuantity = outOfStockQuantity(orderQuantity);
-        return outOfStockQuantity.biggerThan(ZERO);
+    public boolean promotionStockIsLowerThan(final Quantity orderQuantity) {
+        Quantity outOfStockPromotionQuantity = outOfStockPromotionQuantity(orderQuantity);
+        return outOfStockPromotionQuantity.biggerThan(ZERO);
     }
 
-    public Quantity outOfStockQuantity(final Quantity orderQuantity) {
+    public Quantity outOfStockPromotionQuantity(final Quantity orderQuantity) {
         Quantity availableStock = availablePromotionStock();
         return orderQuantity.minus(availableStock);
     }
@@ -91,9 +91,9 @@ public class Product {
 
     public boolean hasChanceToGetPrize(final Quantity orderQuantity) {
         Quantity buyGetCount = promotion.buyGetQuantity();
-        boolean moreThanOne = orderQuantity.biggerThan(ONE);
+        boolean boeThanOne = orderQuantity.boeThan(ONE);
         Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
-        return moreThanOne && remainder.notEquals(ZERO);
+        return boeThanOne && remainder.notEquals(ZERO);
     }
 
     public Quantity currentStock() {

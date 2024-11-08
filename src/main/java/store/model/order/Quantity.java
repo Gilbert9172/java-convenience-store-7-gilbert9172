@@ -1,7 +1,5 @@
 package store.model.order;
 
-import static store.exception.InvalidQuantityException.minusQuantity;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +15,6 @@ public class Quantity {
     }
 
     public static Quantity of(final int value) {
-        validateIsMinus(value);
         return new Quantity(value);
     }
 
@@ -28,6 +25,11 @@ public class Quantity {
     public boolean biggerThan(final Quantity that) {
         return this.value > that.value;
     }
+
+    public boolean boeThan(final Quantity that) {
+        return this.value >= that.value;
+    }
+
 
     public static Quantity addAll(List<Quantity> quantities) {
         int allQuantity = quantities.stream()
@@ -55,12 +57,6 @@ public class Quantity {
     public Quantity getRemainderBy(final Quantity that) {
         int remainder = this.value % that.value;
         return Quantity.of(remainder);
-    }
-
-    private static void validateIsMinus(final int value) {
-        if (value < 0) {
-            throw minusQuantity();
-        }
     }
 
     public boolean notEquals(Quantity quantity) {

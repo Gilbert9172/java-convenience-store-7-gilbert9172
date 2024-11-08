@@ -27,8 +27,9 @@ public class ConvenienceController {
 
     private List<Order> generateOrders() {
         PreOrderDTO preOrderDTO1 = PreOrderDTO.of("콜라", 10, LocalDateTime.now());
-        PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 3, LocalDateTime.now());
-        List<PreOrderDTO> orderDTOS = List.of(preOrderDTO1, preOrderDTO2);
+        PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 7, LocalDateTime.now());
+        PreOrderDTO preOrderDTO3 = PreOrderDTO.of("물", 20, LocalDateTime.now());
+        List<PreOrderDTO> orderDTOS = List.of(preOrderDTO3);
         return orderService.generateOrders(orderDTOS);
     }
 
