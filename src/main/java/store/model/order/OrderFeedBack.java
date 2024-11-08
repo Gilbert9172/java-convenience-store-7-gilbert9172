@@ -40,7 +40,7 @@ public class OrderFeedBack {
         return quantity.add(that);
     }
 
-    public int getQuantity() {
+    public long getQuantity() {
         return quantity.getValue();
     }
 }

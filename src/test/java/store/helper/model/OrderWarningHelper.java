@@ -1,4 +1,4 @@
-package store.helper;
+package store.helper.model;
 
 import store.model.order.OrderFeedBack;
 import store.model.order.Quantity;

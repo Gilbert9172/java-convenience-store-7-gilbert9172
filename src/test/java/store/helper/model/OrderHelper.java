@@ -1,4 +1,4 @@
-package store.helper;
+package store.helper.model;
 
 import store.converter.TimeConverter;
 import store.model.order.Order;

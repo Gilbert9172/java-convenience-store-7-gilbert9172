@@ -49,6 +49,14 @@ public class OrderQuantities {
         return total;
     }
 
+    public Quantity getPrize() {
+        return prize;
+    }
+
+    public Quantity getNormalStock() {
+        return normalStock;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(

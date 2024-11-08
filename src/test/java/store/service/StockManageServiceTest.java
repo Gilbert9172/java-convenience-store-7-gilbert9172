@@ -7,11 +7,11 @@ import static store.model.order.Quantity.ZERO;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.helper.OrderHelper;
-import store.helper.OrderQuantitiesHelper;
-import store.helper.OrderWarningHelper;
-import store.helper.ProductHelper;
-import store.helper.PromotionHelper;
+import store.helper.model.OrderHelper;
+import store.helper.model.OrderQuantitiesHelper;
+import store.helper.model.OrderWarningHelper;
+import store.helper.model.ProductHelper;
+import store.helper.model.PromotionHelper;
 import store.model.order.Order;
 import store.model.order.OrderFeedBack;
 import store.model.order.OrderQuantities;
@@ -48,7 +48,7 @@ public class StockManageServiceTest {
         Quantity currentPromotionStock = promotionProduct.currentStock();
         Quantity currentNormalStock = normalProduct.currentStock();
         assertThat(currentPromotionStock.equals(ZERO)).isTrue();
-        assertThat(currentNormalStock.equals(Quantity.of(5))).isTrue();
+        assertThat(currentNormalStock.equals(Quantity.from(5))).isTrue();
     }
 
     @Test

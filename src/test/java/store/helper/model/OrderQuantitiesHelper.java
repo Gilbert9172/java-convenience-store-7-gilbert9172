@@ -1,4 +1,4 @@
-package store.helper;
+package store.helper.model;
 
 import store.model.order.OrderQuantities;
 import store.model.order.Quantity;
@@ -13,10 +13,10 @@ public class OrderQuantitiesHelper {
                                        final int normalQuantity,
                                        final int prizeQuantity) {
         return OrderQuantities.of(
-                Quantity.of(orderQuantity),
-                Quantity.of(promotionQuantity),
-                Quantity.of(normalQuantity),
-                Quantity.of(prizeQuantity)
+                Quantity.from(orderQuantity),
+                Quantity.from(promotionQuantity),
+                Quantity.from(normalQuantity),
+                Quantity.from(prizeQuantity)
         );
     }
 }

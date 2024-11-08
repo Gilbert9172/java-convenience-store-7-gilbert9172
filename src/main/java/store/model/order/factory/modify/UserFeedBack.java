@@ -5,10 +5,10 @@ public enum UserFeedBack {
     Y(1),
     N(0);
 
-    private final int value;
+    private final int flag;
 
-    UserFeedBack(final int value) {
-        this.value = value;
+    UserFeedBack(final int flag) {
+        this.flag = flag;
     }
 
     public boolean responseYes() {

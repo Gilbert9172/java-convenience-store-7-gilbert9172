@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import store.exception.OutOfStockException;
-import store.helper.ProductHelper;
+import store.helper.model.ProductHelper;
 import store.model.order.Quantity;
 
 public class ProductTest {
@@ -18,11 +18,11 @@ public class ProductTest {
         Product product = ProductHelper.mock("콜라", 1500, 10, null);
 
         // when
-        Quantity decreaseQuantity = Quantity.of(5);
+        Quantity decreaseQuantity = Quantity.from(5);
         product.decreasedStock(decreaseQuantity);
 
         // then
-        Quantity expected = Quantity.of(5);
+        Quantity expected = Quantity.from(5);
         Quantity currentStock = product.currentStock();
         assertThat(currentStock.equals(expected)).isTrue();
     }
@@ -34,7 +34,7 @@ public class ProductTest {
         Product product = ProductHelper.mock("콜라", 1500, 10, null);
 
         // when & then
-        Quantity decreaseQuantity = Quantity.of(15);
+        Quantity decreaseQuantity = Quantity.from(15);
         assertThrows(
                 OutOfStockException.class,
                 () -> product.decreasedStock(decreaseQuantity),

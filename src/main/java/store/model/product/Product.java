@@ -98,6 +98,7 @@ public class Product {
     }
 
     public void decreasedStock(final Quantity quantity) {
+        // FIXME : 왜 abs 했지?
         Quantity decreaseQuantity = Quantity.abs(quantity);
         Quantity remainingStock = stock.minus(decreaseQuantity);
         if (remainingStock.isLowerThan(ZERO)) {
@@ -112,5 +113,13 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    public Money getAmount() {
+        return amount;
+    }
+
+    public boolean isNormal() {
+        return promotion == null;
     }
 }

@@ -30,7 +30,7 @@ public class InputTerminal {
         return TerminalHolder.INSTANCE;
     }
 
-    public UserFeedBack readUserFeedBackForGrapMore(final String name, final int quantity) {
+    public UserFeedBack readUserFeedBackForGrapMore(final String name, final long quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_GRAP_MORE, name, quantity);
             writer.simplePrint(message);
@@ -39,7 +39,7 @@ public class InputTerminal {
         });
     }
 
-    public UserFeedBack readUserFeedBackForOutOfStock(final String name, final int quantity) {
+    public UserFeedBack readUserFeedBackForOutOfStock(final String name, final long quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_OUT_OF_STOCK, name, quantity);
             writer.simplePrint(message);

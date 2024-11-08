@@ -1,6 +1,7 @@
 package store.model.order;
 
 import java.time.LocalDateTime;
+import store.model.money.Money;
 import store.model.product.Product;
 
 public class Order {
@@ -51,7 +52,7 @@ public class Order {
         return product.getName();
     }
 
-    public int feedBackQuantity() {
+    public long feedBackQuantity() {
         return feedBack.getQuantity();
     }
 
@@ -61,5 +62,31 @@ public class Order {
 
     public Quantity getOrdrerQuantity() {
         return orderQuantities.getTotal();
+    }
+
+    public Quantity getPrizeCount() {
+        return orderQuantities.getPrize();
+    }
+
+    public Money getProductAmount() {
+        return product.getAmount();
+    }
+
+    public Money totalPrice() {
+        Quantity orderQuantity = getOrdrerQuantity();
+        Money productPrice = getProductAmount();
+        return productPrice.multiply(orderQuantity);
+    }
+
+    public boolean isNormalProduct() {
+        return product.isNormal();
+    }
+
+    public boolean isPromotionProduct() {
+        return !isNormalProduct();
+    }
+
+    public Quantity getNormalProductQuantity() {
+        return orderQuantities.getNormalStock();
     }
 }

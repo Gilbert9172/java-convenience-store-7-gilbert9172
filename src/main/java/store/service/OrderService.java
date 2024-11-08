@@ -42,7 +42,7 @@ public class OrderService {
 
             String productName = orderDTO.getProductName();
             LocalDateTime orderDate = orderDTO.getOrderDate();
-            Quantity quantity = Quantity.of(orderDTO.getQuantity());
+            Quantity quantity = Quantity.from(orderDTO.getQuantity());
 
             Order order = generateOrder(productName, orderDate, quantity);
             orders.add(order);

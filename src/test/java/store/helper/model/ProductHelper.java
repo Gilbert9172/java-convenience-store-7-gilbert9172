@@ -1,4 +1,4 @@
-package store.helper;
+package store.helper.model;
 
 import store.model.money.Money;
 import store.model.order.Quantity;
@@ -14,6 +14,6 @@ public class ProductHelper {
                                final long amount,
                                final int quantity,
                                final Promotion promotion) {
-        return Product.of(name, Money.from(amount), Quantity.of(quantity), promotion);
+        return Product.of(name, Money.from(amount), Quantity.from(quantity), promotion);
     }
 }

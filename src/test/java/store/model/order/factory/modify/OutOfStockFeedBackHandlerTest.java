@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.helper.OrderHelper;
-import store.helper.OrderQuantitiesHelper;
-import store.helper.OrderWarningHelper;
-import store.helper.ProductHelper;
-import store.helper.PromotionHelper;
+import store.helper.model.OrderHelper;
+import store.helper.model.OrderQuantitiesHelper;
+import store.helper.model.OrderWarningHelper;
+import store.helper.model.ProductHelper;
+import store.helper.model.PromotionHelper;
 import store.model.order.Order;
-import store.model.order.OrderFeedBack;
 import store.model.order.OrderQuantities;
 import store.model.order.Quantity;
 import store.model.product.Product;
@@ -27,7 +26,7 @@ public class OutOfStockFeedBackHandlerTest {
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
-        OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.of(4));
+        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(4));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);
 
         // when
@@ -45,7 +44,7 @@ public class OutOfStockFeedBackHandlerTest {
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
-        OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.of(4));
+        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(4));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);
 
         // when

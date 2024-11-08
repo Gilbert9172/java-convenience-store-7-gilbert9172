@@ -17,7 +17,7 @@ public class SimpleConverter {
 
     public static Quantity stringToQuantity(String source) {
         int intSource = Integer.parseInt(source);
-        return Quantity.of(intSource);
+        return Quantity.from(intSource);
     }
 
 }

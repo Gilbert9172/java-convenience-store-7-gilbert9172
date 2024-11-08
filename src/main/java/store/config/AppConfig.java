@@ -5,6 +5,7 @@ import store.controller.InitiateController;
 import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
 import store.io.terminal.InputTerminal;
+import store.model.discount.DiscountPolicyFactory;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
 import store.model.order.factory.modify.OrderFeedBackHandlerFactory;
@@ -13,6 +14,7 @@ import store.repository.PromotionRepository;
 import store.repository.SingleTonProductRepo;
 import store.repository.SingleTonPromotionRepo;
 import store.service.OrderService;
+import store.service.PaymentService;
 
 public class AppConfig {
 
@@ -37,8 +39,9 @@ public class AppConfig {
 
     public ConvenienceController convenienceController() {
         return new ConvenienceController(
-                convenienceService(),
-                inputTerminal()
+                inputTerminal(),
+                orderService(),
+                paymentService()
         );
     }
 
@@ -70,12 +73,22 @@ public class AppConfig {
         return new OrderFeedBackHandlerFactory();
     }
 
-    private OrderService convenienceService() {
+    private OrderService orderService() {
         return new OrderService(
                 productRepository(),
                 promotionOrderFactory(),
                 normalOrderFactory(),
                 orderModifierFactory()
         );
+    }
+
+    private PaymentService paymentService() {
+        return new PaymentService(
+                discountPolicyFactory()
+        );
+    }
+
+    private DiscountPolicyFactory discountPolicyFactory() {
+        return new DiscountPolicyFactory();
     }
 }

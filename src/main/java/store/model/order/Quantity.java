@@ -5,16 +5,16 @@ import java.util.Objects;
 
 public class Quantity {
 
-    public static Quantity ZERO = Quantity.of(0);
-    public static Quantity ONE = Quantity.of(1);
+    public static Quantity ZERO = Quantity.from(0);
+    public static Quantity ONE = Quantity.from(1);
 
-    private final int value;
+    private final long value;
 
-    private Quantity(final int value) {
+    private Quantity(final long value) {
         this.value = value;
     }
 
-    public static Quantity of(final int value) {
+    public static Quantity from(final long value) {
         return new Quantity(value);
     }
 
@@ -31,43 +31,43 @@ public class Quantity {
     }
 
     public static Quantity abs(Quantity that) {
-        int absedValue = Math.abs(that.value);
-        return Quantity.of(absedValue);
+        long absedValue = Math.abs(that.value);
+        return Quantity.from(absedValue);
     }
 
     public static Quantity addAll(List<Quantity> quantities) {
-        int allQuantity = quantities.stream()
-                .mapToInt(quantity -> quantity.value)
+        long allQuantity = quantities.stream()
+                .mapToLong(quantity -> quantity.value)
                 .sum();
-        return Quantity.of(allQuantity);
+        return Quantity.from(allQuantity);
     }
 
     public Quantity add(final Quantity that) {
-        return Quantity.of(this.value + that.value);
+        return Quantity.from(this.value + that.value);
     }
 
     public Quantity divide(final Quantity that) {
-        return Quantity.of(this.value / that.value);
+        return Quantity.from(this.value / that.value);
     }
 
     public Quantity multiply(final Quantity that) {
-        return Quantity.of(this.value * that.value);
+        return Quantity.from(this.value * that.value);
     }
 
     public Quantity minus(final Quantity that) {
-        return Quantity.of(this.value - that.value);
+        return Quantity.from(this.value - that.value);
     }
 
     public Quantity getRemainderBy(final Quantity that) {
-        int remainder = this.value % that.value;
-        return Quantity.of(remainder);
+        long remainder = this.value % that.value;
+        return Quantity.from(remainder);
     }
 
     public boolean notEquals(Quantity quantity) {
         return this.value != quantity.value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 

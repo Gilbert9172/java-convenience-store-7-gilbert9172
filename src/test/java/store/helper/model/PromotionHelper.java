@@ -1,4 +1,4 @@
-package store.helper;
+package store.helper.model;
 
 import store.converter.TimeConverter;
 import store.model.order.Quantity;
@@ -13,17 +13,27 @@ public class PromotionHelper {
     public static Promotion twoPlusOnePromotion(final String start, final String end) {
         return PromotionHelper.mock(
                 1,
-                "2+1",
+                "탄산2+1",
                 2,
                 1,
                 start,
                 end);
     }
 
-    public static Promotion onePlusOnePromotion(final String start, final String end) {
+    public static Promotion mdRecommandPromotion(final String start, final String end) {
         return PromotionHelper.mock(
                 2,
-                "1+1",
+                "MD추천상품",
+                1,
+                1,
+                start,
+                end);
+    }
+
+    public static Promotion surprisePromotion(final String start, final String end) {
+        return PromotionHelper.mock(
+                2,
+                "반짝할인",
                 1,
                 1,
                 start,
@@ -39,8 +49,8 @@ public class PromotionHelper {
         return Promotion.of(
                 PromotionId.from(id),
                 name,
-                Quantity.of(buy),
-                Quantity.of(get),
+                Quantity.from(buy),
+                Quantity.from(get),
                 TimeConverter.toStartDate(startDate),
                 TimeConverter.toEndDate(endDate)
         );
