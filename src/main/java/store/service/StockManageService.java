@@ -23,7 +23,7 @@ public class StockManageService {
 
             if (currentStock.boeThan(orderQuantity)) {
                 product.decreasedStock(orderQuantity);
-                return;
+                continue;
             }
 
             Quantity remainingStock = orderQuantity.minus(currentStock);
