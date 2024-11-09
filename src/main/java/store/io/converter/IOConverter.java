@@ -1,6 +1,6 @@
 package store.io.converter;
 
-import java.time.LocalDateTime;
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.util.Arrays;
 import java.util.List;
 import store.model.dto.PreOrderDTO;
@@ -18,7 +18,7 @@ public class IOConverter {
                 .map(splittedSource -> {
                     String substring = splittedSource.substring(1, splittedSource.length() - 1);
                     String[] tokens = substring.split("-");
-                    return PreOrderDTO.of(tokens[0], Integer.parseInt(tokens[1]), LocalDateTime.now());
+                    return PreOrderDTO.of(tokens[0], Integer.parseInt(tokens[1]), DateTimes.now());
                 })
                 .toList();
     }
