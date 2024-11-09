@@ -5,6 +5,7 @@ import store.controller.InitiateController;
 import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
 import store.io.terminal.InputTerminal;
+import store.io.terminal.OutputTerminal;
 import store.model.discount.DiscountPolicyFactory;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
@@ -40,6 +41,7 @@ public class AppConfig {
     public ConvenienceController convenienceController() {
         return new ConvenienceController(
                 inputTerminal(),
+                outputTerminal(),
                 orderService(),
                 paymentService()
         );
@@ -47,6 +49,10 @@ public class AppConfig {
 
     private InputTerminal inputTerminal() {
         return InputTerminal.getInstance();
+    }
+
+    private OutputTerminal outputTerminal() {
+        return OutputTerminal.getInstance();
     }
 
     private CustomFileReader customFileReader() {

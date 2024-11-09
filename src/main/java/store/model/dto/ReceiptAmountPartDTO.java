@@ -8,24 +8,24 @@ public class ReceiptAmountPartDTO {
     private final Money totalAmount;
     private final Quantity totalQuantity;
     private final Money promotionDiscount;
-    private final Money memberShipDiscount;
+    private final Money membershipDiscount;
     private final Money payment;
 
     private ReceiptAmountPartDTO(final Money totalAmount, final Quantity totalQuantity, final Money promotionDiscount,
-                                 final Money memberShipDiscount, final Money payment) {
+                                 final Money membershipDiscount, final Money payment) {
         this.totalAmount = totalAmount;
         this.totalQuantity = totalQuantity;
         this.promotionDiscount = promotionDiscount;
-        this.memberShipDiscount = memberShipDiscount;
+        this.membershipDiscount = membershipDiscount;
         this.payment = payment;
     }
 
     public static ReceiptAmountPartDTO of(final Money totalAmount,
                                           final Quantity totalQuantity,
                                           final Money promotionDiscount,
-                                          final Money memberShipDiscount,
+                                          final Money membershipDiscount,
                                           final Money payment) {
-        return new ReceiptAmountPartDTO(totalAmount, totalQuantity, promotionDiscount, memberShipDiscount, payment);
+        return new ReceiptAmountPartDTO(totalAmount, totalQuantity, promotionDiscount, membershipDiscount, payment);
     }
 
     public Money getTotalAmount() {
@@ -40,8 +40,8 @@ public class ReceiptAmountPartDTO {
         return promotionDiscount;
     }
 
-    public Money getMemberShipDiscount() {
-        return memberShipDiscount;
+    public Money getMembershipDiscount() {
+        return membershipDiscount;
     }
 
     public Money getPayment() {

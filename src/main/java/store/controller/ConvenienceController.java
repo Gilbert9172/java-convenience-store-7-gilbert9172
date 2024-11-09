@@ -3,6 +3,7 @@ package store.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import store.io.terminal.InputTerminal;
+import store.io.terminal.OutputTerminal;
 import store.model.dto.PreOrderDTO;
 import store.model.dto.ReceiptDTO;
 import store.model.order.Order;
@@ -10,18 +11,22 @@ import store.model.order.Orders;
 import store.model.order.factory.modify.UserFeedBack;
 import store.service.OrderService;
 import store.service.PaymentService;
+import store.view.ReceiptView;
 
 public class ConvenienceController {
 
     private final InputTerminal inputTerminal;
+    private final OutputTerminal outputTerminal;
     private final OrderService orderService;
     private final PaymentService paymentService;
 
     public ConvenienceController(final InputTerminal inputTerminal,
+                                 final OutputTerminal outputTerminal,
                                  final OrderService orderService,
                                  final PaymentService paymentService) {
-        this.orderService = orderService;
         this.inputTerminal = inputTerminal;
+        this.outputTerminal = outputTerminal;
+        this.orderService = orderService;
         this.paymentService = paymentService;
     }
 
@@ -30,6 +35,8 @@ public class ConvenienceController {
         updateOrders(orders);
         UserFeedBack memberShipFeedBack = this.memberShipDiscountFeedBack();
         ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
+        ReceiptView receiptView = ReceiptView.from(receiptDTO);
+        outputTerminal.printReceipt(receiptView);
     }
 
     private List<Order> generateOrders() {

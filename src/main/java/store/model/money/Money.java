@@ -3,12 +3,14 @@ package store.model.money;
 import static store.exception.InvalidMoneyException.minusAmount;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 import store.model.order.Quantity;
 
 public class Money {
 
+    private static final DecimalFormat FORMATTER = new DecimalFormat("###,###");
     public static final Money ZERO = Money.from(0);
 
     private final long amount;
@@ -76,5 +78,10 @@ public class Money {
     @Override
     public int hashCode() {
         return Objects.hashCode(this.amount);
+    }
+
+    @Override
+    public String toString() {
+        return FORMATTER.format(this.amount);
     }
 }

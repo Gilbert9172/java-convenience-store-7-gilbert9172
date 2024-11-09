@@ -17,6 +17,10 @@ public class Writer {
         System.out.println(message);
     }
 
+    public void simplePrintf(String format, Object... args) {
+        System.out.printf(format, args);
+    }
+
     public void printWithNewLineBefore(final String message) {
         printEmptyLine();
         simplePrint(message);
@@ -25,5 +29,4 @@ public class Writer {
     private void printEmptyLine() {
         System.out.println();
     }
-
 }
