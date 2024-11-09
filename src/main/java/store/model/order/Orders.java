@@ -41,6 +41,7 @@ public class Orders {
     public List<PromotionProductDTO> mapToPromotionPrizes() {
         return orders.stream()
                 .filter(Order::isPromotionProduct)
+                .filter(Order::hasPrize)
                 .map(order -> {
                     String productName = order.purchasedProductName();
                     Quantity prizeCount = order.getPrizeCount();

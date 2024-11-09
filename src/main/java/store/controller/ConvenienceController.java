@@ -1,5 +1,6 @@
 package store.controller;
 
+import static store.io.terminal.helper.Retry.doWhileTemplate;
 import static store.io.terminal.helper.Retry.retryTemplate;
 
 import java.util.List;
@@ -45,21 +46,16 @@ public class ConvenienceController {
 
 
     public void run() {
-        UserFeedBack buy = UserFeedBack.Y;
-        while (buy.responseYes()) {
-            showProductsStock();
-            Orders orders = makeUserOrder();
-
-            updateOrders(orders);
-            UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
-
-            stockManageService.updateProductStocks(orders);
-            ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
-            ReceiptView receiptView = ReceiptView.from(receiptDTO);
-            outputTerminal.printReceipt(receiptView);
-
-            buy = readUserFeedBackForBuyMore();
-        }
+        doWhileTemplate(
+                () -> {
+                    showProductsStock();
+                    Orders orders = makeUserOrder();
+                    updateOrdersByFeedBack(orders);
+                    decreaseStock(orders);
+                    offerReceipt(orders);
+                },
+                this::readUserFeedBackForStay
+        );
     }
 
     private void showProductsStock() {
@@ -71,7 +67,7 @@ public class ConvenienceController {
         return orderService.generateOrders(preOrders);
     }
 
-    private void updateOrders(final Orders orders) {
+    private void updateOrdersByFeedBack(final Orders orders) {
         orders.readOnlyStream()
                 .forEach(order -> {
                     UserFeedBack flag = orderFeedBackInputFactory.readFeedBackAbout(order, inputTerminal);
@@ -83,7 +79,7 @@ public class ConvenienceController {
         return retryTemplate(inputTerminal::readUserFeedBackForMembershipDC);
     }
 
-    private UserFeedBack readUserFeedBackForBuyMore() {
+    private UserFeedBack readUserFeedBackForStay() {
         return retryTemplate(inputTerminal::readUserFeedBackForBuyMore);
     }
 
@@ -94,7 +90,14 @@ public class ConvenienceController {
         });
     }
 
-    private ReceiptDTO offerReceipt(final Orders orders, final UserFeedBack feedBack) {
-        return paymentService.offerReceipt(orders, feedBack);
+    private void offerReceipt(final Orders orders) {
+        UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
+        ReceiptDTO receiptDTO = paymentService.offerReceipt(orders, memberShipFeedBack);
+        ReceiptView receiptView = ReceiptView.from(receiptDTO);
+        outputTerminal.printReceipt(receiptView);
+    }
+
+    private void decreaseStock(Orders orders) {
+        stockManageService.updateProductStocks(orders);
     }
 }

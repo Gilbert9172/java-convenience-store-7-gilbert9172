@@ -101,7 +101,7 @@ public class Product {
         // FIXME : 왜 abs 했지?
         Quantity decreaseQuantity = Quantity.abs(quantity);
         Quantity remainingStock = stock.minus(decreaseQuantity);
-        if (remainingStock.isLowerThan(ZERO)) {
+        if (remainingStock.LowerThan(ZERO)) {
             throw outOfStock();
         }
         this.stock = remainingStock;

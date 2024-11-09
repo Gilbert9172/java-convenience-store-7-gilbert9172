@@ -18,7 +18,7 @@ public class Quantity {
         return new Quantity(value);
     }
 
-    public boolean isLowerThan(final Quantity that) {
+    public boolean LowerThan(final Quantity that) {
         return this.value < that.value;
     }
 

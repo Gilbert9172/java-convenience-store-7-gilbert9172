@@ -20,7 +20,7 @@ public class Products {
 
     public boolean outOfStock(Quantity orderQuantity) {
         Quantity allStocks = allStocks();
-        return allStocks.isLowerThan(orderQuantity) || allStocks.equals(ZERO);
+        return allStocks.LowerThan(orderQuantity) || allStocks.equals(ZERO);
     }
 
     private Quantity allStocks() {
