@@ -9,8 +9,10 @@ import store.model.dto.ReceiptDTO;
 import store.model.order.Order;
 import store.model.order.Orders;
 import store.model.order.factory.modify.UserFeedBack;
+import store.repository.ProductRepository;
 import store.service.OrderService;
 import store.service.PaymentService;
+import store.service.StockManageService;
 import store.view.ReceiptView;
 
 public class ConvenienceController {
@@ -19,21 +21,29 @@ public class ConvenienceController {
     private final OutputTerminal outputTerminal;
     private final OrderService orderService;
     private final PaymentService paymentService;
+    private final StockManageService stockManageService;
+    private final ProductRepository productRepository;
 
     public ConvenienceController(final InputTerminal inputTerminal,
                                  final OutputTerminal outputTerminal,
                                  final OrderService orderService,
-                                 final PaymentService paymentService) {
+                                 final PaymentService paymentService,
+                                 final StockManageService stockManageService,
+                                 final ProductRepository productRepository) {
         this.inputTerminal = inputTerminal;
         this.outputTerminal = outputTerminal;
         this.orderService = orderService;
         this.paymentService = paymentService;
+        this.stockManageService = stockManageService;
+        this.productRepository = productRepository;
     }
 
     public void run() {
         List<Order> orders = generateOrders();
         updateOrders(orders);
         UserFeedBack memberShipFeedBack = this.memberShipDiscountFeedBack();
+        stockManageService.updateProductStocks(Orders.of(orders));
+
         ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
         ReceiptView receiptView = ReceiptView.from(receiptDTO);
         outputTerminal.printReceipt(receiptView);

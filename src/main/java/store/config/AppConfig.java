@@ -16,6 +16,7 @@ import store.repository.SingleTonProductRepo;
 import store.repository.SingleTonPromotionRepo;
 import store.service.OrderService;
 import store.service.PaymentService;
+import store.service.StockManageService;
 
 public class AppConfig {
 
@@ -43,7 +44,9 @@ public class AppConfig {
                 inputTerminal(),
                 outputTerminal(),
                 orderService(),
-                paymentService()
+                paymentService(),
+                stockManageService(),
+                productRepository()
         );
     }
 
@@ -91,6 +94,12 @@ public class AppConfig {
     private PaymentService paymentService() {
         return new PaymentService(
                 discountPolicyFactory()
+        );
+    }
+
+    private StockManageService stockManageService() {
+        return new StockManageService(
+                productRepository()
         );
     }
 
