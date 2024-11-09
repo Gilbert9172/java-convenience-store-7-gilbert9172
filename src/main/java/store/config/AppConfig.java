@@ -6,6 +6,7 @@ import store.io.file.CustomFileReader;
 import store.io.file.MarkDownReader;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
+import store.io.terminal.factory.OrderFeedBackInputFactory;
 import store.model.discount.DiscountPolicyFactory;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
@@ -46,7 +47,8 @@ public class AppConfig {
                 orderService(),
                 paymentService(),
                 stockManageService(),
-                productRepository()
+                productRepository(),
+                orderFeedBackHandlerFactory()
         );
     }
 
@@ -105,5 +107,9 @@ public class AppConfig {
 
     private DiscountPolicyFactory discountPolicyFactory() {
         return new DiscountPolicyFactory();
+    }
+
+    private OrderFeedBackInputFactory orderFeedBackHandlerFactory() {
+        return new OrderFeedBackInputFactory();
     }
 }

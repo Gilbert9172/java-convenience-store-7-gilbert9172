@@ -1,6 +1,7 @@
 package store.model.order;
 
 import java.util.List;
+import java.util.stream.Stream;
 import store.model.dto.PromotionProductDTO;
 import store.model.dto.PurchasedDTO;
 import store.model.money.Money;
@@ -19,6 +20,10 @@ public class Orders {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public Stream<Order> readOnlyStream() {
+        return orders.stream();
     }
 
     public List<PurchasedDTO> mapToPurchasedProducts() {
