@@ -16,6 +16,11 @@ public class ProductRepository implements JpaRepository<Product> {
         products.add(product);
     }
 
+    @Override
+    public void clear() {
+        products.clear();
+    }
+
     public Products findAll() {
         return Products.from(products);
     }

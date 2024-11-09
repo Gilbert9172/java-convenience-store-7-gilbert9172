@@ -14,6 +14,7 @@ public class InputTerminal {
     private static final String ENTER_YES_OR_NO_FOR_OUT_OF_STOCK = "현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
     private static final String ENTER_YES_OR_NO_FOR_MEMBERSHIP_DC = "멤버십 할인을 받으시겠습니까? (Y/N)";
     private static final String ENTER_YOUR_ORDERS = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
+    private static final String ENTER_BUY_MORE = "감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)";
 
 
     private final Writer writer;
@@ -36,13 +37,18 @@ public class InputTerminal {
     }
 
     public List<PreOrderDTO> readUserPreOrders() {
-        return retryTemplate(() -> {
-            String message = String.format(ENTER_YOUR_ORDERS);
-            writer.printWithNewLineBefore(message);
-            String input = reader.readInput();
-            OrderInputValidator.validate(input);
-            return IOConverter.toPreOrderDTOListFrom(input);
-        });
+        String message = String.format(ENTER_YOUR_ORDERS);
+        writer.printWithNewLineBefore(message);
+        String input = reader.readInput();
+        OrderInputValidator.validate(input);
+        return IOConverter.toPreOrderDTOListFrom(input);
+//        return retryTemplate(() -> {
+//            String message = String.format(ENTER_YOUR_ORDERS);
+//            writer.printWithNewLineBefore(message);
+//            String input = reader.readInput();
+//            OrderInputValidator.validate(input);
+//            return IOConverter.toPreOrderDTOListFrom(input);
+//        });
     }
 
     public UserFeedBack readUserFeedBackForGrapMore(final String name, final long quantity) {
@@ -63,9 +69,17 @@ public class InputTerminal {
         });
     }
 
-    public UserFeedBack readUserFeedBackForMemberShipDC() {
+    public UserFeedBack readUserFeedBackForMembershipDC() {
         return retryTemplate(() -> {
             writer.simplePrint(ENTER_YES_OR_NO_FOR_MEMBERSHIP_DC);
+            String input = reader.readInput();
+            return UserFeedBack.valueOf(input);
+        });
+    }
+
+    public UserFeedBack readUserFeedBackForBuyMore() {
+        return retryTemplate(() -> {
+            writer.simplePrint(ENTER_BUY_MORE);
             String input = reader.readInput();
             return UserFeedBack.valueOf(input);
         });

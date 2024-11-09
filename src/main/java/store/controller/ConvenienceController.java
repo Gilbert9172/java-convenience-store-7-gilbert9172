@@ -1,6 +1,8 @@
 package store.controller;
 
 import java.util.List;
+import java.util.function.Supplier;
+import store.exception.BusinessException;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
 import store.model.dto.PreOrderDTO;
@@ -39,23 +41,26 @@ public class ConvenienceController {
     }
 
     public void run() {
-        showProductsStock();
-        List<PreOrderDTO> preOrders = makeUserPreOrder();
-        List<Order> orders = generateOrdersFrom(preOrders);
+        UserFeedBack buy = UserFeedBack.Y;
+        while (buy.responseYes()) {
+            showProductsStock();
+            List<Order> orders = makeUserOrder();
 
-        updateOrders(orders);
-        UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
+            updateOrders(orders);
+            UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
 
-        stockManageService.updateProductStocks(Orders.of(orders));
-        ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
-        ReceiptView receiptView = ReceiptView.from(receiptDTO);
-        outputTerminal.printReceipt(receiptView);
+            stockManageService.updateProductStocks(Orders.of(orders));
+            ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
+            ReceiptView receiptView = ReceiptView.from(receiptDTO);
+            outputTerminal.printReceipt(receiptView);
+
+            buy = readUserFeedBackForBuyMore();
+        }
     }
 
     private void showProductsStock() {
         Products products = productRepository.findAll();
         outputTerminal.printProductsStock(products.mapToView());
-
     }
 
     private List<Order> generateOrdersFrom(List<PreOrderDTO> preOrders) {
@@ -78,14 +83,31 @@ public class ConvenienceController {
     }
 
     private UserFeedBack membershipDiscountFeedBack() {
-        return inputTerminal.readUserFeedBackForMemberShipDC();
+        return inputTerminal.readUserFeedBackForMembershipDC();
     }
 
-    private List<PreOrderDTO> makeUserPreOrder() {
-        return inputTerminal.readUserPreOrders();
+    private UserFeedBack readUserFeedBackForBuyMore() {
+        return inputTerminal.readUserFeedBackForBuyMore();
+    }
+
+    private List<Order> makeUserOrder() {
+        return retryTemplate(() -> {
+            List<PreOrderDTO> preOrders = inputTerminal.readUserPreOrders();
+            return generateOrdersFrom(preOrders);
+        });
     }
 
     private ReceiptDTO offerReceipt(final List<Order> orders, final UserFeedBack feedBack) {
         return paymentService.offerReceipt(Orders.of(orders), feedBack);
+    }
+
+    private <T> T retryTemplate(final Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException | BusinessException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

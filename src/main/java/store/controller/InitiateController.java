@@ -29,6 +29,7 @@ public class InitiateController {
     }
 
     public void initiateData() {
+        clearRepositories();
         initiatePromotionData();
         initiateProductData();
     }
@@ -65,5 +66,10 @@ public class InitiateController {
             Product product = Product.of(name, money, quantity, promotion);
             productRepository.save(product);
         }
+    }
+
+    private void clearRepositories() {
+        productRepository.clear();
+        promotionRepository.clear();
     }
 }

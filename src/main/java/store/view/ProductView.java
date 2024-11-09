@@ -11,12 +11,12 @@ public class ProductView {
 
     private final String name;
     private final String amount;
-    private final long stock;
+    private final String stock;
     private final String promotionTitle;
 
     private ProductView(final String name,
                         final String amount,
-                        final long stock,
+                        final String stock,
                         final String promotionTitle) {
         this.name = name;
         this.amount = amount;
@@ -29,16 +29,26 @@ public class ProductView {
         Money amount = product.getAmount();
         Quantity stock = product.currentStock();
         Promotion promotion = product.getPromotion();
-        String promotionTitle = "없음";
-        if (nonNull(promotion)) {
-            promotionTitle = promotion.getTitle();
-        }
         return new ProductView(
                 productName,
                 amount.toString(),
-                stock.getValue(),
-                promotionTitle
+                stockByCondition(stock),
+                promotionTitleByCondition(promotion)
         );
+    }
+
+    private static String stockByCondition(Quantity stock) {
+        if (stock.equals(Quantity.ZERO)) {
+            return "재고 없음";
+        }
+        return stock.toString();
+    }
+
+    private static String promotionTitleByCondition(Promotion promotion) {
+        if (nonNull(promotion)) {
+            return promotion.getTitle();
+        }
+        return "";
     }
 
     public String getName() {
@@ -49,7 +59,7 @@ public class ProductView {
         return amount;
     }
 
-    public long getStock() {
+    public String getStock() {
         return stock;
     }
 

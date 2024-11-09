@@ -87,4 +87,9 @@ public class Quantity {
     public int hashCode() {
         return Objects.hashCode(this.value);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.value);
+    }
 }
