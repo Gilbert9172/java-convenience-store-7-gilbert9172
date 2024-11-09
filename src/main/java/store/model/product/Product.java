@@ -98,9 +98,7 @@ public class Product {
     }
 
     public void decreasedStock(final Quantity quantity) {
-        // FIXME : 왜 abs 했지?
-        Quantity decreaseQuantity = Quantity.abs(quantity);
-        Quantity remainingStock = stock.minus(decreaseQuantity);
+        Quantity remainingStock = stock.minus(quantity);
         if (remainingStock.LowerThan(ZERO)) {
             throw outOfStock();
         }

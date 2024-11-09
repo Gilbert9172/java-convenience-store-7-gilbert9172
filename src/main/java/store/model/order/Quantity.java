@@ -30,11 +30,6 @@ public class Quantity {
         return this.value >= that.value;
     }
 
-    public static Quantity abs(Quantity that) {
-        long absedValue = Math.abs(that.value);
-        return Quantity.from(absedValue);
-    }
-
     public static Quantity addAll(List<Quantity> quantities) {
         long allQuantity = quantities.stream()
                 .mapToLong(quantity -> quantity.value)
