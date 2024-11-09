@@ -3,6 +3,7 @@ package store.io.terminal;
 import java.util.List;
 import store.view.AmountPartView;
 import store.view.ProductPartView;
+import store.view.ProductView;
 import store.view.PromotionProductView;
 import store.view.PurchasedView;
 import store.view.ReceiptView;
@@ -23,9 +24,26 @@ public class OutputTerminal {
         return TerminalHolder.INSTANCE;
     }
 
+    public void printProductsStock(List<ProductView> productViews) {
+
+        writer.simplePrint("안녕하세요. W편의점입니다.");
+        writer.printWithNewLineAfter("현재 보유하고 있는 상품입니다.");
+        for (ProductView productView : productViews) {
+            String template = "- %s %s원 %d개 %s";
+            writer.simplePrintf(
+                    template,
+                    productView.getName(),
+                    productView.getAmount(),
+                    productView.getStock(),
+                    productView.getPromotionTitle()
+            );
+        }
+    }
+
+
     public void printReceipt(final ReceiptView view) {
         writer.simplePrint("==============W 편의점================");
-        writer.simplePrintf("%-18s %-7s %-7s\n", "상품명", "수량", "금액");
+        writer.simplePrintf("%-18s %-7s %-7s", "상품명", "수량", "금액");
         ProductPartView productPart = view.getProductPart();
         printProductPartOf(productPart);
 

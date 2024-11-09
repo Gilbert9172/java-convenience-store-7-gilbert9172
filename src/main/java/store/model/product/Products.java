@@ -2,6 +2,7 @@ package store.model.product;
 
 import java.util.List;
 import store.model.order.Quantity;
+import store.view.ProductView;
 
 public class Products {
 
@@ -29,5 +30,11 @@ public class Products {
 
     public boolean isEmpty() {
         return products.isEmpty();
+    }
+
+    public List<ProductView> mapToView() {
+        return products.stream()
+                .map(ProductView::from)
+                .toList();
     }
 }

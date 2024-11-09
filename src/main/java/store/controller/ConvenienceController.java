@@ -9,6 +9,7 @@ import store.model.dto.ReceiptDTO;
 import store.model.order.Order;
 import store.model.order.Orders;
 import store.model.order.factory.modify.UserFeedBack;
+import store.model.product.Products;
 import store.repository.ProductRepository;
 import store.service.OrderService;
 import store.service.PaymentService;
@@ -39,6 +40,8 @@ public class ConvenienceController {
     }
 
     public void run() {
+        showProductsStock();
+        
         List<Order> orders = generateOrders();
         updateOrders(orders);
         UserFeedBack memberShipFeedBack = this.memberShipDiscountFeedBack();
@@ -47,6 +50,12 @@ public class ConvenienceController {
         ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
         ReceiptView receiptView = ReceiptView.from(receiptDTO);
         outputTerminal.printReceipt(receiptView);
+    }
+
+    private void showProductsStock() {
+        Products products = productRepository.findAll();
+        outputTerminal.printProductsStock(products.mapToView());
+
     }
 
     private List<Order> generateOrders() {

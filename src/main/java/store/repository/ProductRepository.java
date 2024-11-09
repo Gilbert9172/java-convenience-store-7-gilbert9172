@@ -16,6 +16,10 @@ public class ProductRepository implements JpaRepository<Product> {
         products.add(product);
     }
 
+    public Products findAll() {
+        return Products.from(products);
+    }
+
     public Products findAllByName(final String name, final LocalDateTime now) {
         List<Product> queriedProducts = products.stream()
                 .filter(product -> product.hasSameName(name))

@@ -119,6 +119,10 @@ public class Product {
         return amount;
     }
 
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
     public boolean isNormal() {
         return promotion == null;
     }

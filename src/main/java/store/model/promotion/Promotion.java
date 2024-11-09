@@ -6,7 +6,7 @@ import store.model.order.Quantity;
 public class Promotion {
 
     private final PromotionId id;
-    private final String name;
+    private final String title;
     private final Quantity buy;
     private final Quantity get;
     private final LocalDateTime startDate;
@@ -14,14 +14,14 @@ public class Promotion {
 
     private Promotion(
             final PromotionId id,
-            final String name,
+            final String title,
             final Quantity buy,
             final Quantity get,
             final LocalDateTime startDate,
             final LocalDateTime endDate
     ) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.buy = buy;
         this.get = get;
         this.startDate = startDate;
@@ -30,13 +30,13 @@ public class Promotion {
 
     public static Promotion of(
             final PromotionId id,
-            final String name,
+            final String title,
             final Quantity buy,
             final Quantity get,
             final LocalDateTime startDate,
             final LocalDateTime endDate
     ) {
-        return new Promotion(id, name, buy, get, startDate, endDate);
+        return new Promotion(id, title, buy, get, startDate, endDate);
     }
 
     public boolean hasSameId(PromotionId that) {
@@ -51,5 +51,9 @@ public class Promotion {
 
     public Quantity buyGetQuantity() {
         return buy.add(get);
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
