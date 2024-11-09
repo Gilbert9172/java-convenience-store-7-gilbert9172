@@ -1,6 +1,5 @@
 package store.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
@@ -41,12 +40,13 @@ public class ConvenienceController {
 
     public void run() {
         showProductsStock();
-        
-        List<Order> orders = generateOrders();
-        updateOrders(orders);
-        UserFeedBack memberShipFeedBack = this.memberShipDiscountFeedBack();
-        stockManageService.updateProductStocks(Orders.of(orders));
+        List<PreOrderDTO> preOrders = makeUserPreOrder();
+        List<Order> orders = generateOrdersFrom(preOrders);
 
+        updateOrders(orders);
+        UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
+
+        stockManageService.updateProductStocks(Orders.of(orders));
         ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
         ReceiptView receiptView = ReceiptView.from(receiptDTO);
         outputTerminal.printReceipt(receiptView);
@@ -58,12 +58,8 @@ public class ConvenienceController {
 
     }
 
-    private List<Order> generateOrders() {
-        PreOrderDTO preOrderDTO1 = PreOrderDTO.of("콜라", 10, LocalDateTime.now());
-        PreOrderDTO preOrderDTO2 = PreOrderDTO.of("오렌지주스", 7, LocalDateTime.now());
-        PreOrderDTO preOrderDTO3 = PreOrderDTO.of("물", 5, LocalDateTime.now());
-        List<PreOrderDTO> orderDTOS = List.of(preOrderDTO1, preOrderDTO2, preOrderDTO3);
-        return orderService.generateOrders(orderDTOS);
+    private List<Order> generateOrdersFrom(List<PreOrderDTO> preOrders) {
+        return orderService.generateOrders(preOrders);
     }
 
     private void updateOrders(final List<Order> orders) {
@@ -81,8 +77,12 @@ public class ConvenienceController {
         }
     }
 
-    private UserFeedBack memberShipDiscountFeedBack() {
+    private UserFeedBack membershipDiscountFeedBack() {
         return inputTerminal.readUserFeedBackForMemberShipDC();
+    }
+
+    private List<PreOrderDTO> makeUserPreOrder() {
+        return inputTerminal.readUserPreOrders();
     }
 
     private ReceiptDTO offerReceipt(final List<Order> orders, final UserFeedBack feedBack) {
