@@ -7,9 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import store.io.exception.InvalidRegexException;
-import store.io.validator.order.OrderInputValidator;
+import store.io.validator.order.InputValidator;
 
-public class OrderInputValidatorTest {
+public class InputValidatorTest {
 
     @DisplayName("주문 regex InvalidRegexException test")
     @ParameterizedTest
@@ -20,7 +20,7 @@ public class OrderInputValidatorTest {
     void validateOrderRegex(String source) {
         assertThrows(
                 InvalidRegexException.class,
-                () -> OrderInputValidator.validate(source)
+                () -> InputValidator.validateOrderInput(source)
         );
     }
 
@@ -31,6 +31,6 @@ public class OrderInputValidatorTest {
             delimiter = '|'
     )
     void normalCase(String source) {
-        assertDoesNotThrow(() -> OrderInputValidator.validate(source));
+        assertDoesNotThrow(() -> InputValidator.validateOrderInput(source));
     }
 }

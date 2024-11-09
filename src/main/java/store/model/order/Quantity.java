@@ -80,7 +80,7 @@ public class Quantity {
             return false;
         }
         Quantity that = (Quantity) obj;
-        return (long) this.value == that.value;
+        return this.value == that.value;
     }
 
     @Override
@@ -90,6 +90,7 @@ public class Quantity {
 
     @Override
     public String toString() {
-        return String.valueOf(this.value);
+        String strValue = String.valueOf(this.value);
+        return String.format("%s개", strValue);
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import store.exception.BusinessException;
 import store.io.converter.IOConverter;
-import store.io.validator.order.OrderInputValidator;
+import store.io.validator.order.InputValidator;
 import store.model.dto.PreOrderDTO;
 import store.model.order.factory.modify.UserFeedBack;
 
@@ -40,13 +40,13 @@ public class InputTerminal {
         String message = String.format(ENTER_YOUR_ORDERS);
         writer.printWithNewLineBefore(message);
         String input = reader.readInput();
-        OrderInputValidator.validate(input);
+        InputValidator.validateOrderInput(input);
         return IOConverter.toPreOrderDTOListFrom(input);
 //        return retryTemplate(() -> {
 //            String message = String.format(ENTER_YOUR_ORDERS);
 //            writer.printWithNewLineBefore(message);
 //            String input = reader.readInput();
-//            OrderInputValidator.validate(input);
+//            InputValidator.validate(input);
 //            return IOConverter.toPreOrderDTOListFrom(input);
 //        });
     }
@@ -54,8 +54,9 @@ public class InputTerminal {
     public UserFeedBack readUserFeedBackForGrapMore(final String name, final long quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_GRAP_MORE, name, quantity);
-            writer.simplePrint(message);
+            writer.printWithNewLineBefore(message);
             String input = reader.readInput();
+            InputValidator.validateUserFeedBack(input);
             return UserFeedBack.valueOf(input);
         });
     }
@@ -63,24 +64,27 @@ public class InputTerminal {
     public UserFeedBack readUserFeedBackForOutOfStock(final String name, final long quantity) {
         return retryTemplate(() -> {
             String message = String.format(ENTER_YES_OR_NO_FOR_OUT_OF_STOCK, name, quantity);
-            writer.simplePrint(message);
+            writer.printWithNewLineBefore(message);
             String input = reader.readInput();
+            InputValidator.validateUserFeedBack(input);
             return UserFeedBack.valueOf(input);
         });
     }
 
     public UserFeedBack readUserFeedBackForMembershipDC() {
         return retryTemplate(() -> {
-            writer.simplePrint(ENTER_YES_OR_NO_FOR_MEMBERSHIP_DC);
+            writer.printWithNewLineBefore(ENTER_YES_OR_NO_FOR_MEMBERSHIP_DC);
             String input = reader.readInput();
+            InputValidator.validateUserFeedBack(input);
             return UserFeedBack.valueOf(input);
         });
     }
 
     public UserFeedBack readUserFeedBackForBuyMore() {
         return retryTemplate(() -> {
-            writer.simplePrint(ENTER_BUY_MORE);
+            writer.printWithNewLineBefore(ENTER_BUY_MORE);
             String input = reader.readInput();
+            InputValidator.validateUserFeedBack(input);
             return UserFeedBack.valueOf(input);
         });
     }

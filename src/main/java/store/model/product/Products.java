@@ -1,5 +1,7 @@
 package store.model.product;
 
+import static store.model.order.Quantity.ZERO;
+
 import java.util.List;
 import store.model.order.Quantity;
 import store.view.ProductView;
@@ -18,7 +20,7 @@ public class Products {
 
     public boolean outOfStock(Quantity orderQuantity) {
         Quantity allStocks = allStocks();
-        return allStocks.isLowerThan(orderQuantity);
+        return allStocks.isLowerThan(orderQuantity) || allStocks.equals(ZERO);
     }
 
     private Quantity allStocks() {
