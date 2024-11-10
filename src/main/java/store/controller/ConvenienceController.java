@@ -4,6 +4,7 @@ import static store.io.terminal.helper.Retry.doWhileTemplate;
 import static store.io.terminal.helper.Retry.retryTemplate;
 
 import java.util.List;
+import store.io.file.write.CustomFileWriter;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
 import store.io.terminal.factory.OrderFeedBackInputFactory;
@@ -27,6 +28,7 @@ public class ConvenienceController {
     private final StockManageService stockManageService;
     private final ProductRepository productRepository;
     private final OrderFeedBackInputFactory orderFeedBackInputFactory;
+    private final CustomFileWriter customFileWriter;
 
     public ConvenienceController(final InputTerminal inputTerminal,
                                  final OutputTerminal outputTerminal,
@@ -34,7 +36,8 @@ public class ConvenienceController {
                                  final PaymentService paymentService,
                                  final StockManageService stockManageService,
                                  final ProductRepository productRepository,
-                                 final OrderFeedBackInputFactory orderFeedBackInputFactory) {
+                                 final OrderFeedBackInputFactory orderFeedBackInputFactory,
+                                 final CustomFileWriter customFileWriter) {
         this.inputTerminal = inputTerminal;
         this.outputTerminal = outputTerminal;
         this.orderService = orderService;
@@ -42,6 +45,7 @@ public class ConvenienceController {
         this.stockManageService = stockManageService;
         this.productRepository = productRepository;
         this.orderFeedBackInputFactory = orderFeedBackInputFactory;
+        this.customFileWriter = customFileWriter;
     }
 
 
@@ -52,6 +56,7 @@ public class ConvenienceController {
                     Orders orders = makeUserOrder();
                     updateOrdersByFeedBack(orders);
                     decreaseStock(orders);
+                    updateMarkDown();
                     offerReceipt(orders);
                 },
                 this::readUserFeedBackForStay
@@ -99,5 +104,10 @@ public class ConvenienceController {
 
     private void decreaseStock(Orders orders) {
         stockManageService.updateProductStocks(orders);
+    }
+
+    private void updateMarkDown() {
+        Products products = productRepository.findAll();
+        customFileWriter.write(products);
     }
 }
