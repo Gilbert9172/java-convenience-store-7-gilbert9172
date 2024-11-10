@@ -1,4 +1,4 @@
-package store.io.file;
+package store.io.file.read;
 
 import static store.error.ErrorMessage.FILE_NOT_FOUND;
 

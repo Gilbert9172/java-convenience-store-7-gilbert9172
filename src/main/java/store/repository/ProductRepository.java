@@ -36,6 +36,7 @@ public class ProductRepository implements JpaRepository<Product> {
     public Optional<Product> findActivePromotionProductBy(final String name, final LocalDateTime now) {
         return products.stream()
                 .filter(product -> product.hasSameName(name))
+                .filter(Product::inStock)
                 .filter(Product::promotionApplied)
                 .filter(product -> product.isAvailable(now))
                 .findFirst();

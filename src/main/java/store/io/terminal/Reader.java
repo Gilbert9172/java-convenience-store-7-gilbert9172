@@ -14,6 +14,4 @@ public class Reader {
     public String readInput() {
         return Console.readLine();
     }
-
-
 }

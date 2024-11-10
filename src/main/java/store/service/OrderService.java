@@ -4,12 +4,12 @@ import static store.exception.OutOfStockException.outOfStock;
 import static store.exception.SourceNotFoundException.productNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import store.exception.SourceNotFoundException;
 import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
+import store.model.order.Orders;
 import store.model.order.Quantity;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
@@ -36,18 +36,16 @@ public class OrderService {
         this.orderFeedBackHandlerFactory = orderFeedBackHandlerFactory;
     }
 
-    public List<Order> generateOrders(final List<PreOrderDTO> preOrderDTOS) {
-        List<Order> orders = new ArrayList<>();
-        for (PreOrderDTO orderDTO : preOrderDTOS) {
-
-            String productName = orderDTO.getProductName();
-            LocalDateTime orderDate = orderDTO.getOrderDate();
-            Quantity quantity = Quantity.from(orderDTO.getQuantity());
-
-            Order order = generateOrder(productName, orderDate, quantity);
-            orders.add(order);
-        }
-        return orders;
+    public Orders generateOrders(final List<PreOrderDTO> preOrderDTOS) {
+        List<Order> orders = preOrderDTOS.stream()
+                .map(dto -> {
+                    String productName = dto.getProductName();
+                    LocalDateTime orderDate = dto.getOrderDate();
+                    Quantity quantity = Quantity.from(dto.getQuantity());
+                    return generateOrder(productName, orderDate, quantity);
+                })
+                .toList();
+        return Orders.of(orders);
     }
 
     private Order generateOrder(final String productName,

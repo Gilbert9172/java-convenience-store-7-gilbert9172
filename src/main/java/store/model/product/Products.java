@@ -3,6 +3,7 @@ package store.model.product;
 import static store.model.order.Quantity.ZERO;
 
 import java.util.List;
+import java.util.stream.Stream;
 import store.model.order.Quantity;
 import store.view.ProductView;
 
@@ -18,9 +19,13 @@ public class Products {
         return new Products(products);
     }
 
+    public Stream<Product> readOnlyStream() {
+        return products.stream();
+    }
+
     public boolean outOfStock(Quantity orderQuantity) {
         Quantity allStocks = allStocks();
-        return allStocks.isLowerThan(orderQuantity) || allStocks.equals(ZERO);
+        return allStocks.LowerThan(orderQuantity) || allStocks.equals(ZERO);
     }
 
     private Quantity allStocks() {

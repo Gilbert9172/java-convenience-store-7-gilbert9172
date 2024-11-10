@@ -2,10 +2,13 @@ package store.config;
 
 import store.controller.ConvenienceController;
 import store.controller.InitiateController;
-import store.io.file.CustomFileReader;
-import store.io.file.MarkDownReader;
+import store.io.file.read.CustomFileReader;
+import store.io.file.read.MarkDownReader;
+import store.io.file.write.CustomFileWriter;
+import store.io.file.write.MarkDownWriter;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
+import store.io.terminal.factory.OrderFeedBackInputFactory;
 import store.model.discount.DiscountPolicyFactory;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
@@ -46,8 +49,14 @@ public class AppConfig {
                 orderService(),
                 paymentService(),
                 stockManageService(),
-                productRepository()
+                productRepository(),
+                orderFeedBackHandlerFactory(),
+                customFileWriter()
         );
+    }
+
+    private CustomFileWriter customFileWriter() {
+        return new MarkDownWriter();
     }
 
     private InputTerminal inputTerminal() {
@@ -105,5 +114,9 @@ public class AppConfig {
 
     private DiscountPolicyFactory discountPolicyFactory() {
         return new DiscountPolicyFactory();
+    }
+
+    private OrderFeedBackInputFactory orderFeedBackHandlerFactory() {
+        return new OrderFeedBackInputFactory();
     }
 }

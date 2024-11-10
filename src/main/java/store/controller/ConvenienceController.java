@@ -1,13 +1,15 @@
 package store.controller;
 
+import static store.io.terminal.helper.Retry.doWhileTemplate;
+import static store.io.terminal.helper.Retry.retryTemplate;
+
 import java.util.List;
-import java.util.function.Supplier;
-import store.exception.BusinessException;
+import store.io.file.write.CustomFileWriter;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
+import store.io.terminal.factory.OrderFeedBackInputFactory;
 import store.model.dto.PreOrderDTO;
 import store.model.dto.ReceiptDTO;
-import store.model.order.Order;
 import store.model.order.Orders;
 import store.model.order.factory.modify.UserFeedBack;
 import store.model.product.Products;
@@ -25,37 +27,40 @@ public class ConvenienceController {
     private final PaymentService paymentService;
     private final StockManageService stockManageService;
     private final ProductRepository productRepository;
+    private final OrderFeedBackInputFactory orderFeedBackInputFactory;
+    private final CustomFileWriter customFileWriter;
 
     public ConvenienceController(final InputTerminal inputTerminal,
                                  final OutputTerminal outputTerminal,
                                  final OrderService orderService,
                                  final PaymentService paymentService,
                                  final StockManageService stockManageService,
-                                 final ProductRepository productRepository) {
+                                 final ProductRepository productRepository,
+                                 final OrderFeedBackInputFactory orderFeedBackInputFactory,
+                                 final CustomFileWriter customFileWriter) {
         this.inputTerminal = inputTerminal;
         this.outputTerminal = outputTerminal;
         this.orderService = orderService;
         this.paymentService = paymentService;
         this.stockManageService = stockManageService;
         this.productRepository = productRepository;
+        this.orderFeedBackInputFactory = orderFeedBackInputFactory;
+        this.customFileWriter = customFileWriter;
     }
 
+
     public void run() {
-        UserFeedBack buy = UserFeedBack.Y;
-        while (buy.responseYes()) {
-            showProductsStock();
-            List<Order> orders = makeUserOrder();
-
-            updateOrders(orders);
-            UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
-
-            stockManageService.updateProductStocks(Orders.of(orders));
-            ReceiptDTO receiptDTO = offerReceipt(orders, memberShipFeedBack);
-            ReceiptView receiptView = ReceiptView.from(receiptDTO);
-            outputTerminal.printReceipt(receiptView);
-
-            buy = readUserFeedBackForBuyMore();
-        }
+        doWhileTemplate(
+                () -> {
+                    showProductsStock();
+                    Orders orders = makeUserOrder();
+                    updateOrdersByFeedBack(orders);
+                    decreaseStock(orders);
+                    updateMarkDown();
+                    offerReceipt(orders);
+                },
+                this::readUserFeedBackForStay
+        );
     }
 
     private void showProductsStock() {
@@ -63,51 +68,46 @@ public class ConvenienceController {
         outputTerminal.printProductsStock(products.mapToView());
     }
 
-    private List<Order> generateOrdersFrom(List<PreOrderDTO> preOrders) {
+    private Orders generateOrdersFrom(List<PreOrderDTO> preOrders) {
         return orderService.generateOrders(preOrders);
     }
 
-    private void updateOrders(final List<Order> orders) {
-        for (Order order : orders) {
-            String productName = order.purchasedProductName();
-            long quantity = order.feedBackQuantity();
-            if (order.hasGrabMoreFeedBack()) {
-                UserFeedBack flag = inputTerminal.readUserFeedBackForGrapMore(productName, quantity);
-                orderService.updateOrder(order, flag);
-            }
-            if (order.hasOutOfStockFeedBack()) {
-                UserFeedBack flag = inputTerminal.readUserFeedBackForOutOfStock(productName, quantity);
-                orderService.updateOrder(order, flag);
-            }
-        }
+    private void updateOrdersByFeedBack(final Orders orders) {
+        orders.readOnlyStream()
+                .forEach(order -> {
+                    UserFeedBack flag = orderFeedBackInputFactory.readFeedBackAbout(order, inputTerminal);
+                    orderService.updateOrder(order, flag);
+                });
     }
 
     private UserFeedBack membershipDiscountFeedBack() {
-        return inputTerminal.readUserFeedBackForMembershipDC();
+        return retryTemplate(inputTerminal::readUserFeedBackForMembershipDC);
     }
 
-    private UserFeedBack readUserFeedBackForBuyMore() {
-        return inputTerminal.readUserFeedBackForBuyMore();
+    private UserFeedBack readUserFeedBackForStay() {
+        return retryTemplate(inputTerminal::readUserFeedBackForBuyMore);
     }
 
-    private List<Order> makeUserOrder() {
+    private Orders makeUserOrder() {
         return retryTemplate(() -> {
             List<PreOrderDTO> preOrders = inputTerminal.readUserPreOrders();
             return generateOrdersFrom(preOrders);
         });
     }
 
-    private ReceiptDTO offerReceipt(final List<Order> orders, final UserFeedBack feedBack) {
-        return paymentService.offerReceipt(Orders.of(orders), feedBack);
+    private void offerReceipt(final Orders orders) {
+        UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
+        ReceiptDTO receiptDTO = paymentService.offerReceipt(orders, memberShipFeedBack);
+        ReceiptView receiptView = ReceiptView.from(receiptDTO);
+        outputTerminal.printReceipt(receiptView);
     }
 
-    private <T> T retryTemplate(final Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (IllegalArgumentException | BusinessException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    private void decreaseStock(Orders orders) {
+        stockManageService.updateProductStocks(orders);
+    }
+
+    private void updateMarkDown() {
+        Products products = productRepository.findAll();
+        customFileWriter.write(products);
     }
 }

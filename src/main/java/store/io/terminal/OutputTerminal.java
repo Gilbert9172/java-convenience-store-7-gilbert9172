@@ -10,14 +10,8 @@ import store.view.ReceiptView;
 
 public class OutputTerminal {
 
-    private final Writer writer;
-
-    private OutputTerminal(final Writer writer) {
-        this.writer = writer;
-    }
-
     public static class TerminalHolder {
-        private static final OutputTerminal INSTANCE = new OutputTerminal(Writer.initiate());
+        private static final OutputTerminal INSTANCE = new OutputTerminal();
     }
 
     public static OutputTerminal getInstance() {
@@ -26,11 +20,11 @@ public class OutputTerminal {
 
     public void printProductsStock(List<ProductView> productViews) {
 
-        writer.simplePrint("안녕하세요. W편의점입니다.");
-        writer.printWithNewLineAfter("현재 보유하고 있는 상품입니다.");
+        Writer.printWithNewLineBefore("안녕하세요. W편의점입니다.");
+        Writer.printWithNewLineAfter("현재 보유하고 있는 상품입니다.");
         for (ProductView productView : productViews) {
             String template = "- %s %s원 %s %s";
-            writer.simplePrintf(
+            Writer.simplePrintf(
                     template,
                     productView.getName(),
                     productView.getAmount(),
@@ -42,8 +36,8 @@ public class OutputTerminal {
 
 
     public void printReceipt(final ReceiptView view) {
-        writer.simplePrint("==============W 편의점================");
-        writer.simplePrintf("%-18s %-7s %-7s", "상품명", "수량", "금액");
+        Writer.simplePrint("==============W 편의점================");
+        Writer.simplePrintf("%-18s %-7s %-7s", "상품명", "수량", "금액");
         ProductPartView productPart = view.getProductPart();
         printProductPartOf(productPart);
 
@@ -56,39 +50,39 @@ public class OutputTerminal {
         purchasedViews.forEach(view -> {
             String format = FormatProperty.getFormat(view.getProductName(), view.getTotalPrice());
             String message = String.format(format, view.getProductName(), view.getQuantity(), view.getTotalPrice());
-            writer.simplePrint(message);
+            Writer.simplePrint(message);
         });
 
-        writer.simplePrint("=============증\t\t  정==============");
+        Writer.simplePrint("=============증\t\t  정==============");
         List<PromotionProductView> promotionProductViews = productPartView.getPromotionProductViews();
         promotionProductViews.forEach(view -> {
             String format = FormatProperty.leftLineFormat(view.getProductName());
             String message = String.format(format + " %-8s",
                     view.getProductName(), view.getQuantity(), "");
-            writer.simplePrint(message);
+            Writer.simplePrint(message);
         });
     }
 
     private void printAmountPartOf(final AmountPartView amountPartView) {
-        writer.simplePrint("======================================");
+        Writer.simplePrint("======================================");
         String totalPurchasedAmountFormatter = FormatProperty.getFormat("총구매액", amountPartView.getTotalAmount());
         String totalPurchasedAmount = String.format(totalPurchasedAmountFormatter,
                 "총구매액", amountPartView.getTotalQuantity(), amountPartView.getTotalAmount());
-        writer.simplePrint(totalPurchasedAmount);
+        Writer.simplePrint(totalPurchasedAmount);
 
         String promotionDiscountFormatter = FormatProperty.getFormat("행사할인", amountPartView.getPromotionDiscount());
         String promotionDiscount = String.format(promotionDiscountFormatter,
                 "행사할인", "", amountPartView.getPromotionDiscount());
-        writer.simplePrint(promotionDiscount);
+        Writer.simplePrint(promotionDiscount);
 
         String membershipDiscountFormatter = FormatProperty.getFormat("멤버십할인", amountPartView.getMembershipDiscount());
         String membershipDiscount = String.format(membershipDiscountFormatter,
                 "멤버십할인", "", amountPartView.getMembershipDiscount());
-        writer.simplePrint(membershipDiscount);
+        Writer.simplePrint(membershipDiscount);
 
         String paymentFormatter = FormatProperty.paymentFormat("내실돈", amountPartView.getPayment());
         String payment = String.format(paymentFormatter,
                 "내실돈", "", amountPartView.getPayment());
-        writer.simplePrint(payment);
+        Writer.simplePrint(payment);
     }
 }

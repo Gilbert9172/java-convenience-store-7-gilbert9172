@@ -23,15 +23,15 @@ public class StockManageService {
 
             if (currentStock.boeThan(orderQuantity)) {
                 product.decreasedStock(orderQuantity);
-                continue;
             }
+            if (currentStock.LowerThan(orderQuantity)) {
+                Quantity remainingStock = orderQuantity.minus(currentStock);
+                product.decreasedStock(currentStock);
 
-            Quantity remainingStock = orderQuantity.minus(currentStock);
-            product.decreasedStock(currentStock);
-
-            Product normalProduct = productRepository.findNormalProductBy(product.getName())
-                    .orElseThrow(SourceNotFoundException::productNotFoundException);
-            normalProduct.decreasedStock(remainingStock);
+                Product normalProduct = productRepository.findNormalProductBy(product.getName())
+                        .orElseThrow(SourceNotFoundException::productNotFoundException);
+                normalProduct.decreasedStock(remainingStock);
+            }
         }
     }
 }

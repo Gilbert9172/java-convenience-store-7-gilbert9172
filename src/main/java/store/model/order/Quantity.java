@@ -18,7 +18,7 @@ public class Quantity {
         return new Quantity(value);
     }
 
-    public boolean isLowerThan(final Quantity that) {
+    public boolean LowerThan(final Quantity that) {
         return this.value < that.value;
     }
 
@@ -28,11 +28,6 @@ public class Quantity {
 
     public boolean boeThan(final Quantity that) {
         return this.value >= that.value;
-    }
-
-    public static Quantity abs(Quantity that) {
-        long absedValue = Math.abs(that.value);
-        return Quantity.from(absedValue);
     }
 
     public static Quantity addAll(List<Quantity> quantities) {

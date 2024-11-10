@@ -1,6 +1,7 @@
 package store.model.order;
 
 import java.util.List;
+import java.util.stream.Stream;
 import store.model.dto.PromotionProductDTO;
 import store.model.dto.PurchasedDTO;
 import store.model.money.Money;
@@ -21,6 +22,10 @@ public class Orders {
         return orders;
     }
 
+    public Stream<Order> readOnlyStream() {
+        return orders.stream();
+    }
+
     public List<PurchasedDTO> mapToPurchasedProducts() {
         return orders.stream()
                 .map(order -> {
@@ -36,6 +41,7 @@ public class Orders {
     public List<PromotionProductDTO> mapToPromotionPrizes() {
         return orders.stream()
                 .filter(Order::isPromotionProduct)
+                .filter(Order::hasPrize)
                 .map(order -> {
                     String productName = order.purchasedProductName();
                     Quantity prizeCount = order.getPrizeCount();
