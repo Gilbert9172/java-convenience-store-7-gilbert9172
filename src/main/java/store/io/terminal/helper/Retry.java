@@ -1,6 +1,5 @@
 package store.io.terminal.helper;
 
-import camp.nextstep.edu.missionutils.Console;
 import java.util.function.Supplier;
 import store.exception.BusinessException;
 import store.io.terminal.Writer;
@@ -27,6 +26,5 @@ public class Retry {
             runnable.run();
             userFeedBack = supplier.get();
         } while (userFeedBack.responseYes());
-        Console.close();
     }
 }

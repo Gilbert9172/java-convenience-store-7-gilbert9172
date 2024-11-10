@@ -1,5 +1,6 @@
 package store;
 
+import camp.nextstep.edu.missionutils.Console;
 import store.config.AppConfig;
 import store.controller.ConvenienceController;
 import store.controller.InitiateController;
@@ -12,5 +13,6 @@ public class Application {
 
         ConvenienceController convenienceController = appConfig.convenienceController();
         convenienceController.run();
+        Console.close();
     }
 }
