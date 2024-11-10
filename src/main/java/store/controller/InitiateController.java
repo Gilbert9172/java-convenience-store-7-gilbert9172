@@ -1,5 +1,7 @@
 package store.controller;
 
+import static store.exception.PromotionAlreadyAppliedException.alreadyApplied;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import store.converter.SimpleConverter;
@@ -62,10 +64,18 @@ public class InitiateController {
 
             PromotionId promotionId = PromotionId.findByType(tokens.get(3));
             Promotion promotion = promotionRepository.findById(promotionId).orElse(null);
+            if (promotion != null && promotionAlreadyApplied(name)) {
+                throw alreadyApplied();
+            }
 
             Product product = Product.of(name, money, quantity, promotion);
             productRepository.save(product);
         }
+    }
+
+    private boolean promotionAlreadyApplied(final String name) {
+        return productRepository.findPromotionAppliedProductByName(name)
+                .isPresent();
     }
 
     private void clearRepositories() {

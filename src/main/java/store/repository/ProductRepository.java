@@ -21,6 +21,13 @@ public class ProductRepository implements JpaRepository<Product> {
         products.clear();
     }
 
+    public Optional<Product> findPromotionAppliedProductByName(final String name) {
+        return products.stream()
+                .filter(product -> product.hasSameName(name))
+                .filter(Product::promotionApplied)
+                .findFirst();
+    }
+
     public Products findAll() {
         return Products.from(products);
     }
