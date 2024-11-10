@@ -37,7 +37,7 @@ public class InitiateController {
     }
 
     private void initiatePromotionData() {
-        List<String> lines = customFileReader.readFileLinesFrom("src/main/resources/promotions.md");
+        List<String> lines = customFileReader.readFileLinesFrom("./src/main/resources/promotions.md");
         for (String line : lines) {
             List<String> tokens = SimpleConverter.stringToStringList(line);
 
@@ -54,7 +54,7 @@ public class InitiateController {
     }
 
     private void initiateProductData() {
-        List<String> lines = customFileReader.readFileLinesFrom("src/main/resources/products.md");
+        List<String> lines = customFileReader.readFileLinesFrom("./src/main/resources/products.md");
         for (String line : lines) {
             List<String> tokens = SimpleConverter.stringToStringList(line);
 
