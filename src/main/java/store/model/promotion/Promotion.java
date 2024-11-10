@@ -46,7 +46,7 @@ public class Promotion {
     public boolean isActive(LocalDateTime now) {
         boolean after = now.isAfter(startDate);
         boolean before = now.isBefore(endDate);
-        return after && before;
+        return after && before || now.isEqual(startDate) || now.isEqual(endDate);
     }
 
     public Quantity buyGetQuantity() {
