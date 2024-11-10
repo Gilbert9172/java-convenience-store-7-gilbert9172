@@ -53,7 +53,7 @@ public class OutputTerminal {
             Writer.simplePrint(message);
         });
 
-        Writer.simplePrint("=============증\t\t  정==============");
+        Writer.simplePrint("=============증       정==============");
         List<PromotionProductView> promotionProductViews = productPartView.getPromotionProductViews();
         promotionProductViews.forEach(view -> {
             String format = FormatProperty.leftLineFormat(view.getProductName());
