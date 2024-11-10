@@ -53,7 +53,7 @@ public class OutputTerminal {
             Writer.simplePrint(message);
         });
 
-        Writer.simplePrint("=============증       정==============");
+        Writer.simplePrint("=============증       정===============");
         List<PromotionProductView> promotionProductViews = productPartView.getPromotionProductViews();
         promotionProductViews.forEach(view -> {
             String format = FormatProperty.leftLineFormat(view.getProductName());
@@ -64,7 +64,7 @@ public class OutputTerminal {
     }
 
     private void printAmountPartOf(final AmountPartView amountPartView) {
-        Writer.simplePrint("======================================");
+        Writer.simplePrint("====================================");
         String totalPurchasedAmountFormatter = FormatProperty.getFormat("총구매액", amountPartView.getTotalAmount());
         String totalPurchasedAmount = String.format(totalPurchasedAmountFormatter,
                 "총구매액", amountPartView.getTotalQuantity(), amountPartView.getTotalAmount());
