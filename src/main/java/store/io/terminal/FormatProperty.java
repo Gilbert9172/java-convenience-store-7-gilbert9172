@@ -14,7 +14,7 @@ public enum FormatProperty {
         this.standard = standard;
         this.template = template;
     }
-    
+
     public static String getFormat(final String productName, final String amount) {
         String leftLineTemplate = leftLineFormat(productName);
         String rightLineFormat = rightLineFormat(amount);
@@ -46,4 +46,17 @@ public enum FormatProperty {
         return RIGHT.template.replace("?", String.valueOf(currentProperty));
     }
 
+    public static String paymentFormat(final String productName, final String amount) {
+        int rightStandard = RIGHT.standard;
+        int currentProperty = RIGHT.value;
+
+        if (amount.length() > rightStandard) {
+            currentProperty = RIGHT.value + (amount.length() - rightStandard);
+        }
+        if (amount.length() < rightStandard) {
+            currentProperty = RIGHT.value - (rightStandard - amount.length());
+        }
+        String replace = RIGHT.template.replace("?", String.valueOf(currentProperty + 1));
+        return leftLineFormat(productName) + " %-7s " + replace;
+    }
 }
