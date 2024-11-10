@@ -56,7 +56,7 @@ public class ConvenienceController {
                     Orders orders = makeUserOrder();
                     updateOrdersByFeedBack(orders);
                     decreaseStock(orders);
-                    updateMarkDown();
+                    //updateMarkDown();
                     offerReceipt(orders);
                 },
                 this::readUserFeedBackForStay
