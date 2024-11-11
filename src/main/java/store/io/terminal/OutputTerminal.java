@@ -53,7 +53,7 @@ public class OutputTerminal {
             Writer.simplePrint(message);
         });
 
-        Writer.simplePrint("=============증       정===============");
+        Writer.simplePrint("=============증       정==============");
         List<PromotionProductView> promotionProductViews = productPartView.getPromotionProductViews();
         promotionProductViews.forEach(view -> {
             String format = FormatProperty.leftLineFormat(view.getProductName());
@@ -64,7 +64,7 @@ public class OutputTerminal {
     }
 
     private void printAmountPartOf(final AmountPartView amountPartView) {
-        Writer.simplePrint("====================================");
+        Writer.simplePrint("======================================");
         String totalPurchasedAmountFormatter = FormatProperty.getFormat("총구매액", amountPartView.getTotalAmount());
         String totalPurchasedAmount = String.format(totalPurchasedAmountFormatter,
                 "총구매액", amountPartView.getTotalQuantity(), amountPartView.getTotalAmount());
@@ -80,7 +80,7 @@ public class OutputTerminal {
                 "멤버십할인", "", amountPartView.getMembershipDiscount());
         Writer.simplePrint(membershipDiscount);
 
-        String paymentFormatter = FormatProperty.getFormat("내실돈", amountPartView.getPayment());
+        String paymentFormatter = FormatProperty.paymentFormat("내실돈", amountPartView.getPayment());
         String payment = String.format(paymentFormatter,
                 "내실돈", "", amountPartView.getPayment());
         Writer.simplePrint(payment);
