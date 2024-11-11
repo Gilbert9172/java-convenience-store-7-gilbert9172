@@ -77,7 +77,7 @@ public class Orders {
 
     public Money totalNormalProductsAmount() {
         List<Money> monies = orders.stream()
-                .filter(Order::isNormalProduct)
+//                .filter(Order::isNormalProduct)
                 .map(order -> {
                     Money productPrice = order.getProductAmount();
                     Quantity quantity = order.getNormalProductQuantity();
