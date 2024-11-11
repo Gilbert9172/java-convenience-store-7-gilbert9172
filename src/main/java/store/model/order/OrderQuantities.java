@@ -53,14 +53,6 @@ public class OrderQuantities {
         return prize;
     }
 
-    public Quantity getNormalStock() {
-        return normalStock;
-    }
-
-    public Quantity getPromotionStock() {
-        return promotionStock;
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(

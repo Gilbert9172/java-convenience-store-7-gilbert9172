@@ -4,8 +4,6 @@ import store.controller.ConvenienceController;
 import store.controller.InitiateController;
 import store.io.file.read.CustomFileReader;
 import store.io.file.read.MarkDownReader;
-import store.io.file.write.CustomFileWriter;
-import store.io.file.write.MarkDownWriter;
 import store.io.terminal.InputTerminal;
 import store.io.terminal.OutputTerminal;
 import store.io.terminal.factory.OrderFeedBackInputFactory;
@@ -50,13 +48,8 @@ public class AppConfig {
                 paymentService(),
                 stockManageService(),
                 productRepository(),
-                orderFeedBackHandlerFactory(),
-                customFileWriter()
+                orderFeedBackHandlerFactory()
         );
-    }
-
-    private CustomFileWriter customFileWriter() {
-        return new MarkDownWriter();
     }
 
     private InputTerminal inputTerminal() {

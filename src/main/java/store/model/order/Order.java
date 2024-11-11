@@ -86,10 +86,6 @@ public class Order {
         return !isNormalProduct();
     }
 
-    public Quantity getNormalProductQuantity() {
-        return orderQuantities.getNormalStock();
-    }
-
     public boolean hasPrize() {
         Quantity prizeCount = orderQuantities.getPrize();
         return prizeCount.biggerThan(Quantity.ZERO);

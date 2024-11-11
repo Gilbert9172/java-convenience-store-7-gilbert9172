@@ -59,9 +59,9 @@ public class Product {
         return orderQuantity.biggerThan(this.stock);
     }
 
-    public Quantity outOfPromotionStockQuantityOf(final Quantity orderQuantity) {
-        Quantity availablePromotionStock = availablePromotionStock(); // 9
-        return currentStock().minus(availablePromotionStock); // 현재 재고(10) - 9 == 1
+    public Quantity outOfPromotionStockQuantity() {
+        Quantity availablePromotionStock = availablePromotionStock();
+        return currentStock().minus(availablePromotionStock);
     }
 
     public Quantity outOfNormalStockQuantity(final Quantity orderQuantity) {
@@ -69,8 +69,8 @@ public class Product {
     }
 
     public Quantity availablePromotionStock() {
-        Quantity buyGetCount = promotion.buyGetQuantity(); // 3
-        Quantity availableSet = stock.divide(buyGetCount); // 3
+        Quantity buyGetCount = promotion.buyGetQuantity();
+        Quantity availableSet = stock.divide(buyGetCount);
         return availableSet.multiply(buyGetCount);
     }
 
