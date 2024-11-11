@@ -43,6 +43,10 @@ public class Promotion {
         return this.id.equals(that);
     }
 
+    public boolean hasSameTitle(final String that) {
+        return this.title.equals(that);
+    }
+
     public boolean isActive(LocalDateTime now) {
         boolean after = now.isAfter(startDate);
         boolean before = now.isBefore(endDate);

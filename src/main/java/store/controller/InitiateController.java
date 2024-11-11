@@ -61,9 +61,8 @@ public class InitiateController {
             String name = tokens.get(0);
             Money money = Money.from(Long.parseLong(tokens.get(1)));
             Quantity quantity = SimpleConverter.stringToQuantity(tokens.get(2));
-
-            PromotionId promotionId = PromotionId.findByType(tokens.get(3));
-            Promotion promotion = promotionRepository.findById(promotionId).orElse(null);
+            String promotionTitle = tokens.get(3);
+            Promotion promotion = promotionRepository.findByTitle(promotionTitle).orElse(null);
             if (promotion != null && promotionAlreadyApplied(name)) {
                 throw alreadyApplied();
             }

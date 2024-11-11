@@ -25,4 +25,10 @@ public class PromotionRepository implements JpaRepository<Promotion> {
                 .filter(promotion -> promotion.hasSameId(id))
                 .findFirst();
     }
+
+    public Optional<Promotion> findByTitle(final String title) {
+        return promotions.stream()
+                .filter(promotion -> promotion.hasSameTitle(title))
+                .findFirst();
+    }
 }
