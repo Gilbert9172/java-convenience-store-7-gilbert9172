@@ -80,7 +80,7 @@ public class OutputTerminal {
                 "멤버십할인", "", amountPartView.getMembershipDiscount());
         Writer.simplePrint(membershipDiscount);
 
-        String paymentFormatter = FormatProperty.paymentFormat("내실돈", amountPartView.getPayment());
+        String paymentFormatter = FormatProperty.getFormat("내실돈", amountPartView.getPayment());
         String payment = String.format(paymentFormatter,
                 "내실돈", "", amountPartView.getPayment());
         Writer.simplePrint(payment);
