@@ -91,7 +91,7 @@ public class Order {
     }
 
     public boolean hasPrize() {
-        Quantity prizeCount = orderQuantities.getPromotionStock();
+        Quantity prizeCount = orderQuantities.getPrize();
         return prizeCount.biggerThan(Quantity.ZERO);
     }
 }
