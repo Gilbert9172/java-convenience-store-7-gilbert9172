@@ -26,7 +26,8 @@ public class OutOfStockFeedBackHandlerTest {
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
-        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(4));
+        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(1),
+                Quantity.from(3));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);
 
         // when
@@ -38,13 +39,14 @@ public class OutOfStockFeedBackHandlerTest {
     }
 
     @Test
-    @DisplayName("프로모션 재고가 부족하여 일부 수량을 프로모션 혜택 없이 결제해야 하는 경우: Y를 입력했을 때")
+    @DisplayName("프로모션 재고가 부족하여 일부 수량을 프로모션 혜택 없이 결제해야 하는 경우: N를 입력했을 때")
     void getMoreModifierWithNoResponseTest() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
-        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(4));
+        store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(1),
+                Quantity.from(3));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);
 
         // when

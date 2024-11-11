@@ -80,7 +80,7 @@ public class Orders {
 //                .filter(Order::isNormalProduct)
                 .map(order -> {
                     Money productPrice = order.getProductAmount();
-                    Quantity quantity = order.getNormalProductQuantity();
+                    Quantity quantity = order.decreaseNormalStock();
                     return productPrice.multiply(quantity);
                 })
                 .toList();

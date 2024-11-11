@@ -8,24 +8,26 @@ public class OrderFeedBack {
         NONE
     }
 
-    private final Quantity quantity;
+    private final Quantity promotionStock;
+    private final Quantity normalStock;
     private final Type type;
 
-    private OrderFeedBack(final Quantity quantity, final Type type) {
-        this.quantity = quantity;
+    private OrderFeedBack(final Quantity promotionStock, final Quantity normalStock, final Type type) {
+        this.promotionStock = promotionStock;
+        this.normalStock = normalStock;
         this.type = type;
     }
 
     public static OrderFeedBack empty() {
-        return new OrderFeedBack(Quantity.ZERO, Type.NONE);
+        return new OrderFeedBack(Quantity.ZERO, Quantity.ZERO, Type.NONE);
     }
 
-    public static OrderFeedBack grabMore(final Quantity quantity) {
-        return new OrderFeedBack(quantity, Type.GRAB_MORE);
+    public static OrderFeedBack grabMore(final Quantity normalStock) {
+        return new OrderFeedBack(Quantity.ZERO, normalStock, Type.GRAB_MORE);
     }
 
-    public static OrderFeedBack outOfStock(final Quantity quantity) {
-        return new OrderFeedBack(quantity, Type.OUT_OF_STOCK);
+    public static OrderFeedBack outOfStock(final Quantity promotionStock, final Quantity normalStock) {
+        return new OrderFeedBack(promotionStock, normalStock, Type.OUT_OF_STOCK);
     }
 
     public boolean isGrabMoreType() {
@@ -37,10 +39,14 @@ public class OrderFeedBack {
     }
 
     public Quantity getAddedQuantityWith(final Quantity that) {
-        return quantity.add(that);
+        return normalStock.add(that);
     }
 
     public long getQuantity() {
-        return quantity.getValue();
+        return normalStock.getValue() + promotionStock.getValue();
+    }
+
+    public Quantity getNormalStock() {
+        return normalStock;
     }
 }

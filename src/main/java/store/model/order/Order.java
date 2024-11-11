@@ -94,4 +94,8 @@ public class Order {
         Quantity prizeCount = orderQuantities.getPrize();
         return prizeCount.biggerThan(Quantity.ZERO);
     }
+
+    public Quantity decreaseNormalStock() {
+        return feedBack.getNormalStock();
+    }
 }

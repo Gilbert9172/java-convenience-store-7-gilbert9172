@@ -12,7 +12,7 @@ public class OrderWarningHelper {
         return OrderFeedBack.grabMore(quantity);
     }
 
-    public static OrderFeedBack outOfStock(Quantity quantity) {
-        return OrderFeedBack.outOfStock(quantity);
+    public static OrderFeedBack outOfStock(Quantity promotion, Quantity normal) {
+        return OrderFeedBack.outOfStock(promotion, normal);
     }
 }

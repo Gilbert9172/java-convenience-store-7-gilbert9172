@@ -16,7 +16,7 @@ public class OrderFeedBackHelper {
         return OrderFeedBack.grabMore(Quantity.from(quantity));
     }
 
-    public static OrderFeedBack outOfStock(final long quantity) {
-        return OrderFeedBack.outOfStock(Quantity.from(quantity));
+    public static OrderFeedBack outOfStock(final long promotion, final long normal) {
+        return OrderFeedBack.outOfStock(Quantity.from(promotion), Quantity.from(normal));
     }
 }

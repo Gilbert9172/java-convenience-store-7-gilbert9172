@@ -127,7 +127,7 @@ public class OrdersTest {
         Money actual = orders.totalNormalProductsAmount();
 
         // then
-        Money expected = Money.from(6500);
+        Money expected = Money.from(6300);
         assertThat(actual.equals(expected)).isTrue();
     }
 }

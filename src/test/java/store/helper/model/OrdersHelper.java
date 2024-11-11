@@ -25,7 +25,7 @@ public class OrdersHelper {
                 product1,
                 OrderQuantitiesHelper.mock(10, 6, 4, 2),
                 "2024-10-01",
-                OrderFeedBackHelper.outOfStock(4)
+                OrderFeedBackHelper.outOfStock(1, 3)
         );
         Order order2 = OrderHelper.mock(
                 product2,

@@ -12,17 +12,18 @@ public class OutOfStockOrder implements OrderGenerateHandler {
 
     @Override
     public Order generate(final Product product, final LocalDateTime orderDate, final Quantity quantity) {
-        // 부족한 재고량
-        Quantity outOfStockQuantity = product.outOfPromotionStockQuantityOf(quantity);
-        // 프로모션에서 차감되는 재고량
+        // 프로모션 재고에서 차감할 재고량
+        Quantity decreaseFromPromotionStock = product.outOfPromotionStockQuantityOf(quantity);
+        // 일반 재고에서 차감할 재고량
+        Quantity decreaseFromNormalStock = product.outOfNormalStockQuantity(quantity);
+
         Quantity promotionQuantity = product.availablePromotionStock();
-        // 상품 수
         Quantity prizeCount = product.prizeQuantityOf(promotionQuantity);
         return Order.of(
                 product,
                 OrderQuantities.of(quantity, promotionQuantity, quantity.minus(promotionQuantity), prizeCount),
                 orderDate,
-                OrderFeedBack.outOfStock(outOfStockQuantity)
+                OrderFeedBack.outOfStock(decreaseFromPromotionStock, decreaseFromNormalStock)
         );
     }
 }
