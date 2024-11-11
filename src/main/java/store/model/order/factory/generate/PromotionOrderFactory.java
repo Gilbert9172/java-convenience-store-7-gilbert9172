@@ -34,7 +34,7 @@ public class PromotionOrderFactory {
             return outOfStockOrder.generate(product, orderDate, orderQuantity);
         }
 
-        if (product.hasChanceToGetPrize(orderQuantity)) {
+        if (product.currentStock().biggerThan(orderQuantity) && product.hasChanceToGetPrize(orderQuantity)) {
             OrderGenerateHandler getMoreOrder = generatorMap.get(GRAB_MORE);
             return getMoreOrder.generate(product, orderDate, orderQuantity);
         }

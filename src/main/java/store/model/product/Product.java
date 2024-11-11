@@ -56,7 +56,6 @@ public class Product {
     }
 
     public boolean promotionStockCannotHandle(final Quantity orderQuantity) {
-        //Quantity outOfPromotionStockQuantity = outOfPromotionStockQuantityOf(orderQuantity);
         return orderQuantity.biggerThan(this.stock);
     }
 
@@ -65,7 +64,6 @@ public class Product {
         return orderQuantity.minus(availablePromotionStock);
     }
 
-    // 제공 가능한 프로모션 재고
     public Quantity availablePromotionStock() {
         Quantity buyGetCount = promotion.buyGetQuantity();
         Quantity availableSet = stock.divide(buyGetCount);
@@ -94,11 +92,7 @@ public class Product {
         Quantity get = promotion.getGet();
         Quantity buy = promotion.getMinBuyQuantity();
         Quantity remainder = orderQuantity.add(get).getRemainderBy(buyGetCount);
-
         boolean boeThanBuyQuantity = orderQuantity.boeThan(buy);
-
-        //Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
-
         return boeThanBuyQuantity && remainder.equals(ZERO);
     }
 
