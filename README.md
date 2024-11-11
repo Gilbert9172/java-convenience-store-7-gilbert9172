@@ -1,13 +1,5 @@
 # java-convenience-store-precourse
 
-> **Chapter**
->
-> [‣ Goal](#goal)<br>
-> [‣ Requirements](#requirements)<br>
-> [‣ Application Flow](#application-flow)<br>
-> [‣ Business Logic Flow](#business-logic-flow)<br>
-> [‣ Domain Modeling](#domain-modeling)
-
 <br><br>
 
 ## Goal
@@ -124,66 +116,3 @@
 | 16 | 컵라면    | 1700  | 10       | -         |
 
 <br><br>
-
-## Application Flow
-
----
-
-### InitiateController
-
-1. Initiate Repository
-    - Product
-    - Promotion
-
-### ConvenienceController
-
-1. 상품 목록 제공
-2. user 구매 목록 입력
-3. 프로모션 재고 관련 검증 및 안내
-4. 멤버십 할인 적용 여부 입력
-5. 구매 금액 계산
-6. 영수증 출력
-
-다시 시작은 어떻게 처리할 것인가?
-
-```java
-public void run() {
-    while (user.isInStore()) {
-        //logic	
-        user.updateStatus(value);
-    }
-}
-```
-
-<br><br>
-
-## Business Logic Flow
-
----
-
-<br><br>
-
-## Domain Modeling
-
----
-
-### _1. Initiation Part_
-
-#### (Interface) CustomFileReader
-
-| Method            | Parameter | Return Type  | Implementation |
-|-------------------|-----------|--------------|----------------|
-| readFileLinesFrom | String    | List<String> | ✅              |
-
-- MarkDownReader
-
-<br>
-
-#### JpaRepository<T>
-
-| Method | Parameter | Return Type | Implementation |
-|--------|-----------|-------------|----------------|
-| save   | T         | void        | ✅              |
-
-- ProductionRepository
-- PromotionRepository
