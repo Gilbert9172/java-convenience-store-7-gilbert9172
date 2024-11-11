@@ -56,8 +56,8 @@ public class Product {
     }
 
     public boolean promotionStockCannotHandle(final Quantity orderQuantity) {
-        Quantity outOfPromotionStockQuantity = outOfPromotionStockQuantityOf(orderQuantity);
-        return outOfPromotionStockQuantity.biggerThan(ZERO);
+        //Quantity outOfPromotionStockQuantity = outOfPromotionStockQuantityOf(orderQuantity);
+        return orderQuantity.biggerThan(this.stock);
     }
 
     public Quantity outOfPromotionStockQuantityOf(final Quantity orderQuantity) {
