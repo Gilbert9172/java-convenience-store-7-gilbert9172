@@ -1,7 +1,6 @@
 package store.model.product;
 
 import static store.exception.OutOfStockException.outOfStock;
-import static store.model.order.Quantity.ONE;
 import static store.model.order.Quantity.ZERO;
 
 import java.time.LocalDateTime;
@@ -92,9 +91,15 @@ public class Product {
 
     public boolean hasChanceToGetPrize(final Quantity orderQuantity) {
         Quantity buyGetCount = promotion.buyGetQuantity();
-        boolean boeThanOne = orderQuantity.boeThan(ONE);
-        Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
-        return boeThanOne && remainder.notEquals(ZERO);
+        Quantity get = promotion.getGet();
+        Quantity buy = promotion.getMinBuyQuantity();
+        Quantity remainder = orderQuantity.add(get).getRemainderBy(buyGetCount);
+
+        boolean boeThanBuyQuantity = orderQuantity.boeThan(buy);
+
+        //Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
+
+        return boeThanBuyQuantity && remainder.equals(ZERO);
     }
 
     public void decreasedStock(final Quantity quantity) {

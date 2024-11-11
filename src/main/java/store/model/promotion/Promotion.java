@@ -53,6 +53,14 @@ public class Promotion {
         return buy.add(get);
     }
 
+    public Quantity getMinBuyQuantity() {
+        return this.buy;
+    }
+
+    public Quantity getGet() {
+        return get;
+    }
+
     public String getTitle() {
         return title;
     }
