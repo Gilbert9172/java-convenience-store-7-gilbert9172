@@ -35,7 +35,7 @@ public class StockManageServiceTest {
         OrderQuantities quantity = OrderQuantitiesHelper.mock(10, 6, 4, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
-        Orders orders = Orders.of(List.of(order));
+        Orders orders = Orders.from(List.of(order));
 
         Product normalProduct = ProductHelper.mock("콜라", 1500, 10, null);
         productRepository.save(normalProduct);
@@ -60,7 +60,7 @@ public class StockManageServiceTest {
         OrderQuantities quantity = OrderQuantitiesHelper.mock(6, 6, 0, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
-        Orders orders = Orders.of(List.of(order));
+        Orders orders = Orders.from(List.of(order));
         productRepository.save(promotionProduct);
 
         // when
