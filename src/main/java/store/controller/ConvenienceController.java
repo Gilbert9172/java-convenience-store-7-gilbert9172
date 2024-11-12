@@ -98,6 +98,6 @@ public class ConvenienceController {
     }
 
     private void decreaseStock(Orders orders) {
-        stockManageService.updateProductStocks(orders);
+        stockManageService.updateStocks(orders);
     }
 }

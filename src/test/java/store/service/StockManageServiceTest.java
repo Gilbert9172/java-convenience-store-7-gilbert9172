@@ -28,7 +28,7 @@ public class StockManageServiceTest {
 
     @Test
     @DisplayName("[2+1 행사] 재고 확인 - 프로모션 재고 보다 많이 구매")
-    void updateProductStocksCase1() {
+    void updateStocksCase1() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product promotionProduct = ProductHelper.mock("콜라", 1500, 5, promotion);
@@ -42,7 +42,7 @@ public class StockManageServiceTest {
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateProductStocks(orders);
+        sut.updateStocks(orders);
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();
@@ -53,7 +53,7 @@ public class StockManageServiceTest {
 
     @Test
     @DisplayName("[2+1 행사] 재고 확인 - 프로모션 재고만큼 구매")
-    void updateProductStocksCase2() {
+    void updateStocksCase2() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product promotionProduct = ProductHelper.mock("콜라", 1500, 6, promotion);
@@ -64,7 +64,7 @@ public class StockManageServiceTest {
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateProductStocks(orders);
+        sut.updateStocks(orders);
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();
