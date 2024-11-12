@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import store.model.promotion.Promotion;
-import store.model.promotion.PromotionId;
 
 public class PromotionRepository implements JpaRepository<Promotion> {
 
@@ -18,12 +17,6 @@ public class PromotionRepository implements JpaRepository<Promotion> {
     @Override
     public void clear() {
         promotions.clear();
-    }
-
-    public Optional<Promotion> findById(PromotionId id) {
-        return promotions.stream()
-                .filter(promotion -> promotion.hasSameId(id))
-                .findFirst();
     }
 
     public Optional<Promotion> findByTitle(final String title) {
