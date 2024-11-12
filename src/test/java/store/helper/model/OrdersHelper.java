@@ -45,6 +45,6 @@ public class OrdersHelper {
                 "2024-10-01",
                 OrderFeedBackHelper.grabMore(1)
         );
-        return Orders.of(List.of(order1, order2, order3, order4));
+        return Orders.from(List.of(order1, order2, order3, order4));
     }
 }

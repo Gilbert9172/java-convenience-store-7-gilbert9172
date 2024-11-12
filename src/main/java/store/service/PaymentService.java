@@ -25,32 +25,34 @@ public class PaymentService {
 
     public ReceiptDTO offerReceipt(final Orders orders,
                                    final UserFeedBack feedBack) {
-        ReceiptProductPartDTO receiptProductPart = summaryPurchasedProductsOf(orders);
-        ReceiptAmountPartDTO receiptAmountPart = summaryAmountOf(orders, feedBack);
+        ReceiptProductPartDTO receiptProductPart = summaryPurchasedProducts(orders);
+        ReceiptAmountPartDTO receiptAmountPart = summaryAmount(orders, feedBack);
         return ReceiptDTO.of(receiptProductPart, receiptAmountPart);
     }
 
-    private ReceiptProductPartDTO summaryPurchasedProductsOf(final Orders orders) {
+    private ReceiptProductPartDTO summaryPurchasedProducts(final Orders orders) {
         List<PurchasedDTO> purchasedProducts = orders.mapToPurchasedProducts();
         List<PromotionProductDTO> promotionPrizes = orders.mapToPromotionPrizes();
         return ReceiptProductPartDTO.of(purchasedProducts, promotionPrizes);
     }
 
-    private ReceiptAmountPartDTO summaryAmountOf(final Orders orders,
-                                                 final UserFeedBack feedBack) {
+    private ReceiptAmountPartDTO summaryAmount(final Orders orders,
+                                               final UserFeedBack feedBack) {
         Money totalOriginalAmount = orders.totalOriginalAmount();
         Quantity totalPurchasedQuantity = orders.totalPurchasedQuantity();
         Money promotionDiscount = discountPolicyFactory.applyDiscountByType(PROMOTION, orders);
         Money membershipDiscount = membershipDiscount(orders, feedBack);
-        Money paymentAmount = calculateFinalPaymentOf(totalOriginalAmount, promotionDiscount, membershipDiscount);
+        Money paymentAmount = calculatePaymentAmount(totalOriginalAmount, promotionDiscount, membershipDiscount);
         return ReceiptAmountPartDTO.of(
                 totalOriginalAmount, totalPurchasedQuantity, promotionDiscount, membershipDiscount, paymentAmount
         );
     }
 
-    private Money calculateFinalPaymentOf(final Money totalOriginalPrice,
-                                          final Money promotionDiscount,
-                                          final Money membershipDiscount) {
+    private Money calculatePaymentAmount(
+            final Money totalOriginalPrice,
+            final Money promotionDiscount,
+            final Money membershipDiscount
+    ) {
         Money totalDiscountAmount = promotionDiscount.add(membershipDiscount);
         return totalOriginalPrice.minus(totalDiscountAmount);
     }

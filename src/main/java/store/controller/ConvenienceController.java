@@ -70,8 +70,8 @@ public class ConvenienceController {
     private void updateOrdersByFeedBack(final Orders orders) {
         orders.readOnlyStream()
                 .forEach(order -> {
-                    UserFeedBack flag = orderFeedBackInputFactory.readFeedBackAbout(order, inputTerminal);
-                    orderService.updateOrder(order, flag);
+                    UserFeedBack feedBack = orderFeedBackInputFactory.readFeedBackAbout(order, inputTerminal);
+                    orderService.updateOrderByFeedBack(order, feedBack);
                 });
     }
 
@@ -98,6 +98,6 @@ public class ConvenienceController {
     }
 
     private void decreaseStock(Orders orders) {
-        stockManageService.updateProductStocks(orders);
+        stockManageService.updateStocks(orders);
     }
 }

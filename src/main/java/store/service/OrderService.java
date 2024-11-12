@@ -45,7 +45,7 @@ public class OrderService {
                     return generateOrder(productName, orderDate, quantity);
                 })
                 .toList();
-        return Orders.of(orders);
+        return Orders.from(orders);
     }
 
     private Order generateOrder(final String productName,
@@ -64,6 +64,10 @@ public class OrderService {
         return normalOrderFactory.generateOrderByCondition(product, orderDate, quantity);
     }
 
+    public void updateOrderByFeedBack(final Order order, final UserFeedBack flag) {
+        orderFeedBackHandlerFactory.updateOrderByCondition(order, flag);
+    }
+
     private void validateProductStocks(final String productName,
                                        final LocalDateTime orderDate,
                                        final Quantity quantity) {
@@ -75,9 +79,5 @@ public class OrderService {
         if (products.outOfStock(quantity)) {
             throw outOfStock();
         }
-    }
-
-    public void updateOrder(Order order, UserFeedBack flag) {
-        orderFeedBackHandlerFactory.updateOrderByCondition(order, flag);
     }
 }

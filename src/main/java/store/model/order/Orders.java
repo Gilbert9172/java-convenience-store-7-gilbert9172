@@ -14,7 +14,7 @@ public class Orders {
         this.orders = orders;
     }
 
-    public static Orders of(final List<Order> orders) {
+    public static Orders from(final List<Order> orders) {
         return new Orders(orders);
     }
 

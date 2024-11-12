@@ -28,21 +28,21 @@ public class StockManageServiceTest {
 
     @Test
     @DisplayName("[2+1 행사] 재고 확인 - 프로모션 재고 보다 많이 구매")
-    void updateProductStocksCase1() {
+    void updateStocksCase1() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product promotionProduct = ProductHelper.mock("콜라", 1500, 5, promotion);
         OrderQuantities quantity = OrderQuantitiesHelper.mock(10, 6, 4, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
-        Orders orders = Orders.of(List.of(order));
+        Orders orders = Orders.from(List.of(order));
 
         Product normalProduct = ProductHelper.mock("콜라", 1500, 10, null);
         productRepository.save(normalProduct);
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateProductStocks(orders);
+        sut.updateStocks(orders);
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();
@@ -53,18 +53,18 @@ public class StockManageServiceTest {
 
     @Test
     @DisplayName("[2+1 행사] 재고 확인 - 프로모션 재고만큼 구매")
-    void updateProductStocksCase2() {
+    void updateStocksCase2() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
         Product promotionProduct = ProductHelper.mock("콜라", 1500, 6, promotion);
         OrderQuantities quantity = OrderQuantitiesHelper.mock(6, 6, 0, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
-        Orders orders = Orders.of(List.of(order));
+        Orders orders = Orders.from(List.of(order));
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateProductStocks(orders);
+        sut.updateStocks(orders);
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();

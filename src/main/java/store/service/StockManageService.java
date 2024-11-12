@@ -15,7 +15,7 @@ public class StockManageService {
         this.productRepository = productRepository;
     }
 
-    public void updateProductStocks(Orders orders) {
+    public void updateStocks(Orders orders) {
         for (Order order : orders.getOrders()) {
             Product product = order.getProduct();
             Quantity orderQuantity = order.getOrdrerQuantity();
