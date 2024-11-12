@@ -2,8 +2,10 @@ package store.repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import store.model.product.Product;
 import store.model.product.Products;
 
@@ -19,13 +21,6 @@ public class ProductRepository implements JpaRepository<Product> {
     @Override
     public void clear() {
         products.clear();
-    }
-
-    public Optional<Product> findPromotionAppliedProductByName(final String name) {
-        return products.stream()
-                .filter(product -> product.hasSameName(name))
-                .filter(Product::promotionApplied)
-                .findFirst();
     }
 
     public Products findAll() {
@@ -54,5 +49,16 @@ public class ProductRepository implements JpaRepository<Product> {
                 .filter(product -> product.hasSameName(name))
                 .filter(Product::promotionNotApplied)
                 .findFirst();
+    }
+
+    public List<Product> getSingleProductsOnlyHavePromotionProducts() {
+        return products.stream()
+                .collect(Collectors.groupingBy(Product::getName))
+                .values()
+                .stream()
+                .filter(list -> list.size() == 1)
+                .flatMap(Collection::stream)
+                .filter(Product::promotionApplied)
+                .toList();
     }
 }

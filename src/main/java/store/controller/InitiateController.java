@@ -1,7 +1,5 @@
 package store.controller;
 
-import static store.exception.PromotionAlreadyAppliedException.alreadyApplied;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import store.converter.SimpleConverter;
@@ -54,27 +52,30 @@ public class InitiateController {
     }
 
     private void initiateProductData() {
-        List<String> lines = customFileReader.readFileLinesFrom("./src/main/resources/products.md");
+        List<String> offeredProducts = customFileReader.readFileLinesFrom("./src/main/resources/products.md");
+        saveOfferedData(offeredProducts);
+        saveNotOfferedData();
+    }
+
+    private void saveOfferedData(final List<String> lines) {
         for (String line : lines) {
             List<String> tokens = SimpleConverter.stringToStringList(line);
-
             String name = tokens.get(0);
             Money money = Money.from(Long.parseLong(tokens.get(1)));
             Quantity quantity = SimpleConverter.stringToQuantity(tokens.get(2));
             String promotionTitle = tokens.get(3);
             Promotion promotion = promotionRepository.findByTitle(promotionTitle).orElse(null);
-            if (promotion != null && promotionAlreadyApplied(name)) {
-                throw alreadyApplied();
-            }
-
             Product product = Product.of(name, money, quantity, promotion);
             productRepository.save(product);
         }
     }
 
-    private boolean promotionAlreadyApplied(final String name) {
-        return productRepository.findPromotionAppliedProductByName(name)
-                .isPresent();
+    private void saveNotOfferedData() {
+        List<Product> products = productRepository.getSingleProductsOnlyHavePromotionProducts();
+        for (Product product : products) {
+            Product normalProduct = Product.of(product.getName(), product.getAmount(), Quantity.ZERO, null);
+            productRepository.save(normalProduct);
+        }
     }
 
     private void clearRepositories() {
