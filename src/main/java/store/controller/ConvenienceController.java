@@ -96,19 +96,19 @@ public class ConvenienceController {
                 });
     }
 
+    private void offerReceipt(final Orders orders) {
+        UserFeedBack memberShipFeedBack = membershipDiscountFeedBack();
+        ReceiptDTO receiptDTO = paymentService.offerReceipt(orders, memberShipFeedBack);
+        ReceiptView receiptView = ReceiptView.from(receiptDTO);
+        outputTerminal.printReceipt(receiptView);
+    }
+
     private UserFeedBack membershipDiscountFeedBack() {
         return retryTemplate(inputTerminal::readUserFeedBackForMembershipDC);
     }
 
     private UserFeedBack readUserFeedBackForStay() {
         return retryTemplate(inputTerminal::readUserFeedBackForBuyMore);
-    }
-
-    private void offerReceipt(final Orders orders) {
-        UserFeedBack memberShipFeedBack = this.membershipDiscountFeedBack();
-        ReceiptDTO receiptDTO = paymentService.offerReceipt(orders, memberShipFeedBack);
-        ReceiptView receiptView = ReceiptView.from(receiptDTO);
-        outputTerminal.printReceipt(receiptView);
     }
 
     private void decreaseStock(final Orders orders) {
