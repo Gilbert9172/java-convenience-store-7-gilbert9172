@@ -85,7 +85,6 @@ public class Quantity {
 
     @Override
     public String toString() {
-        String strValue = String.valueOf(this.value);
-        return String.format("%s개", strValue);
+        return String.valueOf(this.value);
     }
 }

@@ -56,8 +56,8 @@ public class Order {
         return product.getName();
     }
 
-    public long feedBackQuantity() {
-        return feedBack.getQuantity();
+    public Quantity feedBackQuantity() {
+        return feedBack.totalQuantity();
     }
 
     public Quantity totalQuantity() {

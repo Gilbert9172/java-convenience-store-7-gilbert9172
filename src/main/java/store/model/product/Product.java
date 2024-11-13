@@ -40,6 +40,22 @@ public class Product {
         return new Product(id, name, amount, stock, promotion);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Quantity currentStock() {
+        return stock;
+    }
+
+    public Money getAmount() {
+        return amount;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
     public boolean hasSameName(final String name) {
         return name.equals(this.name);
     }
@@ -124,22 +140,6 @@ public class Product {
 
     public void flushAllStock() {
         this.stock = ZERO;
-    }
-
-    public Quantity currentStock() {
-        return stock;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Money getAmount() {
-        return amount;
-    }
-
-    public Promotion getPromotion() {
-        return promotion;
     }
 
     public boolean isNormal() {

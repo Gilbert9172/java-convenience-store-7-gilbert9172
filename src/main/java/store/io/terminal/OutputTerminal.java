@@ -23,7 +23,7 @@ public class OutputTerminal {
         Writer.printWithNewLineBefore("안녕하세요. W편의점입니다.");
         Writer.printWithNewLineAfter("현재 보유하고 있는 상품입니다.");
         for (ProductView productView : productViews) {
-            String template = "- %s %s원 %s %s";
+            String template = "- %s %s원 %s개 %s";
             Writer.simplePrintf(
                     template,
                     productView.getName(),
