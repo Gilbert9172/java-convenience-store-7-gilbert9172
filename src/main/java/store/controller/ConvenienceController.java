@@ -28,13 +28,15 @@ public class ConvenienceController {
     private final ProductRepository productRepository;
     private final OrderFeedBackInputFactory orderFeedBackInputFactory;
 
-    public ConvenienceController(final InputTerminal inputTerminal,
-                                 final OutputTerminal outputTerminal,
-                                 final OrderService orderService,
-                                 final PaymentService paymentService,
-                                 final StockManageService stockManageService,
-                                 final ProductRepository productRepository,
-                                 final OrderFeedBackInputFactory orderFeedBackInputFactory) {
+    public ConvenienceController(
+            final InputTerminal inputTerminal,
+            final OutputTerminal outputTerminal,
+            final OrderService orderService,
+            final PaymentService paymentService,
+            final StockManageService stockManageService,
+            final ProductRepository productRepository,
+            final OrderFeedBackInputFactory orderFeedBackInputFactory
+    ) {
         this.inputTerminal = inputTerminal;
         this.outputTerminal = outputTerminal;
         this.orderService = orderService;
@@ -63,7 +65,7 @@ public class ConvenienceController {
         outputTerminal.printProductsStock(products.mapToView());
     }
 
-    private Orders generateOrdersFrom(List<PreOrderDTO> preOrders) {
+    private Orders generateOrdersFrom(final List<PreOrderDTO> preOrders) {
         return orderService.generateOrders(preOrders);
     }
 

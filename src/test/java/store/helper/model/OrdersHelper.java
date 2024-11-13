@@ -16,10 +16,10 @@ public class OrdersHelper {
         Promotion mdRecommandPromotion = PromotionHelper.mdRecommandPromotion("2024-01-01", "2024-12-31");
         Promotion surprisePromotion = PromotionHelper.surprisePromotion("2024-01-01", "2024-12-31");
 
-        Product product1 = ProductHelper.mock("콜라", 1000, 7, twoPlusOnePromotion);
-        Product product2 = ProductHelper.mock("오렌지주스", 1800, 9, mdRecommandPromotion);
-        Product product3 = ProductHelper.mock("물", 500, 10, null);
-        Product product4 = ProductHelper.mock("감자칩", 1500, 5, surprisePromotion);
+        Product product1 = ProductHelper.mock(1L, "콜라", 1000, 7, twoPlusOnePromotion);
+        Product product2 = ProductHelper.mock(2L, "오렌지주스", 1800, 9, mdRecommandPromotion);
+        Product product3 = ProductHelper.mock(3L, "물", 500, 10, null);
+        Product product4 = ProductHelper.mock(4L, "감자칩", 1500, 5, surprisePromotion);
 
         Order order1 = OrderHelper.mock(
                 product1,

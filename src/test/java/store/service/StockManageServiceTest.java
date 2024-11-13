@@ -31,13 +31,13 @@ public class StockManageServiceTest {
     void updateStocksCase1() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product promotionProduct = ProductHelper.mock("콜라", 1500, 5, promotion);
+        Product promotionProduct = ProductHelper.mock(1L, "콜라", 1500, 5, promotion);
         OrderQuantities quantity = OrderQuantitiesHelper.mock(10, 6, 4, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
         Orders orders = Orders.from(List.of(order));
 
-        Product normalProduct = ProductHelper.mock("콜라", 1500, 10, null);
+        Product normalProduct = ProductHelper.mock(2L, "콜라", 1500, 10, null);
         productRepository.save(normalProduct);
         productRepository.save(promotionProduct);
 
@@ -56,7 +56,7 @@ public class StockManageServiceTest {
     void updateStocksCase2() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product promotionProduct = ProductHelper.mock("콜라", 1500, 6, promotion);
+        Product promotionProduct = ProductHelper.mock(1L, "콜라", 1500, 6, promotion);
         OrderQuantities quantity = OrderQuantitiesHelper.mock(6, 6, 0, 2);
         OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(ONE);
         Order order = OrderHelper.mock(promotionProduct, quantity, "2024-01-05", orderFeedBack);
