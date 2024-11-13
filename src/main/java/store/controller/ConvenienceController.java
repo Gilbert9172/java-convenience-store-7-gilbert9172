@@ -14,6 +14,7 @@ import store.model.order.Order;
 import store.model.order.Orders;
 import store.model.order.Quantity;
 import store.model.order.factory.modify.UserFeedBack;
+import store.model.product.Product;
 import store.model.product.Products;
 import store.repository.ProductRepository;
 import store.service.OrderService;
@@ -110,7 +111,12 @@ public class ConvenienceController {
         outputTerminal.printReceipt(receiptView);
     }
 
-    private void decreaseStock(Orders orders) {
-        stockManageService.updateStocks(orders);
+    private void decreaseStock(final Orders orders) {
+        orders.readOnlyStream()
+                .forEach(order -> {
+                    Product product = order.getProduct();
+                    Quantity orderQuantity = order.totalQuantity();
+                    stockManageService.updateStock(product, orderQuantity);
+                });
     }
 }

@@ -18,10 +18,6 @@ public class Orders {
         return new Orders(orders);
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
     public Stream<Order> readOnlyStream() {
         return orders.stream();
     }
@@ -30,7 +26,7 @@ public class Orders {
         return orders.stream()
                 .map(order -> {
                     String productName = order.purchasedProductName();
-                    Quantity ordrerQuantity = order.getOrdrerQuantity();
+                    Quantity ordrerQuantity = order.totalQuantity();
                     Money productAmount = order.getProductAmount();
                     Money totalAmount = productAmount.multiply(ordrerQuantity);
                     return PurchasedDTO.of(productName, ordrerQuantity, totalAmount);
@@ -59,7 +55,7 @@ public class Orders {
 
     public Quantity totalPurchasedQuantity() {
         List<Quantity> quantities = orders.stream()
-                .map(Order::getOrdrerQuantity)
+                .map(Order::totalQuantity)
                 .toList();
         return Quantity.addAll(quantities);
     }

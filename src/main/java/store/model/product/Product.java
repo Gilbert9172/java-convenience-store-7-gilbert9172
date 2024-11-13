@@ -63,8 +63,16 @@ public class Product {
         return !promotionApplied();
     }
 
+    public boolean canHandle(final Quantity orderQuantity) {
+        return stock.boeThan(orderQuantity);
+    }
+
     public boolean cannotHandle(final Quantity orderQuantity) {
         return orderQuantity.biggerThan(stock);
+    }
+
+    public Quantity remainingStock(final Quantity orderQuantity) {
+        return orderQuantity.minus(stock);
     }
 
     public boolean canOfferPrizeFrom(final Quantity orderQuantity) {
@@ -112,6 +120,10 @@ public class Product {
             throw outOfStock();
         }
         this.stock = remainingStock;
+    }
+
+    public void flushAllStock() {
+        this.stock = ZERO;
     }
 
     public Quantity currentStock() {
