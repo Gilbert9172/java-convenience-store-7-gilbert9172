@@ -9,7 +9,7 @@ import store.model.order.factory.modify.UserFeedBack;
 public class InputTerminal {
 
     private static final String ENTER_YES_OR_NO_FOR_GRAB_MORE = "현재 %s은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)";
-    private static final String ENTER_YES_OR_NO_FOR_OUT_OF_STOCK = "현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
+    private static final String ENTER_YES_OR_NO_FOR_OUT_OF_STOCK = "현재 %s %s개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
     private static final String ENTER_YES_OR_NO_FOR_MEMBERSHIP_DC = "멤버십 할인을 받으시겠습니까? (Y/N)";
     private static final String ENTER_YOUR_ORDERS = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
     private static final String ENTER_BUY_MORE = "감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)";
@@ -39,7 +39,7 @@ public class InputTerminal {
         return IOConverter.toPreOrderDTOListFrom(input);
     }
 
-    public UserFeedBack readUserFeedBackForGrabMore(final String name, final long quantity) {
+    public UserFeedBack readUserFeedBackForGrabMore(final String name) {
         String message = String.format(ENTER_YES_OR_NO_FOR_GRAB_MORE, name);
         Writer.printWithNewLineBefore(message);
         String input = reader.readInput();
@@ -47,7 +47,7 @@ public class InputTerminal {
         return UserFeedBack.valueOf(input);
     }
 
-    public UserFeedBack readUserFeedBackForOutOfStock(final String name, final long quantity) {
+    public UserFeedBack readUserFeedBackForOutOfStock(final String name, final String quantity) {
         String message = String.format(ENTER_YES_OR_NO_FOR_OUT_OF_STOCK, name, quantity);
         Writer.printWithNewLineBefore(message);
         String input = reader.readInput();

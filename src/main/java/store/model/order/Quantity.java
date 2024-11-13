@@ -58,8 +58,8 @@ public class Quantity {
         return Quantity.from(remainder);
     }
 
-    public boolean notEquals(Quantity quantity) {
-        return this.value != quantity.value;
+    public boolean isZero() {
+        return this.value == ZERO.value;
     }
 
     public long getValue() {
@@ -85,7 +85,6 @@ public class Quantity {
 
     @Override
     public String toString() {
-        String strValue = String.valueOf(this.value);
-        return String.format("%s개", strValue);
+        return String.valueOf(this.value);
     }
 }

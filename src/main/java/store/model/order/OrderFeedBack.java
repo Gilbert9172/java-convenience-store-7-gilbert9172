@@ -42,8 +42,8 @@ public class OrderFeedBack {
         return normalStock.add(that);
     }
 
-    public long getQuantity() {
-        return normalStock.getValue() + promotionStock.getValue();
+    public Quantity totalQuantity() {
+        return normalStock.add(promotionStock);
     }
 
     public Quantity getNormalStock() {

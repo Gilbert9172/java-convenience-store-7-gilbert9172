@@ -4,12 +4,9 @@ import static store.exception.OutOfStockException.outOfStock;
 import static store.exception.SourceNotFoundException.productNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import store.exception.SourceNotFoundException;
-import store.model.dto.PreOrderDTO;
 import store.model.order.Order;
-import store.model.order.Orders;
 import store.model.order.Quantity;
 import store.model.order.factory.generate.NormalOrderFactory;
 import store.model.order.factory.generate.PromotionOrderFactory;
@@ -26,31 +23,23 @@ public class OrderService {
     private final NormalOrderFactory normalOrderFactory;
     private final OrderFeedBackHandlerFactory orderFeedBackHandlerFactory;
 
-    public OrderService(final ProductRepository productRepository,
-                        final PromotionOrderFactory promotionOrderFactory,
-                        final NormalOrderFactory normalOrderFactory,
-                        final OrderFeedBackHandlerFactory orderFeedBackHandlerFactory) {
+    public OrderService(
+            final ProductRepository productRepository,
+            final PromotionOrderFactory promotionOrderFactory,
+            final NormalOrderFactory normalOrderFactory,
+            final OrderFeedBackHandlerFactory orderFeedBackHandlerFactory
+    ) {
         this.productRepository = productRepository;
         this.promotionOrderFactory = promotionOrderFactory;
         this.normalOrderFactory = normalOrderFactory;
         this.orderFeedBackHandlerFactory = orderFeedBackHandlerFactory;
     }
 
-    public Orders generateOrders(final List<PreOrderDTO> preOrderDTOS) {
-        List<Order> orders = preOrderDTOS.stream()
-                .map(dto -> {
-                    String productName = dto.getProductName();
-                    LocalDateTime orderDate = dto.getOrderDate();
-                    Quantity quantity = Quantity.from(dto.getQuantity());
-                    return generateOrder(productName, orderDate, quantity);
-                })
-                .toList();
-        return Orders.from(orders);
-    }
-
-    private Order generateOrder(final String productName,
-                                final LocalDateTime orderDate,
-                                final Quantity quantity) {
+    public Order generateOrder(
+            final String productName,
+            final LocalDateTime orderDate,
+            final Quantity quantity
+    ) {
         validateProductStocks(productName, orderDate, quantity);
 
         Optional<Product> promotionProduct = productRepository.findActivePromotionProductBy(productName, orderDate);

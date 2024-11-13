@@ -42,7 +42,7 @@ public class StockManageServiceTest {
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateStocks(orders);
+        sut.updateStock(promotionProduct, Quantity.from(10));
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();
@@ -64,7 +64,7 @@ public class StockManageServiceTest {
         productRepository.save(promotionProduct);
 
         // when
-        sut.updateStocks(orders);
+        sut.updateStock(promotionProduct, Quantity.from(6));
 
         // then
         Quantity currentPromotionStock = promotionProduct.currentStock();

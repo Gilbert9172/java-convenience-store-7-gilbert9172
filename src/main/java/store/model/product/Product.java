@@ -40,6 +40,22 @@ public class Product {
         return new Product(id, name, amount, stock, promotion);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Quantity currentStock() {
+        return stock;
+    }
+
+    public Money getAmount() {
+        return amount;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
     public boolean hasSameName(final String name) {
         return name.equals(this.name);
     }
@@ -48,7 +64,7 @@ public class Product {
         return stock.biggerThan(ZERO);
     }
 
-    public boolean isAvailable(final LocalDateTime now) {
+    public boolean isSellable(final LocalDateTime now) {
         if (promotion == null) {
             return true;
         }
@@ -63,8 +79,23 @@ public class Product {
         return !promotionApplied();
     }
 
-    public boolean promotionStockCannotHandle(final Quantity orderQuantity) {
-        return orderQuantity.biggerThan(this.stock);
+    public boolean canHandle(final Quantity orderQuantity) {
+        return stock.boeThan(orderQuantity);
+    }
+
+    public boolean cannotHandle(final Quantity orderQuantity) {
+        return orderQuantity.biggerThan(stock);
+    }
+
+    public Quantity remainingStock(final Quantity orderQuantity) {
+        return orderQuantity.minus(stock);
+    }
+
+    public boolean canOfferPrizeFrom(final Quantity orderQuantity) {
+        Quantity expected = promotion.expectedQuantityOf(orderQuantity);
+        return stock.boeThan(expected) &&
+                promotion.satisfiedMinBuy(orderQuantity) &&
+                promotion.availableOfferPrize(orderQuantity);
     }
 
     public Quantity outOfPromotionStockQuantity() {
@@ -99,15 +130,6 @@ public class Product {
         return buyGetCount.minus(remainder);
     }
 
-    public boolean hasChanceToGetPrize(final Quantity orderQuantity) {
-        Quantity buyGetCount = promotion.buyGetQuantity();
-        Quantity get = promotion.getGet();
-        Quantity buy = promotion.getMinBuyQuantity();
-        Quantity remainder = orderQuantity.add(get).getRemainderBy(buyGetCount);
-        boolean boeThanBuyQuantity = orderQuantity.boeThan(buy);
-        return boeThanBuyQuantity && remainder.equals(ZERO);
-    }
-
     public void decreasedStock(final Quantity quantity) {
         Quantity remainingStock = stock.minus(quantity);
         if (remainingStock.LowerThan(ZERO)) {
@@ -116,20 +138,8 @@ public class Product {
         this.stock = remainingStock;
     }
 
-    public Quantity currentStock() {
-        return stock;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Money getAmount() {
-        return amount;
-    }
-
-    public Promotion getPromotion() {
-        return promotion;
+    public void flushAllStock() {
+        this.stock = ZERO;
     }
 
     public boolean isNormal() {
