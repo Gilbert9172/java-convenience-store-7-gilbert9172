@@ -28,7 +28,7 @@ public class InitiateService {
 
     public Promotion createPromotionFrom(final List<String> tokens) {
         String title = tokens.get(0);
-        PromotionId promotionId = PromotionId.findByType(title);
+        PromotionId promotionId = PromotionId.from(sequenceGenerator.generate());
         Quantity buy = SimpleConverter.stringToQuantity(tokens.get(1));
         Quantity get = SimpleConverter.stringToQuantity(tokens.get(2));
         LocalDateTime startDate = TimeConverter.toStartDate(tokens.get(3));
