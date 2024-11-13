@@ -10,26 +10,34 @@ import store.model.promotion.Promotion;
 
 public class Product {
 
+    private final ProductId id;
     private final String name;
     private final Money amount;
     private Quantity stock;
     private final Promotion promotion;
 
-    private Product(final String name,
-                    final Money amount,
-                    final Quantity stock,
-                    final Promotion promotion) {
+    private Product(
+            final ProductId id,
+            final String name,
+            final Money amount,
+            final Quantity stock,
+            final Promotion promotion
+    ) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.stock = stock;
         this.promotion = promotion;
     }
 
-    public static Product of(final String name,
-                             final Money amount,
-                             final Quantity stock,
-                             final Promotion promotion) {
-        return new Product(name, amount, stock, promotion);
+    public static Product of(
+            final ProductId id,
+            final String name,
+            final Money amount,
+            final Quantity stock,
+            final Promotion promotion
+    ) {
+        return new Product(id, name, amount, stock, promotion);
     }
 
     public boolean hasSameName(final String name) {
@@ -126,6 +134,15 @@ public class Product {
 
     public boolean isNormal() {
         return promotion == null;
+    }
+
+    public Product copyOf(final Long productId) {
+        return Product.of(
+                ProductId.from(productId),
+                this.name,
+                this.amount,
+                ZERO,
+                null);
     }
 
     @Override

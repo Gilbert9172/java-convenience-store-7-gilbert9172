@@ -1,31 +1,38 @@
 package store.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import store.converter.SimpleConverter;
-import store.converter.TimeConverter;
 import store.io.file.read.CustomFileReader;
-import store.model.money.Money;
-import store.model.order.Quantity;
 import store.model.product.Product;
 import store.model.promotion.Promotion;
-import store.model.promotion.PromotionId;
 import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
+import store.repository.sequence.SequenceGenerator;
+import store.service.InitiateService;
 
 public class InitiateController {
 
+    private final static String PROMOTION_FILE_ROOT = "src/main/resources/promotions.md";
+    private final static String PRODUCT_FILE_ROOT = "src/main/resources/products.md";
+
+    private final SequenceGenerator sequenceGenerator;
     private final CustomFileReader customFileReader;
     private final ProductRepository productRepository;
     private final PromotionRepository promotionRepository;
+    private final InitiateService initiateService;
 
     public InitiateController(
+            final SequenceGenerator sequenceGenerator,
             final CustomFileReader customFileReader,
             final ProductRepository productRepository,
-            final PromotionRepository promotionRepository) {
+            final PromotionRepository promotionRepository,
+            final InitiateService initiateService
+    ) {
+        this.sequenceGenerator = sequenceGenerator;
         this.customFileReader = customFileReader;
         this.productRepository = productRepository;
         this.promotionRepository = promotionRepository;
+        this.initiateService = initiateService;
     }
 
     public void initiateData() {
@@ -35,24 +42,16 @@ public class InitiateController {
     }
 
     private void initiatePromotionData() {
-        List<String> lines = customFileReader.readFileLinesFrom("./src/main/resources/promotions.md");
+        List<String> lines = customFileReader.readFileLinesFrom(PROMOTION_FILE_ROOT);
         for (String line : lines) {
             List<String> tokens = SimpleConverter.stringToStringList(line);
-
-            String title = tokens.get(0);
-            PromotionId promotionId = PromotionId.findByType(title);
-            Quantity buy = SimpleConverter.stringToQuantity(tokens.get(1));
-            Quantity get = SimpleConverter.stringToQuantity(tokens.get(2));
-            LocalDateTime startDate = TimeConverter.toStartDate(tokens.get(3));
-            LocalDateTime endDate = TimeConverter.toEndDate(tokens.get(4));
-
-            Promotion promotion = Promotion.of(promotionId, title, buy, get, startDate, endDate);
+            Promotion promotion = initiateService.createPromotionFrom(tokens);
             promotionRepository.save(promotion);
         }
     }
 
     private void initiateProductData() {
-        List<String> offeredProducts = customFileReader.readFileLinesFrom("./src/main/resources/products.md");
+        List<String> offeredProducts = customFileReader.readFileLinesFrom(PRODUCT_FILE_ROOT);
         saveOfferedData(offeredProducts);
         saveNotOfferedData();
     }
@@ -60,12 +59,7 @@ public class InitiateController {
     private void saveOfferedData(final List<String> lines) {
         for (String line : lines) {
             List<String> tokens = SimpleConverter.stringToStringList(line);
-            String name = tokens.get(0);
-            Money money = Money.from(Long.parseLong(tokens.get(1)));
-            Quantity quantity = SimpleConverter.stringToQuantity(tokens.get(2));
-            String promotionTitle = tokens.get(3);
-            Promotion promotion = promotionRepository.findByTitle(promotionTitle).orElse(null);
-            Product product = Product.of(name, money, quantity, promotion);
+            Product product = initiateService.createOfferedProductFrom(tokens);
             productRepository.save(product);
         }
     }
@@ -73,8 +67,9 @@ public class InitiateController {
     private void saveNotOfferedData() {
         List<Product> products = productRepository.getSingleProductsOnlyHavePromotionProducts();
         for (Product product : products) {
-            Product normalProduct = Product.of(product.getName(), product.getAmount(), Quantity.ZERO, null);
-            productRepository.save(normalProduct);
+            Long uniqueId = sequenceGenerator.generate();
+            Product normalEmptyProduct = product.copyOf(uniqueId);
+            productRepository.save(normalEmptyProduct);
         }
     }
 

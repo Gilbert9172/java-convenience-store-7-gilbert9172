@@ -15,7 +15,7 @@ public class ProductTest {
     @DisplayName("재고 감소")
     void decreaseStockTest() {
         // given
-        Product product = ProductHelper.mock("콜라", 1500, 10, null);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 10, null);
 
         // when
         Quantity decreaseQuantity = Quantity.from(5);
@@ -31,7 +31,7 @@ public class ProductTest {
     @DisplayName("재고 감소 시 현재 재고량이 0보다 작은 경우")
     void decreaseStockTestCase2() {
         // given
-        Product product = ProductHelper.mock("콜라", 1500, 10, null);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 10, null);
 
         // when & then
         Quantity decreaseQuantity = Quantity.from(15);
