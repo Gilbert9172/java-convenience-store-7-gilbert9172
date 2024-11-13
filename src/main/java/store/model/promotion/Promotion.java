@@ -50,6 +50,21 @@ public class Promotion {
         return isBetweenStartAndEnd || isSameWithStart || isSameWithEnd;
     }
 
+    public Quantity expectedQuantityOf(Quantity orderQuantity) {
+        return orderQuantity.add(this.get);
+    }
+
+    public boolean availableOfferPrize(Quantity orderQuantity) {
+        Quantity expected = expectedQuantityOf(orderQuantity);
+        Quantity buyGet = buyGetQuantity();
+        Quantity remainder = expected.getRemainderBy(buyGet);
+        return remainder.isZero();
+    }
+
+    public boolean satisfiedMinBuy(Quantity orderQuantity) {
+        return orderQuantity.boeThan(buy);
+    }
+
     private boolean isBetween(final LocalDateTime now, final LocalDateTime start, final LocalDateTime end) {
         boolean after = now.isAfter(start);
         boolean before = now.isBefore(end);

@@ -30,7 +30,7 @@ public class ProductRepository implements JpaRepository<Product> {
     public Products findAllByName(final String name, final LocalDateTime now) {
         List<Product> queriedProducts = products.stream()
                 .filter(product -> product.hasSameName(name))
-                .filter(product -> product.isAvailable(now))
+                .filter(product -> product.isSellable(now))
                 .toList();
         return Products.from(queriedProducts);
     }
@@ -40,7 +40,7 @@ public class ProductRepository implements JpaRepository<Product> {
                 .filter(product -> product.hasSameName(name))
                 .filter(Product::inStock)
                 .filter(Product::promotionApplied)
-                .filter(product -> product.isAvailable(now))
+                .filter(product -> product.isSellable(now))
                 .findFirst();
     }
 

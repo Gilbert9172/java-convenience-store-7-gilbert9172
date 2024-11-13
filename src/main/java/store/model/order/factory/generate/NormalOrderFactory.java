@@ -22,7 +22,8 @@ public class NormalOrderFactory {
     public Order generateOrderByCondition(
             final Product product,
             final LocalDateTime orderDate,
-            final Quantity quantity) {
+            final Quantity quantity
+    ) {
         OrderGenerateHandler normalOrder = generatorMap.get(NONE);
         return normalOrder.generate(product, orderDate, quantity);
     }

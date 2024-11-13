@@ -48,7 +48,7 @@ public class Product {
         return stock.biggerThan(ZERO);
     }
 
-    public boolean isAvailable(final LocalDateTime now) {
+    public boolean isSellable(final LocalDateTime now) {
         if (promotion == null) {
             return true;
         }
@@ -63,8 +63,15 @@ public class Product {
         return !promotionApplied();
     }
 
-    public boolean promotionStockCannotHandle(final Quantity orderQuantity) {
-        return orderQuantity.biggerThan(this.stock);
+    public boolean cannotHandle(final Quantity orderQuantity) {
+        return orderQuantity.biggerThan(stock);
+    }
+
+    public boolean canOfferPrizeFrom(final Quantity orderQuantity) {
+        Quantity expected = promotion.expectedQuantityOf(orderQuantity);
+        return stock.boeThan(expected) &&
+                promotion.satisfiedMinBuy(orderQuantity) &&
+                promotion.availableOfferPrize(orderQuantity);
     }
 
     public Quantity outOfPromotionStockQuantity() {
@@ -97,15 +104,6 @@ public class Product {
         Quantity buyGetCount = promotion.buyGetQuantity();
         Quantity remainder = orderQuantity.getRemainderBy(buyGetCount);
         return buyGetCount.minus(remainder);
-    }
-
-    public boolean hasChanceToGetPrize(final Quantity orderQuantity) {
-        Quantity buyGetCount = promotion.buyGetQuantity();
-        Quantity get = promotion.getGet();
-        Quantity buy = promotion.getMinBuyQuantity();
-        Quantity remainder = orderQuantity.add(get).getRemainderBy(buyGetCount);
-        boolean boeThanBuyQuantity = orderQuantity.boeThan(buy);
-        return boeThanBuyQuantity && remainder.equals(ZERO);
     }
 
     public void decreasedStock(final Quantity quantity) {
