@@ -154,15 +154,4 @@ public class Product {
                 ZERO,
                 null);
     }
-
-    @Override
-    public String toString() {
-        String promotionTitle = null;
-        if (promotion != null) {
-            promotionTitle = promotion.getTitle();
-        }
-
-        return String.format("%s,%d,%d,%s",
-                name, amount.getAmount(), stock.getValue(), promotionTitle);
-    }
 }
