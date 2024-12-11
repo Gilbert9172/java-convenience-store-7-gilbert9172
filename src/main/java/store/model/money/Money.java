@@ -63,10 +63,6 @@ public class Money {
         return BigDecimal.valueOf(this.amount);
     }
 
-    public long getAmount() {
-        return amount;
-    }
-
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
