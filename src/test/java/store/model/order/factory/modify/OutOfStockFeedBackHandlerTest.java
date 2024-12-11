@@ -24,7 +24,7 @@ public class OutOfStockFeedBackHandlerTest {
     void getMoreModifierWithYesResponseTest() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
         store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(1),
                 Quantity.from(3));
@@ -43,7 +43,7 @@ public class OutOfStockFeedBackHandlerTest {
     void getMoreModifierWithNoResponseTest() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product product = ProductHelper.mock("콜라", 1500, 7, promotion);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 7, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(10, 6, 4, 2);
         store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.outOfStock(Quantity.from(1),
                 Quantity.from(3));

@@ -26,20 +26,21 @@ public class PromotionOrderFactory {
     }
 
     public Order generateOrderByCondition(
-            final Product product,
+            final Product promotionProduct,
             final LocalDateTime orderDate,
-            final Quantity orderQuantity) {
-        if (product.promotionStockCannotHandle(orderQuantity)) {
+            final Quantity orderQuantity
+    ) {
+        if (promotionProduct.cannotHandle(orderQuantity)) {
             OrderGenerateHandler outOfStockOrder = generatorMap.get(OUT_OF_STOCK);
-            return outOfStockOrder.generate(product, orderDate, orderQuantity);
+            return outOfStockOrder.generate(promotionProduct, orderDate, orderQuantity);
         }
 
-        if (product.currentStock().biggerThan(orderQuantity) && product.hasChanceToGetPrize(orderQuantity)) {
+        if (promotionProduct.canOfferPrizeFrom(orderQuantity)) {
             OrderGenerateHandler getMoreOrder = generatorMap.get(GRAB_MORE);
-            return getMoreOrder.generate(product, orderDate, orderQuantity);
+            return getMoreOrder.generate(promotionProduct, orderDate, orderQuantity);
         }
 
         OrderGenerateHandler normalOrder = generatorMap.get(NONE);
-        return normalOrder.generate(product, orderDate, orderQuantity);
+        return normalOrder.generate(promotionProduct, orderDate, orderQuantity);
     }
 }

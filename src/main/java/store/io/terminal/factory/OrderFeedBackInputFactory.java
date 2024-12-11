@@ -10,9 +10,9 @@ import store.model.order.factory.modify.UserFeedBack;
 
 public class OrderFeedBackInputFactory {
 
-    private final Map<Type, OrderFeedBackInputHandler> handlerMap = new EnumMap<>(Type.class);
+    private static final Map<Type, OrderFeedBackInputHandler> handlerMap = new EnumMap<>(Type.class);
 
-    public OrderFeedBackInputFactory() {
+    static {
         handlerMap.put(Type.OUT_OF_STOCK, new OutOfStockInputHandler());
         handlerMap.put(Type.GRAB_MORE, new GrabMoreInputHandler());
     }

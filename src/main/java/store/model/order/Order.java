@@ -30,6 +30,10 @@ public class Order {
         return new Order(product, orderQuantities, date, feedBack);
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
     public void applyPositiveFeedBack() {
         orderQuantities.updateQuantityByPositiveFeedBack(feedBack);
 
@@ -52,15 +56,11 @@ public class Order {
         return product.getName();
     }
 
-    public long feedBackQuantity() {
-        return feedBack.getQuantity();
+    public Quantity feedBackQuantity() {
+        return feedBack.totalQuantity();
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public Quantity getOrdrerQuantity() {
+    public Quantity totalQuantity() {
         return orderQuantities.getTotal();
     }
 
@@ -73,7 +73,7 @@ public class Order {
     }
 
     public Money totalPrice() {
-        Quantity orderQuantity = getOrdrerQuantity();
+        Quantity orderQuantity = totalQuantity();
         Money productPrice = getProductAmount();
         return productPrice.multiply(orderQuantity);
     }

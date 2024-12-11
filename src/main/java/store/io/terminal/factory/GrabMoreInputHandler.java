@@ -11,9 +11,8 @@ public class GrabMoreInputHandler implements OrderFeedBackInputHandler {
     @Override
     public UserFeedBack readFeedBackAbout(final Order order, final InputTerminal inputTerminal) {
         String productName = order.purchasedProductName();
-        long quantity = order.feedBackQuantity();
         return retryTemplate(() ->
-                inputTerminal.readUserFeedBackForGrabMore(productName, quantity)
+                inputTerminal.readUserFeedBackForGrabMore(productName)
         );
     }
 }

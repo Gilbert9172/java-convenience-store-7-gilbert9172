@@ -1,5 +1,6 @@
 package store.service;
 
+import static store.model.discount.DiscountType.DEFAULT;
 import static store.model.discount.DiscountType.MEMBERSHIP;
 import static store.model.discount.DiscountType.PROMOTION;
 
@@ -23,42 +24,42 @@ public class PaymentService {
         this.discountPolicyFactory = discountPolicyFactory;
     }
 
-    public ReceiptDTO offerReceipt(final Orders orders,
-                                   final UserFeedBack feedBack) {
-        ReceiptProductPartDTO receiptProductPart = summaryPurchasedProductsOf(orders);
-        ReceiptAmountPartDTO receiptAmountPart = summaryAmountOf(orders, feedBack);
+    public ReceiptDTO offerReceipt(final Orders orders, final UserFeedBack membershipFeedBack) {
+        ReceiptProductPartDTO receiptProductPart = summaryPurchasedProducts(orders);
+        ReceiptAmountPartDTO receiptAmountPart = summaryAmount(orders, membershipFeedBack);
         return ReceiptDTO.of(receiptProductPart, receiptAmountPart);
     }
 
-    private ReceiptProductPartDTO summaryPurchasedProductsOf(final Orders orders) {
+    private ReceiptProductPartDTO summaryPurchasedProducts(final Orders orders) {
         List<PurchasedDTO> purchasedProducts = orders.mapToPurchasedProducts();
         List<PromotionProductDTO> promotionPrizes = orders.mapToPromotionPrizes();
         return ReceiptProductPartDTO.of(purchasedProducts, promotionPrizes);
     }
 
-    private ReceiptAmountPartDTO summaryAmountOf(final Orders orders,
-                                                 final UserFeedBack feedBack) {
+    private ReceiptAmountPartDTO summaryAmount(final Orders orders, final UserFeedBack membershipFeedBack) {
         Money totalOriginalAmount = orders.totalOriginalAmount();
         Quantity totalPurchasedQuantity = orders.totalPurchasedQuantity();
         Money promotionDiscount = discountPolicyFactory.applyDiscountByType(PROMOTION, orders);
-        Money membershipDiscount = membershipDiscount(orders, feedBack);
-        Money paymentAmount = calculateFinalPaymentOf(totalOriginalAmount, promotionDiscount, membershipDiscount);
+        Money membershipDiscount = membershipDiscount(orders, membershipFeedBack);
+        Money paymentAmount = calculatePaymentAmount(totalOriginalAmount, promotionDiscount, membershipDiscount);
         return ReceiptAmountPartDTO.of(
                 totalOriginalAmount, totalPurchasedQuantity, promotionDiscount, membershipDiscount, paymentAmount
         );
     }
 
-    private Money calculateFinalPaymentOf(final Money totalOriginalPrice,
-                                          final Money promotionDiscount,
-                                          final Money membershipDiscount) {
+    private Money calculatePaymentAmount(
+            final Money totalOriginalPrice,
+            final Money promotionDiscount,
+            final Money membershipDiscount
+    ) {
         Money totalDiscountAmount = promotionDiscount.add(membershipDiscount);
         return totalOriginalPrice.minus(totalDiscountAmount);
     }
 
-    private Money membershipDiscount(final Orders orders, final UserFeedBack feedBack) {
-        if (feedBack.responseYes()) {
+    private Money membershipDiscount(final Orders orders, final UserFeedBack membershipFeedBack) {
+        if (membershipFeedBack.responseYes()) {
             return discountPolicyFactory.applyDiscountByType(MEMBERSHIP, orders);
         }
-        return Money.ZERO;
+        return discountPolicyFactory.applyDiscountByType(DEFAULT, orders);
     }
 }

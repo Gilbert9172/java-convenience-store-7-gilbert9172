@@ -39,18 +39,40 @@ public class Promotion {
         return new Promotion(id, title, buy, get, startDate, endDate);
     }
 
-    public boolean hasSameId(PromotionId that) {
-        return this.id.equals(that);
-    }
-
     public boolean hasSameTitle(final String that) {
         return this.title.equals(that);
     }
 
     public boolean isActive(LocalDateTime now) {
-        boolean after = now.isAfter(startDate);
-        boolean before = now.isBefore(endDate);
-        return after && before || now.isEqual(startDate) || now.isEqual(endDate);
+        boolean isBetweenStartAndEnd = isBetween(now, startDate, endDate);
+        boolean isSameWithStart = isSame(now, startDate);
+        boolean isSameWithEnd = now.isEqual(endDate);
+        return isBetweenStartAndEnd || isSameWithStart || isSameWithEnd;
+    }
+
+    public Quantity expectedQuantityOf(Quantity orderQuantity) {
+        return orderQuantity.add(this.get);
+    }
+
+    public boolean availableOfferPrize(Quantity orderQuantity) {
+        Quantity expected = expectedQuantityOf(orderQuantity);
+        Quantity buyGet = buyGetQuantity();
+        Quantity remainder = expected.getRemainderBy(buyGet);
+        return remainder.isZero();
+    }
+
+    public boolean satisfiedMinBuy(Quantity orderQuantity) {
+        return orderQuantity.boeThan(buy);
+    }
+
+    private boolean isBetween(final LocalDateTime now, final LocalDateTime start, final LocalDateTime end) {
+        boolean after = now.isAfter(start);
+        boolean before = now.isBefore(end);
+        return after && before;
+    }
+
+    private boolean isSame(final LocalDateTime now, final LocalDateTime standard) {
+        return now.isEqual(standard);
     }
 
     public Quantity buyGetQuantity() {

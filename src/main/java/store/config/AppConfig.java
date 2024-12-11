@@ -15,6 +15,9 @@ import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
 import store.repository.SingleTonProductRepo;
 import store.repository.SingleTonPromotionRepo;
+import store.repository.sequence.SequenceGenerator;
+import store.repository.sequence.TimeStampSequenceGenerator;
+import store.service.InitiateService;
 import store.service.OrderService;
 import store.service.PaymentService;
 import store.service.StockManageService;
@@ -34,9 +37,11 @@ public class AppConfig {
 
     public InitiateController initiateController() {
         return new InitiateController(
+                sequenceGenerator(),
                 customFileReader(),
                 productRepository(),
-                promotionRepository()
+                promotionRepository(),
+                initiateService()
         );
     }
 
@@ -58,6 +63,10 @@ public class AppConfig {
 
     private OutputTerminal outputTerminal() {
         return OutputTerminal.getInstance();
+    }
+
+    private SequenceGenerator sequenceGenerator() {
+        return new TimeStampSequenceGenerator();
     }
 
     private CustomFileReader customFileReader() {
@@ -82,6 +91,13 @@ public class AppConfig {
 
     private OrderFeedBackHandlerFactory orderModifierFactory() {
         return new OrderFeedBackHandlerFactory();
+    }
+
+    private InitiateService initiateService() {
+        return new InitiateService(
+                promotionRepository(),
+                sequenceGenerator()
+        );
     }
 
     private OrderService orderService() {

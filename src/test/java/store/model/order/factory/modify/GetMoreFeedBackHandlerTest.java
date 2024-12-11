@@ -24,7 +24,7 @@ public class GetMoreFeedBackHandlerTest {
     void getMoreModifierWithResponseYesTest() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product product = ProductHelper.mock("콜라", 1500, 10, promotion);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 10, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(5, 3, 2, 1);
         store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(Quantity.from(1));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);
@@ -42,7 +42,7 @@ public class GetMoreFeedBackHandlerTest {
     void getMoreModifierWithResponseNoTest() {
         // given
         Promotion promotion = PromotionHelper.twoPlusOnePromotion("2024-01-01", "2024-12-31");
-        Product product = ProductHelper.mock("콜라", 1500, 10, promotion);
+        Product product = ProductHelper.mock(1L, "콜라", 1500, 10, promotion);
         OrderQuantities orderQuantities = OrderQuantitiesHelper.mock(5, 3, 2, 1);
         store.model.order.OrderFeedBack orderFeedBack = OrderWarningHelper.grabMore(Quantity.from(1));
         Order order = OrderHelper.mock(product, orderQuantities, "2024-01-05", orderFeedBack);

@@ -19,7 +19,7 @@ public class DiscountPolicyFactory {
         discountPolicyMap.put(DEFAULT, new DefaultDiscount());
     }
 
-    public Money applyDiscountByType(DiscountType type, Orders orders) {
+    public Money applyDiscountByType(final DiscountType type, final Orders orders) {
         if (type.isPromotionType()) {
             DiscountPolicy discountPolicy = discountPolicyMap.get(PROMOTION);
             return discountPolicy.applyDiscount(orders);
